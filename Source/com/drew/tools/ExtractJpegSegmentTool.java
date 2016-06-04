@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import java.util.Set;
 
 /**
  * Extracts JPEG segments and writes them to individual files.
- * <p/>
+ * <p>
  * Extracting only the required segment(s) for use in unit testing has several benefits:
  * <ul>
  *     <li>Helps reduce the repository size. For example a small JPEG image may still be 20kB+ in size, yet its

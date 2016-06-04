@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import java.util.Arrays;
 
 /**
  * Showcases the most popular ways of using the metadata-extractor library.
- * <p/>
+ * <p>
  * For more information, see the project wiki: https://github.com/drewnoakes/metadata-extractor/wiki/GettingStarted
  *
  * @author Drew Noakes https://drewnoakes.com

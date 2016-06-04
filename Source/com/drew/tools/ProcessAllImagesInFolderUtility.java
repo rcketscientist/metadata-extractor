@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,6 +21,10 @@
 
 package com.drew.tools;
 
+import com.adobe.xmp.XMPException;
+import com.adobe.xmp.XMPIterator;
+import com.adobe.xmp.XMPMeta;
+import com.adobe.xmp.properties.XMPPropertyInfo;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.lang.StringUtil;
@@ -33,6 +37,7 @@ import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.ExifThumbnailDirectory;
 import com.drew.metadata.file.FileMetadataDirectory;
+import com.drew.metadata.xmp.XmpDirectory;
 
 import java.io.*;
 import java.util.*;
@@ -239,6 +244,9 @@ public class ProcessAllImagesInFolderUtility
      */
     static class TextFileOutputHandler extends FileHandlerBase
     {
+        /** Standardise line ending so that generated files can be more easily diffed. */
+        private static final String NEW_LINE = "\n";
+
         @Override
         public void onStartingDirectory(@NotNull File directoryPath)
         {
@@ -273,7 +281,7 @@ public class ProcessAllImagesInFolderUtility
         {
             super.onBeforeExtraction(file, log, relativePath);
             log.print(file.getAbsoluteFile());
-            log.print('\n');
+            log.print(NEW_LINE);
         }
 
         @Override
@@ -293,14 +301,15 @@ public class ProcessAllImagesInFolderUtility
                             if (!directory.hasErrors())
                                 continue;
                             for (String error : directory.getErrors())
-                                writer.format("[ERROR: %s] %s\n", directory.getName(), error);
+                                writer.format("[ERROR: %s] %s%s", directory.getName(), error, NEW_LINE);
                         }
-                        writer.write("\n");
+                        writer.write(NEW_LINE);
                     }
 
                     // Write tag values for each directory
                     for (Directory directory : metadata.getDirectories()) {
                         String directoryName = directory.getName();
+                        // Write the directory's tags
                         for (Tag tag : directory.getTags()) {
                             String tagName = tag.getTagName();
                             String description = tag.getDescription();
@@ -309,16 +318,63 @@ public class ProcessAllImagesInFolderUtility
                             // Skip the file write-time as this changes based on the time at which the regression test image repository was cloned
                             if (directory instanceof FileMetadataDirectory && tag.getTagType() == FileMetadataDirectory.TAG_FILE_MODIFIED_DATE)
                                 description = "<omitted for regression testing as checkout dependent>";
-                            writer.format("[%s - %s] %s = %s\n", directoryName, tag.getTagTypeHex(), tagName, description);
+                            writer.format("[%s - %s] %s = %s%s", directoryName, tag.getTagTypeHex(), tagName, description, NEW_LINE);
                         }
                         if (directory.getTagCount() != 0)
-                            writer.write('\n');
+                            writer.write(NEW_LINE);
+                        // Special handling for XMP directory data
+                        if (directory instanceof XmpDirectory) {
+                            Collection<XmpDirectory> xmpDirectories = metadata.getDirectoriesOfType(XmpDirectory.class);
+                            boolean wrote = false;
+                            for (XmpDirectory xmpDirectory : xmpDirectories) {
+                                XMPMeta xmpMeta = xmpDirectory.getXMPMeta();
+                                try {
+                                    XMPIterator iterator = xmpMeta.iterator();
+                                    while (iterator.hasNext()) {
+                                        XMPPropertyInfo prop = (XMPPropertyInfo)iterator.next();
+                                        writer.format("[XMPMeta - %s] %s = %s%s", prop.getNamespace(), prop.getPath(), prop.getValue(), NEW_LINE);
+                                        wrote = true;
+                                    }
+                                } catch (XMPException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (wrote)
+                                writer.write(NEW_LINE);
+                        }
                     }
+
+                    // Write file structure
+                    writeHierarchyLevel(metadata, writer, null, 0);
+
+                    writer.write(NEW_LINE);
                 } finally {
                     closeWriter(writer);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+
+        private static void writeHierarchyLevel(@NotNull Metadata metadata, @NotNull PrintWriter writer, @Nullable Directory parent, int level)
+        {
+            final int indent = 4;
+
+            for (Directory child : metadata.getDirectories()) {
+                if (parent == null) {
+                    if (child.getParent() != null)
+                        continue;
+                } else if (!parent.equals(child.getParent())) {
+                    continue;
+                }
+
+                for (int i = 0; i < level*indent; i++) {
+                    writer.write(' ');
+                }
+                writer.write("- ");
+                writer.write(child.getName());
+                writer.write(NEW_LINE);
+                writeHierarchyLevel(metadata, writer, child, level + 1);
             }
         }
 
@@ -331,13 +387,13 @@ public class ProcessAllImagesInFolderUtility
                 PrintWriter writer = null;
                 try {
                     writer = openWriter(file);
-                    writer.write("EXCEPTION: " + throwable.getMessage() + "\n");
-                    writer.write('\n');
+                    writer.write("EXCEPTION: " + throwable.getMessage() + NEW_LINE);
+                    writer.write(NEW_LINE);
                 } finally {
                     closeWriter(writer);
                 }
             } catch (IOException e) {
-                log.printf("IO exception writing metadata file: %s\n", e.getMessage());
+                log.printf("IO exception writing metadata file: %s%s", e.getMessage(), NEW_LINE);
             }
         }
 
@@ -354,8 +410,8 @@ public class ProcessAllImagesInFolderUtility
                 new FileOutputStream(outputPath),
                 "UTF-8"
             );
-            writer.write("FILE: " + file.getName() + "\n");
-            writer.write('\n');
+            writer.write("FILE: " + file.getName() + NEW_LINE);
+            writer.write(NEW_LINE);
 
             return new PrintWriter(writer);
         }
@@ -363,8 +419,8 @@ public class ProcessAllImagesInFolderUtility
         private static void closeWriter(@Nullable Writer writer) throws IOException
         {
             if (writer != null) {
-                writer.write("Generated using metadata-extractor\n");
-                writer.write("https://drewnoakes.com/code/exif/\n");
+                writer.write("Generated using metadata-extractor" + NEW_LINE);
+                writer.write("https://drewnoakes.com/code/exif/" + NEW_LINE);
                 writer.flush();
                 writer.close();
             }

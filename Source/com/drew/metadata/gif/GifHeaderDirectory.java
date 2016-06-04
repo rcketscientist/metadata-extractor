@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import java.util.HashMap;
 /**
  * @author Drew Noakes https://drewnoakes.com
  */
+@SuppressWarnings("WeakerAccess")
 public class GifHeaderDirectory extends Directory
 {
     public static final int TAG_GIF_FORMAT_VERSION = 1;
@@ -37,7 +38,12 @@ public class GifHeaderDirectory extends Directory
     public static final int TAG_IS_COLOR_TABLE_SORTED = 5;
     public static final int TAG_BITS_PER_PIXEL = 6;
     public static final int TAG_HAS_GLOBAL_COLOR_TABLE = 7;
+    /**
+     * @deprecated use {@link #TAG_BACKGROUND_COLOR_INDEX} instead.
+     */
+    @Deprecated
     public static final int TAG_TRANSPARENT_COLOR_INDEX = 8;
+    public static final int TAG_BACKGROUND_COLOR_INDEX = 8;
     public static final int TAG_PIXEL_ASPECT_RATIO = 9;
 
     @NotNull
@@ -51,7 +57,7 @@ public class GifHeaderDirectory extends Directory
         _tagNameMap.put(TAG_IS_COLOR_TABLE_SORTED, "Is Color Table Sorted");
         _tagNameMap.put(TAG_BITS_PER_PIXEL, "Bits per Pixel");
         _tagNameMap.put(TAG_HAS_GLOBAL_COLOR_TABLE, "Has Global Color Table");
-        _tagNameMap.put(TAG_TRANSPARENT_COLOR_INDEX, "Transparent Color Index");
+        _tagNameMap.put(TAG_BACKGROUND_COLOR_INDEX, "Background Color Index");
         _tagNameMap.put(TAG_PIXEL_ASPECT_RATIO, "Pixel Aspect Ratio");
     }
 

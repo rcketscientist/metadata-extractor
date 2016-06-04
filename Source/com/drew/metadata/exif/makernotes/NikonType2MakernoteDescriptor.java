@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import static com.drew.metadata.exif.makernotes.NikonType2MakernoteDirectory.*;
  *
  * @author Drew Noakes https://drewnoakes.com
  */
+@SuppressWarnings("WeakerAccess")
 public class NikonType2MakernoteDescriptor extends TagDescriptor<NikonType2MakernoteDirectory>
 {
     public NikonType2MakernoteDescriptor(@NotNull NikonType2MakernoteDirectory directory)
@@ -328,20 +329,7 @@ public class NikonType2MakernoteDescriptor extends TagDescriptor<NikonType2Maker
     @Nullable
     public String getLensDescription()
     {
-        Rational[] values = _directory.getRationalArray(TAG_LENS);
-
-        return values == null
-            ? null
-            : values.length < 4
-                ? _directory.getString(TAG_LENS)
-                : String.format(
-                    values[2].equals(values[3])
-                        ? "%d-%dmm f/%s"
-                        : "%d-%dmm f/%s-%s",
-                    values[0].intValue(),
-                    values[1].intValue(),
-                    values[2].floatValue(),
-                    values[3].floatValue());
+        return getLensSpecificationDescription(TAG_LENS);
     }
 
     @Nullable

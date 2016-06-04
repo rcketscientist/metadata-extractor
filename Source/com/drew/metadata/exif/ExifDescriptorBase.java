@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ import static com.drew.metadata.exif.ExifDirectoryBase.*;
  *
  * @author Drew Noakes https://drewnoakes.com
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class ExifDescriptorBase<T extends Directory> extends TagDescriptor<T>
 {
     /**
@@ -204,6 +205,8 @@ public abstract class ExifDescriptorBase<T extends Directory> extends TagDescrip
                 return getCompressionDescription();
             case TAG_JPEG_PROC:
                 return getJpegProcDescription();
+            case TAG_LENS_SPECIFICATION:
+                return getLensSpecificationDescription();
             default:
                 return super.getDescription(tagType);
         }
@@ -504,6 +507,12 @@ public abstract class ExifDescriptorBase<T extends Directory> extends TagDescrip
             "Recommended Exposure Index and ISO Speed",
             "Standard Output Sensitivity, Recommended Exposure Index and ISO Speed"
         );
+    }
+
+    @Nullable
+    public String getLensSpecificationDescription()
+    {
+        return getLensSpecificationDescription(TAG_LENS_SPECIFICATION);
     }
 
     @Nullable

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import java.util.HashMap;
  *
  * @author Yuri Binev, Drew Noakes
  */
+@SuppressWarnings("WeakerAccess")
 public class JfifDirectory extends Directory
 {
     public static final int TAG_VERSION = 5;
@@ -83,12 +84,30 @@ public class JfifDirectory extends Directory
         return getInt(JfifDirectory.TAG_UNITS);
     }
 
+    /**
+     * @deprecated use {@link #getResY} instead.
+     */
+    @Deprecated
     public int getImageWidth() throws MetadataException
     {
         return getInt(JfifDirectory.TAG_RESY);
     }
 
+    public int getResY() throws MetadataException
+    {
+        return getInt(JfifDirectory.TAG_RESY);
+    }
+
+    /**
+     * @deprecated use {@link #getResX} instead.
+     */
+    @Deprecated
     public int getImageHeight() throws MetadataException
+    {
+        return getInt(JfifDirectory.TAG_RESX);
+    }
+
+    public int getResX() throws MetadataException
     {
         return getInt(JfifDirectory.TAG_RESX);
     }

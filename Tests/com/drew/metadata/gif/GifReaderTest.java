@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ public class GifReaderTest
         assertFalse(directory.getBoolean(GifHeaderDirectory.TAG_IS_COLOR_TABLE_SORTED));
         assertEquals(8, directory.getInt(GifHeaderDirectory.TAG_BITS_PER_PIXEL));
         assertTrue(directory.getBoolean(GifHeaderDirectory.TAG_HAS_GLOBAL_COLOR_TABLE));
-        assertEquals(0, directory.getInt(GifHeaderDirectory.TAG_TRANSPARENT_COLOR_INDEX));
+        assertEquals(0, directory.getInt(GifHeaderDirectory.TAG_BACKGROUND_COLOR_INDEX));
     }
 
     @Test
@@ -80,6 +80,6 @@ public class GifReaderTest
         assertFalse(directory.getBoolean(GifHeaderDirectory.TAG_IS_COLOR_TABLE_SORTED));
         assertEquals(5, directory.getInt(GifHeaderDirectory.TAG_BITS_PER_PIXEL));
         assertTrue(directory.getBoolean(GifHeaderDirectory.TAG_HAS_GLOBAL_COLOR_TABLE));
-        assertEquals(8, directory.getInt(GifHeaderDirectory.TAG_TRANSPARENT_COLOR_INDEX));
+        assertEquals(8, directory.getInt(GifHeaderDirectory.TAG_BACKGROUND_COLOR_INDEX));
     }
 }

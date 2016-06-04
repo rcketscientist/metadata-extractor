@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -95,7 +95,7 @@ public class GifReader
             boolean hasGlobalColorTable = (flags & 0xf) != 0;
             directory.setBoolean(GifHeaderDirectory.TAG_HAS_GLOBAL_COLOR_TABLE, hasGlobalColorTable);
 
-            directory.setInt(GifHeaderDirectory.TAG_TRANSPARENT_COLOR_INDEX, reader.getUInt8());
+            directory.setInt(GifHeaderDirectory.TAG_BACKGROUND_COLOR_INDEX, reader.getUInt8());
 
             int aspectRatioByte = reader.getUInt8();
             if (aspectRatioByte != 0) {

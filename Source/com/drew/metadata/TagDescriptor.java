@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -283,6 +283,23 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
+    protected String getRationalOrDoubleString(int tagType)
+    {
+        Rational rational = _directory.getRational(tagType);
+        if (rational != null)
+            return rational.toSimpleString(true);
+
+        Double d = _directory.getDoubleObject(tagType);
+        if (d != null)
+        {
+            DecimalFormat format = new DecimalFormat("0.###");
+            return format.format(d);
+        }
+
+        return null;
+    }
+
+    @Nullable
     protected static String getFStopDescription(double fStop)
     {
         DecimalFormat format = new DecimalFormat("0.0");
@@ -296,5 +313,35 @@ public class TagDescriptor<T extends Directory>
         DecimalFormat format = new DecimalFormat("0.#");
         format.setRoundingMode(RoundingMode.HALF_UP);
         return format.format(mm) + " mm";
+    }
+
+    @Nullable
+    protected String getLensSpecificationDescription(int tag)
+    {
+        Rational[] values = _directory.getRationalArray(tag);
+
+        if (values == null || values.length != 4 || (values[0].isZero() && values[2].isZero()))
+            return null;
+
+        StringBuilder sb = new StringBuilder();
+
+        if (values[0].equals(values[1]))
+            sb.append(values[0].toSimpleString(true)).append("mm");
+        else
+            sb.append(values[0].toSimpleString(true)).append('-').append(values[1].toSimpleString(true)).append("mm");
+
+        if (!values[2].isZero()) {
+            sb.append(' ');
+
+            DecimalFormat format = new DecimalFormat("0.0");
+            format.setRoundingMode(RoundingMode.HALF_UP);
+
+            if (values[2].equals(values[3]))
+                sb.append(getFStopDescription(values[2].doubleValue()));
+            else
+                sb.append("f/").append(format.format(values[2].doubleValue())).append('-').append(format.format(values[3].doubleValue()));
+        }
+
+        return sb.toString();
     }
 }
