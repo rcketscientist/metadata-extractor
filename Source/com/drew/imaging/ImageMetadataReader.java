@@ -108,6 +108,26 @@ public class ImageMetadataReader
 
         FileType fileType = FileTypeDetector.detectFileType(bufferedInputStream);
 
+        return readMetadata(bufferedInputStream, streamLength, fileType);
+    }
+
+    /**
+     * Reads metadata from an {@link InputStream} of known length.
+     *
+     * @param inputStream a stream from which the file data may be read.  The stream must be positioned at the
+     *                    beginning of the file's data.
+     * @param streamLength the length of the stream, if known, otherwise -1.
+     * @param fileType type of file via {@link FileTypeDetector#detectFileType(BufferedInputStream)}
+     * @return a populated {@link Metadata} object containing directories of tags with values and any processing errors.
+     * @throws ImageProcessingException if the file type is unknown, or for general processing errors.
+     */
+    @NotNull
+    public static Metadata readMetadata(@NotNull final InputStream inputStream, final long streamLength, final FileType fileType) throws ImageProcessingException, IOException
+    {
+        BufferedInputStream bufferedInputStream = inputStream instanceof BufferedInputStream
+            ? (BufferedInputStream)inputStream
+            : new BufferedInputStream(inputStream);
+
         if (fileType == FileType.Jpeg)
             return JpegMetadataReader.readMetadata(bufferedInputStream);
 
