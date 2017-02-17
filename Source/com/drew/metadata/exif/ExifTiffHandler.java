@@ -41,7 +41,6 @@ import com.drew.metadata.xmp.XmpReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Set;
 
 /**
@@ -83,7 +82,7 @@ public class ExifTiffHandler extends DirectoryTiffHandler
                 pushDirectory(PanasonicRawIFD0Directory.class);
                 break;
             default:
-                throw new TiffProcessingException("Unexpected TIFF marker: 0x" + Integer.toHexString(marker));            
+                throw new TiffProcessingException("Unexpected TIFF marker: 0x" + Integer.toHexString(marker));
         }
     }
 
@@ -216,7 +215,7 @@ public class ExifTiffHandler extends DirectoryTiffHandler
 
         // Custom processing for embedded XMP data
         if (tagId == ExifSubIFDDirectory.TAG_APPLICATION_NOTES && _currentDirectory instanceof ExifIFD0Directory) {
-            new XmpReader().extract(reader.getNullTerminatedBytes(tagOffset, byteCount), _metadata, _currentDirectory);
+            new XmpReader().extract(reader.getNullTerminated8(tagOffset, byteCount), _metadata, _currentDirectory);
             return true;
         }
 
@@ -773,7 +772,7 @@ public class ExifTiffHandler extends DirectoryTiffHandler
             (day >= 1 && day < 32) &&
             (year >= 1 && year <= 9999))
         {
-            directory.setString(ReconyxHyperFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL, 
+            directory.setString(ReconyxHyperFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL,
                     String.format("%4d:%2d:%2d %2d:%2d:%2d", year, month, day, hour, minutes, seconds));
         }
         else
