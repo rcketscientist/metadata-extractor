@@ -24,6 +24,7 @@ import com.drew.lang.GeoLocation;
 import com.drew.lang.Rational;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
+import com.drew.metadata.IntegerKey;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -41,68 +42,68 @@ import java.util.Locale;
 public class GpsDirectory extends ExifDirectoryBase
 {
     /** GPS tag version GPSVersionID 0 0 BYTE 4 */
-    public static final int TAG_VERSION_ID = 0x0000;
+    public static final IntegerKey TAG_VERSION_ID = new IntegerKey(0x0000);
     /** North or South Latitude GPSLatitudeRef 1 1 ASCII 2 */
-    public static final int TAG_LATITUDE_REF = 0x0001;
+    public static final IntegerKey TAG_LATITUDE_REF = new IntegerKey(0x0001);
     /** Latitude GPSLatitude 2 2 RATIONAL 3 */
-    public static final int TAG_LATITUDE = 0x0002;
+    public static final IntegerKey TAG_LATITUDE = new IntegerKey(0x0002);
     /** East or West Longitude GPSLongitudeRef 3 3 ASCII 2 */
-    public static final int TAG_LONGITUDE_REF = 0x0003;
+    public static final IntegerKey TAG_LONGITUDE_REF = new IntegerKey(0x0003);
     /** Longitude GPSLongitude 4 4 RATIONAL 3 */
-    public static final int TAG_LONGITUDE = 0x0004;
+    public static final IntegerKey TAG_LONGITUDE = new IntegerKey(0x0004);
     /** Altitude reference GPSAltitudeRef 5 5 BYTE 1 */
-    public static final int TAG_ALTITUDE_REF = 0x0005;
+    public static final IntegerKey TAG_ALTITUDE_REF = new IntegerKey(0x0005);
     /** Altitude GPSAltitude 6 6 RATIONAL 1 */
-    public static final int TAG_ALTITUDE = 0x0006;
+    public static final IntegerKey TAG_ALTITUDE = new IntegerKey(0x0006);
     /** GPS time (atomic clock) GPSTimeStamp 7 7 RATIONAL 3 */
-    public static final int TAG_TIME_STAMP = 0x0007;
+    public static final IntegerKey TAG_TIME_STAMP = new IntegerKey(0x0007);
     /** GPS satellites used for measurement GPSSatellites 8 8 ASCII Any */
-    public static final int TAG_SATELLITES = 0x0008;
+    public static final IntegerKey TAG_SATELLITES = new IntegerKey(0x0008);
     /** GPS receiver status GPSStatus 9 9 ASCII 2 */
-    public static final int TAG_STATUS = 0x0009;
+    public static final IntegerKey TAG_STATUS = new IntegerKey(0x0009);
     /** GPS measurement mode GPSMeasureMode 10 A ASCII 2 */
-    public static final int TAG_MEASURE_MODE = 0x000A;
+    public static final IntegerKey TAG_MEASURE_MODE = new IntegerKey(0x000A);
     /** Measurement precision GPSDOP 11 B RATIONAL 1 */
-    public static final int TAG_DOP = 0x000B;
+    public static final IntegerKey TAG_DOP = new IntegerKey(0x000B);
     /** Speed unit GPSSpeedRef 12 C ASCII 2 */
-    public static final int TAG_SPEED_REF = 0x000C;
+    public static final IntegerKey TAG_SPEED_REF = new IntegerKey(0x000C);
     /** Speed of GPS receiver GPSSpeed 13 D RATIONAL 1 */
-    public static final int TAG_SPEED = 0x000D;
+    public static final IntegerKey TAG_SPEED = new IntegerKey(0x000D);
     /** Reference for direction of movement GPSTrackRef 14 E ASCII 2 */
-    public static final int TAG_TRACK_REF = 0x000E;
+    public static final IntegerKey TAG_TRACK_REF = new IntegerKey(0x000E);
     /** Direction of movement GPSTrack 15 F RATIONAL 1 */
-    public static final int TAG_TRACK = 0x000F;
+    public static final IntegerKey TAG_TRACK = new IntegerKey(0x000F);
     /** Reference for direction of image GPSImgDirectionRef 16 10 ASCII 2 */
-    public static final int TAG_IMG_DIRECTION_REF = 0x0010;
+    public static final IntegerKey TAG_IMG_DIRECTION_REF = new IntegerKey(0x0010);
     /** Direction of image GPSImgDirection 17 11 RATIONAL 1 */
-    public static final int TAG_IMG_DIRECTION = 0x0011;
+    public static final IntegerKey TAG_IMG_DIRECTION = new IntegerKey(0x0011);
     /** Geodetic survey data used GPSMapDatum 18 12 ASCII Any */
-    public static final int TAG_MAP_DATUM = 0x0012;
+    public static final IntegerKey TAG_MAP_DATUM = new IntegerKey(0x0012);
     /** Reference for latitude of destination GPSDestLatitudeRef 19 13 ASCII 2 */
-    public static final int TAG_DEST_LATITUDE_REF = 0x0013;
+    public static final IntegerKey TAG_DEST_LATITUDE_REF = new IntegerKey(0x0013);
     /** Latitude of destination GPSDestLatitude 20 14 RATIONAL 3 */
-    public static final int TAG_DEST_LATITUDE = 0x0014;
+    public static final IntegerKey TAG_DEST_LATITUDE = new IntegerKey(0x0014);
     /** Reference for longitude of destination GPSDestLongitudeRef 21 15 ASCII 2 */
-    public static final int TAG_DEST_LONGITUDE_REF = 0x0015;
+    public static final IntegerKey TAG_DEST_LONGITUDE_REF = new IntegerKey(0x0015);
     /** Longitude of destination GPSDestLongitude 22 16 RATIONAL 3 */
-    public static final int TAG_DEST_LONGITUDE = 0x0016;
+    public static final IntegerKey TAG_DEST_LONGITUDE = new IntegerKey(0x0016);
     /** Reference for bearing of destination GPSDestBearingRef 23 17 ASCII 2 */
-    public static final int TAG_DEST_BEARING_REF = 0x0017;
+    public static final IntegerKey TAG_DEST_BEARING_REF = new IntegerKey(0x0017);
     /** Bearing of destination GPSDestBearing 24 18 RATIONAL 1 */
-    public static final int TAG_DEST_BEARING = 0x0018;
+    public static final IntegerKey TAG_DEST_BEARING = new IntegerKey(0x0018);
     /** Reference for distance to destination GPSDestDistanceRef 25 19 ASCII 2 */
-    public static final int TAG_DEST_DISTANCE_REF = 0x0019;
+    public static final IntegerKey TAG_DEST_DISTANCE_REF = new IntegerKey(0x0019);
     /** Distance to destination GPSDestDistance 26 1A RATIONAL 1 */
-    public static final int TAG_DEST_DISTANCE = 0x001A;
+    public static final IntegerKey TAG_DEST_DISTANCE = new IntegerKey(0x001A);
 
     /** Values of "GPS", "CELLID", "WLAN" or "MANUAL" by the EXIF spec. */
-    public static final int TAG_PROCESSING_METHOD = 0x001B;
-    public static final int TAG_AREA_INFORMATION = 0x001C;
-    public static final int TAG_DATE_STAMP = 0x001D;
-    public static final int TAG_DIFFERENTIAL = 0x001E;
+    public static final IntegerKey TAG_PROCESSING_METHOD = new IntegerKey(0x001B);
+    public static final IntegerKey TAG_AREA_INFORMATION = new IntegerKey(0x001C);
+    public static final IntegerKey TAG_DATE_STAMP = new IntegerKey(0x001D);
+    public static final IntegerKey TAG_DIFFERENTIAL = new IntegerKey(0x001E);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -155,7 +156,7 @@ public class GpsDirectory extends ExifDirectoryBase
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

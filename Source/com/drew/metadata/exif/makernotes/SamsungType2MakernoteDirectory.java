@@ -23,6 +23,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -35,24 +36,24 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class SamsungType2MakernoteDirectory extends Directory
+public class SamsungType2MakernoteDirectory extends Directory<IntegerKey>
 {
     // This list is incomplete
-    public static final int TagMakerNoteVersion = 0x001;
-    public static final int TagDeviceType = 0x0002;
-    public static final int TagSamsungModelId = 0x0003;
+    public static final IntegerKey TagMakerNoteVersion = new IntegerKey(0x001);
+    public static final IntegerKey TagDeviceType = new IntegerKey(0x0002);
+    public static final IntegerKey TagSamsungModelId = new IntegerKey(0x0003);
 
-    public static final int TagCameraTemperature = 0x0043;
+    public static final IntegerKey TagCameraTemperature = new IntegerKey(0x0043);
 
-    public static final int TagFaceDetect = 0x0100;
-    public static final int TagFaceRecognition = 0x0120;
-    public static final int TagFaceName = 0x0123;
+    public static final IntegerKey TagFaceDetect = new IntegerKey(0x0100);
+    public static final IntegerKey TagFaceRecognition = new IntegerKey(0x0120);
+    public static final IntegerKey TagFaceName = new IntegerKey(0x0123);
 
     // following tags found only in SRW images
-    public static final int TagFirmwareName = 0xa001;
+    public static final IntegerKey TagFirmwareName = new IntegerKey(0xa001);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -82,7 +83,7 @@ public class SamsungType2MakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

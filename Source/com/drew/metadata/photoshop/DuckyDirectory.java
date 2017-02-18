@@ -23,6 +23,7 @@ package com.drew.metadata.photoshop;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 import com.drew.metadata.TagDescriptor;
 
 import java.util.HashMap;
@@ -33,14 +34,14 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class DuckyDirectory extends Directory
+public class DuckyDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_QUALITY = 1;
-    public static final int TAG_COMMENT = 2;
-    public static final int TAG_COPYRIGHT = 3;
+    public static final IntegerKey TAG_QUALITY = new IntegerKey(1);
+    public static final IntegerKey TAG_COMMENT = new IntegerKey(2);
+    public static final IntegerKey TAG_COPYRIGHT = new IntegerKey(3);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_QUALITY, "Quality");
@@ -50,7 +51,7 @@ public class DuckyDirectory extends Directory
 
     public DuckyDirectory()
     {
-        this.setDescriptor(new TagDescriptor<DuckyDirectory>(this));
+        this.setDescriptor(new TagDescriptor<DuckyDirectory, IntegerKey>(this));
     }
 
     @Override
@@ -62,7 +63,7 @@ public class DuckyDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

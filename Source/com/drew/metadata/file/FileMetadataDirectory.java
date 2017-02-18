@@ -22,6 +22,7 @@ package com.drew.metadata.file;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -29,14 +30,14 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class FileMetadataDirectory extends Directory
+public class FileMetadataDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_FILE_NAME = 1;
-    public static final int TAG_FILE_SIZE = 2;
-    public static final int TAG_FILE_MODIFIED_DATE = 3;
+    public static final IntegerKey TAG_FILE_NAME = new IntegerKey(1);
+    public static final IntegerKey TAG_FILE_SIZE = new IntegerKey(2);
+    public static final IntegerKey TAG_FILE_MODIFIED_DATE = new IntegerKey(3);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_FILE_NAME, "File Name");
@@ -58,7 +59,7 @@ public class FileMetadataDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

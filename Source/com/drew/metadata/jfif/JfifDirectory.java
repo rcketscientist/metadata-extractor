@@ -22,6 +22,7 @@ package com.drew.metadata.jfif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 import com.drew.metadata.MetadataException;
 
 import java.util.HashMap;
@@ -32,18 +33,18 @@ import java.util.HashMap;
  * @author Yuri Binev, Drew Noakes
  */
 @SuppressWarnings("WeakerAccess")
-public class JfifDirectory extends Directory
+public class JfifDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_VERSION = 5;
+    public static final IntegerKey TAG_VERSION = new IntegerKey(5);
     /** Units for pixel density fields.  One of None, Pixels per Inch, Pixels per Centimetre. */
-    public static final int TAG_UNITS = 7;
-    public static final int TAG_RESX = 8;
-    public static final int TAG_RESY = 10;
-    public static final int TAG_THUMB_WIDTH = 12;
-    public static final int TAG_THUMB_HEIGHT = 13;
+    public static final IntegerKey TAG_UNITS = new IntegerKey(7);
+    public static final IntegerKey TAG_RESX = new IntegerKey(8);
+    public static final IntegerKey TAG_RESY = new IntegerKey(10);
+    public static final IntegerKey TAG_THUMB_WIDTH = new IntegerKey(12);
+    public static final IntegerKey TAG_THUMB_HEIGHT = new IntegerKey(13);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -69,7 +70,7 @@ public class JfifDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

@@ -22,6 +22,7 @@
 package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -34,10 +35,10 @@ import java.util.HashMap;
 public class ExifIFD0Directory extends ExifDirectoryBase
 {
     /** This tag is a pointer to the Exif SubIFD. */
-    public static final int TAG_EXIF_SUB_IFD_OFFSET = 0x8769;
+    public static final IntegerKey TAG_EXIF_SUB_IFD_OFFSET = new IntegerKey(0x8769);
 
     /** This tag is a pointer to the Exif GPS IFD. */
-    public static final int TAG_GPS_INFO_OFFSET = 0x8825;
+    public static final IntegerKey TAG_GPS_INFO_OFFSET = new IntegerKey(0x8825);
 
     public ExifIFD0Directory()
     {
@@ -45,7 +46,7 @@ public class ExifIFD0Directory extends ExifDirectoryBase
     }
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -61,7 +62,7 @@ public class ExifIFD0Directory extends ExifDirectoryBase
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

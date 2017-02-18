@@ -22,6 +22,7 @@ package com.drew.metadata.jfxx;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 import com.drew.metadata.MetadataException;
 
 import java.util.HashMap;
@@ -32,12 +33,12 @@ import java.util.HashMap;
  * @author Drew Noakes
  */
 @SuppressWarnings("WeakerAccess")
-public class JfxxDirectory extends Directory
+public class JfxxDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_EXTENSION_CODE = 5;
+    public static final IntegerKey TAG_EXTENSION_CODE = new IntegerKey(5);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -58,7 +59,7 @@ public class JfxxDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

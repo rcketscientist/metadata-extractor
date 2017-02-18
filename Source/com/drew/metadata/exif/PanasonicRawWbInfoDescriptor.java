@@ -23,6 +23,7 @@ package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
+import com.drew.metadata.IntegerKey;
 import com.drew.metadata.TagDescriptor;
 
 import static com.drew.metadata.exif.PanasonicRawWbInfoDirectory.*;
@@ -34,7 +35,7 @@ import static com.drew.metadata.exif.PanasonicRawWbInfoDirectory.*;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PanasonicRawWbInfoDescriptor extends TagDescriptor<PanasonicRawWbInfoDirectory>
+public class PanasonicRawWbInfoDescriptor extends TagDescriptor<PanasonicRawWbInfoDirectory, IntegerKey>
 {
     public PanasonicRawWbInfoDescriptor(@NotNull PanasonicRawWbInfoDirectory directory)
     {
@@ -43,9 +44,9 @@ public class PanasonicRawWbInfoDescriptor extends TagDescriptor<PanasonicRawWbIn
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
-        switch (tagType) {
+        switch (tagType.getKey()) {
             case TagWbType1:
             case TagWbType2:
             case TagWbType3:
@@ -60,7 +61,7 @@ public class PanasonicRawWbInfoDescriptor extends TagDescriptor<PanasonicRawWbIn
     }
 
     @Nullable
-    public String getWbTypeDescription(int tagType)
+    public String getWbTypeDescription(IntegerKey tagType)
     {
         Integer wbtype = _directory.getInteger(tagType);
         if (wbtype == null)

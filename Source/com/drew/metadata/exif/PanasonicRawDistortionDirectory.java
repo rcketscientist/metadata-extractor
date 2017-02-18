@@ -23,6 +23,7 @@ package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -34,24 +35,24 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PanasonicRawDistortionDirectory extends Directory
+public class PanasonicRawDistortionDirectory extends Directory<IntegerKey>
 {
     // 0 and 1 are checksums
 
-    public static final int TagDistortionParam02 = 2;
+    public static final IntegerKey TagDistortionParam02 = new IntegerKey(2);
 
-    public static final int TagDistortionParam04 = 4;
-    public static final int TagDistortionScale = 5;
+    public static final IntegerKey TagDistortionParam04 = new IntegerKey(4);
+    public static final IntegerKey TagDistortionScale = new IntegerKey(5);
 
-    public static final int TagDistortionCorrection = 7;
-    public static final int TagDistortionParam08 = 8;
-    public static final int TagDistortionParam09 = 9;
+    public static final IntegerKey TagDistortionCorrection = new IntegerKey(7);
+    public static final IntegerKey TagDistortionParam08 = new IntegerKey(8);
+    public static final IntegerKey TagDistortionParam09 = new IntegerKey(9);
 
-    public static final int TagDistortionParam11 = 11;
-    public static final int TagDistortionN = 12;
+    public static final IntegerKey TagDistortionParam11 = new IntegerKey(11);
+    public static final IntegerKey TagDistortionN = new IntegerKey(12);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -79,7 +80,7 @@ public class PanasonicRawDistortionDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

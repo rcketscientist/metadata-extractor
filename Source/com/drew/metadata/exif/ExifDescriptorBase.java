@@ -27,6 +27,7 @@ import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import com.drew.lang.ByteArrayReader;
 import com.drew.metadata.Directory;
+import com.drew.metadata.Key;
 import com.drew.metadata.TagDescriptor;
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ import static com.drew.metadata.exif.ExifDirectoryBase.*;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public abstract class ExifDescriptorBase<T extends Directory> extends TagDescriptor<T>
+public abstract class ExifDescriptorBase<T extends Directory, U extends Key> extends TagDescriptor<T, U>
 {
     /**
      * Dictates whether rational values will be represented in decimal format in instances

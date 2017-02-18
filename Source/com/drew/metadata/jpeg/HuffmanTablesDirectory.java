@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 import com.drew.metadata.MetadataException;
 
 /**
@@ -34,9 +35,9 @@ import com.drew.metadata.MetadataException;
  * @author Nadahar
  */
 @SuppressWarnings("WeakerAccess")
-public class HuffmanTablesDirectory extends Directory {
+public class HuffmanTablesDirectory extends Directory<IntegerKey> {
 
-    public static final int TAG_NUMBER_OF_TABLES = 1;
+    public static final IntegerKey TAG_NUMBER_OF_TABLES = new IntegerKey(1);
 
     protected static final byte[] TYPICAL_LUMINANCE_DC_LENGTHS = {
         (byte) 0x00, (byte) 0x01, (byte) 0x05, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01,
@@ -120,7 +121,7 @@ public class HuffmanTablesDirectory extends Directory {
     protected final List<HuffmanTable> tables = new ArrayList<HuffmanTable>(4);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -141,7 +142,7 @@ public class HuffmanTablesDirectory extends Directory {
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

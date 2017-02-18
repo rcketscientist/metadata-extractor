@@ -22,6 +22,7 @@ package com.drew.metadata.gif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -30,19 +31,19 @@ import java.util.HashMap;
  * @author Kevin Mott https://github.com/kwhopper
  */
 @SuppressWarnings("WeakerAccess")
-public class GifImageDirectory extends Directory
+public class GifImageDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_LEFT = 1;
-    public static final int TAG_TOP = 2;
-    public static final int TAG_WIDTH = 3;
-    public static final int TAG_HEIGHT = 4;
-    public static final int TAG_HAS_LOCAL_COLOUR_TABLE = 5;
-    public static final int TAG_IS_INTERLACED = 6;
-    public static final int TAG_IS_COLOR_TABLE_SORTED = 7;
-    public static final int TAG_LOCAL_COLOUR_TABLE_BITS_PER_PIXEL = 8;
+    public static final IntegerKey TAG_LEFT = new IntegerKey(1);
+    public static final IntegerKey TAG_TOP = new IntegerKey(2);
+    public static final IntegerKey TAG_WIDTH = new IntegerKey(3);
+    public static final IntegerKey TAG_HEIGHT = new IntegerKey(4);
+    public static final IntegerKey TAG_HAS_LOCAL_COLOUR_TABLE = new IntegerKey(5);
+    public static final IntegerKey TAG_IS_INTERLACED = new IntegerKey(6);
+    public static final IntegerKey TAG_IS_COLOR_TABLE_SORTED = new IntegerKey(7);
+    public static final IntegerKey TAG_LOCAL_COLOUR_TABLE_BITS_PER_PIXEL = new IntegerKey(8);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -70,7 +71,7 @@ public class GifImageDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

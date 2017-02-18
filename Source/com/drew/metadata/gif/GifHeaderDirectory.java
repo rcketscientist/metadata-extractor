@@ -22,6 +22,7 @@ package com.drew.metadata.gif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -29,25 +30,25 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class GifHeaderDirectory extends Directory
+public class GifHeaderDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_GIF_FORMAT_VERSION = 1;
-    public static final int TAG_IMAGE_WIDTH = 2;
-    public static final int TAG_IMAGE_HEIGHT = 3;
-    public static final int TAG_COLOR_TABLE_SIZE = 4;
-    public static final int TAG_IS_COLOR_TABLE_SORTED = 5;
-    public static final int TAG_BITS_PER_PIXEL = 6;
-    public static final int TAG_HAS_GLOBAL_COLOR_TABLE = 7;
+    public static final IntegerKey TAG_GIF_FORMAT_VERSION = new IntegerKey(1);
+    public static final IntegerKey TAG_IMAGE_WIDTH = new IntegerKey(2);
+    public static final IntegerKey TAG_IMAGE_HEIGHT = new IntegerKey(3);
+    public static final IntegerKey TAG_COLOR_TABLE_SIZE = new IntegerKey(4);
+    public static final IntegerKey TAG_IS_COLOR_TABLE_SORTED = new IntegerKey(5);
+    public static final IntegerKey TAG_BITS_PER_PIXEL = new IntegerKey(6);
+    public static final IntegerKey TAG_HAS_GLOBAL_COLOR_TABLE = new IntegerKey(7);
     /**
      * @deprecated use {@link #TAG_BACKGROUND_COLOR_INDEX} instead.
      */
     @Deprecated
-    public static final int TAG_TRANSPARENT_COLOR_INDEX = 8;
-    public static final int TAG_BACKGROUND_COLOR_INDEX = 8;
-    public static final int TAG_PIXEL_ASPECT_RATIO = 9;
+    public static final IntegerKey TAG_TRANSPARENT_COLOR_INDEX = new IntegerKey(8);
+    public static final IntegerKey TAG_BACKGROUND_COLOR_INDEX = new IntegerKey(8);
+    public static final IntegerKey TAG_PIXEL_ASPECT_RATIO = new IntegerKey(9);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_GIF_FORMAT_VERSION, "GIF Format Version");
@@ -75,7 +76,7 @@ public class GifHeaderDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

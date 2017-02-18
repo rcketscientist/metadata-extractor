@@ -23,6 +23,7 @@ package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -33,55 +34,55 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PanasonicRawIFD0Directory extends Directory
+public class PanasonicRawIFD0Directory extends Directory<IntegerKey>
 {
-    public static final int TagPanasonicRawVersion = 0x0001;
-    public static final int TagSensorWidth = 0x0002;
-    public static final int TagSensorHeight = 0x0003;
-    public static final int TagSensorTopBorder = 0x0004;
-    public static final int TagSensorLeftBorder = 0x0005;
-    public static final int TagSensorBottomBorder = 0x0006;
-    public static final int TagSensorRightBorder = 0x0007;
+    public static final IntegerKey TagPanasonicRawVersion = new IntegerKey(0x0001);
+    public static final IntegerKey TagSensorWidth = new IntegerKey(0x0002);
+    public static final IntegerKey TagSensorHeight = new IntegerKey(0x0003);
+    public static final IntegerKey TagSensorTopBorder = new IntegerKey(0x0004);
+    public static final IntegerKey TagSensorLeftBorder = new IntegerKey(0x0005);
+    public static final IntegerKey TagSensorBottomBorder = new IntegerKey(0x0006);
+    public static final IntegerKey TagSensorRightBorder = new IntegerKey(0x0007);
 
-    public static final int TagBlackLevel1 = 0x0008;
-    public static final int TagBlackLevel2 = 0x0009;
-    public static final int TagBlackLevel3 = 0x000a;
-    public static final int TagLinearityLimitRed = 0x000e;
-    public static final int TagLinearityLimitGreen = 0x000f;
-    public static final int TagLinearityLimitBlue = 0x0010;
-    public static final int TagRedBalance = 0x0011;
-    public static final int TagBlueBalance = 0x0012;
-    public static final int TagWbInfo = 0x0013;
+    public static final IntegerKey TagBlackLevel1 = new IntegerKey(0x0008);
+    public static final IntegerKey TagBlackLevel2 = new IntegerKey(0x0009);
+    public static final IntegerKey TagBlackLevel3 = new IntegerKey(0x000a);
+    public static final IntegerKey TagLinearityLimitRed = new IntegerKey(0x000e);
+    public static final IntegerKey TagLinearityLimitGreen = new IntegerKey(0x000f);
+    public static final IntegerKey TagLinearityLimitBlue = new IntegerKey(0x0010);
+    public static final IntegerKey TagRedBalance = new IntegerKey(0x0011);
+    public static final IntegerKey TagBlueBalance = new IntegerKey(0x0012);
+    public static final IntegerKey TagWbInfo = new IntegerKey(0x0013);
 
-    public static final int TagIso = 0x0017;
-    public static final int TagHighIsoMultiplierRed = 0x0018;
-    public static final int TagHighIsoMultiplierGreen = 0x0019;
-    public static final int TagHighIsoMultiplierBlue = 0x001a;
-    public static final int TagBlackLevelRed = 0x001c;
-    public static final int TagBlackLevelGreen = 0x001d;
-    public static final int TagBlackLevelBlue = 0x001e;
-    public static final int TagWbRedLevel = 0x0024;
-    public static final int TagWbGreenLevel = 0x0025;
-    public static final int TagWbBlueLevel = 0x0026;
+    public static final IntegerKey TagIso = new IntegerKey(0x0017);
+    public static final IntegerKey TagHighIsoMultiplierRed = new IntegerKey(0x0018);
+    public static final IntegerKey TagHighIsoMultiplierGreen = new IntegerKey(0x0019);
+    public static final IntegerKey TagHighIsoMultiplierBlue = new IntegerKey(0x001a);
+    public static final IntegerKey TagBlackLevelRed = new IntegerKey(0x001c);
+    public static final IntegerKey TagBlackLevelGreen = new IntegerKey(0x001d);
+    public static final IntegerKey TagBlackLevelBlue = new IntegerKey(0x001e);
+    public static final IntegerKey TagWbRedLevel = new IntegerKey(0x0024);
+    public static final IntegerKey TagWbGreenLevel = new IntegerKey(0x0025);
+    public static final IntegerKey TagWbBlueLevel = new IntegerKey(0x0026);
 
-    public static final int TagWbInfo2 = 0x0027;
+    public static final IntegerKey TagWbInfo2 = new IntegerKey(0x0027);
 
-    public static final int TagJpgFromRaw = 0x002e;
+    public static final IntegerKey TagJpgFromRaw = new IntegerKey(0x002e);
 
-    public static final int TagCropTop = 0x002f;
-    public static final int TagCropLeft = 0x0030;
-    public static final int TagCropBottom = 0x0031;
-    public static final int TagCropRight = 0x0032;
+    public static final IntegerKey TagCropTop = new IntegerKey(0x002f);
+    public static final IntegerKey TagCropLeft = new IntegerKey(0x0030);
+    public static final IntegerKey TagCropBottom = new IntegerKey(0x0031);
+    public static final IntegerKey TagCropRight = new IntegerKey(0x0032);
 
-    public static final int TagMake = 0x010f;
-    public static final int TagModel = 0x0110;
-    public static final int TagStripOffsets = 0x0111;
-    public static final int TagOrientation = 0x0112;
-    public static final int TagRowsPerStrip = 0x0116;
-    public static final int TagStripByteCounts = 0x0117;
-    public static final int TagRawDataOffset = 0x0118;
+    public static final IntegerKey TagMake = new IntegerKey(0x010f);
+    public static final IntegerKey TagModel = new IntegerKey(0x0110);
+    public static final IntegerKey TagStripOffsets = new IntegerKey(0x0111);
+    public static final IntegerKey TagOrientation = new IntegerKey(0x0112);
+    public static final IntegerKey TagRowsPerStrip = new IntegerKey(0x0116);
+    public static final IntegerKey TagStripByteCounts = new IntegerKey(0x0117);
+    public static final IntegerKey TagRawDataOffset = new IntegerKey(0x0118);
 
-    public static final int TagDistortionInfo = 0x0119;
+    public static final IntegerKey TagDistortionInfo = new IntegerKey(0x0119);
 
     public PanasonicRawIFD0Directory()
     {
@@ -89,7 +90,7 @@ public class PanasonicRawIFD0Directory extends Directory
     }
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -146,7 +147,7 @@ public class PanasonicRawIFD0Directory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

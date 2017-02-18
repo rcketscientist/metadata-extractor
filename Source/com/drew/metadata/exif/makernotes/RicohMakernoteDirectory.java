@@ -22,6 +22,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -31,15 +32,15 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class RicohMakernoteDirectory extends Directory
+public class RicohMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_MAKERNOTE_DATA_TYPE = 0x0001;
-    public static final int TAG_VERSION = 0x0002;
-    public static final int TAG_PRINT_IMAGE_MATCHING_INFO = 0x0E00;
-    public static final int TAG_RICOH_CAMERA_INFO_MAKERNOTE_SUB_IFD_POINTER = 0x2001;
+    public static final IntegerKey TAG_MAKERNOTE_DATA_TYPE = new IntegerKey(0x0001);
+    public static final IntegerKey TAG_VERSION = new IntegerKey(0x0002);
+    public static final IntegerKey TAG_PRINT_IMAGE_MATCHING_INFO = new IntegerKey(0x0E00);
+    public static final IntegerKey TAG_RICOH_CAMERA_INFO_MAKERNOTE_SUB_IFD_POINTER = new IntegerKey(0x2001);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -63,7 +64,7 @@ public class RicohMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

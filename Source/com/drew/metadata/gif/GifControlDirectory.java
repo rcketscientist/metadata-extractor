@@ -22,6 +22,7 @@ package com.drew.metadata.gif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -30,16 +31,16 @@ import java.util.HashMap;
  * @author Kevin Mott https://github.com/kwhopper
  */
 @SuppressWarnings("WeakerAccess")
-public class GifControlDirectory extends Directory
+public class GifControlDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_DELAY = 1;
-    public static final int TAG_DISPOSAL_METHOD = 2;
-    public static final int TAG_USER_INPUT_FLAG = 3;
-    public static final int TAG_TRANSPARENT_COLOR_FLAG = 4;
-    public static final int TAG_TRANSPARENT_COLOR_INDEX = 5;
+    public static final IntegerKey TAG_DELAY = new IntegerKey(1);
+    public static final IntegerKey TAG_DISPOSAL_METHOD = new IntegerKey(2);
+    public static final IntegerKey TAG_USER_INPUT_FLAG = new IntegerKey(3);
+    public static final IntegerKey TAG_TRANSPARENT_COLOR_FLAG = new IntegerKey(4);
+    public static final IntegerKey TAG_TRANSPARENT_COLOR_INDEX = new IntegerKey(5);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -80,7 +81,7 @@ public class GifControlDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

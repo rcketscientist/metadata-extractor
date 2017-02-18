@@ -22,6 +22,7 @@
 package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -36,11 +37,11 @@ public class ExifThumbnailDirectory extends ExifDirectoryBase
     /**
      * The offset to thumbnail image bytes.
      */
-    public static final int TAG_THUMBNAIL_OFFSET = 0x0201;
+    public static final IntegerKey TAG_THUMBNAIL_OFFSET = new IntegerKey(0x0201);
     /**
      * The size of the thumbnail image data in bytes.
      */
-    public static final int TAG_THUMBNAIL_LENGTH = 0x0202;
+    public static final IntegerKey TAG_THUMBNAIL_LENGTH = new IntegerKey(0x0202);
 
     /**
      * @deprecated use {@link com.drew.metadata.exif.ExifDirectoryBase#TAG_COMPRESSION} instead.
@@ -49,7 +50,7 @@ public class ExifThumbnailDirectory extends ExifDirectoryBase
     public static final int TAG_THUMBNAIL_COMPRESSION = 0x0103;
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -73,7 +74,7 @@ public class ExifThumbnailDirectory extends ExifDirectoryBase
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

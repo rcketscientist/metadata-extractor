@@ -23,6 +23,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -33,42 +34,42 @@ import java.util.HashMap;
  * @author Todd West http://cascadescarnivoreproject.blogspot.com
  */
 @SuppressWarnings("WeakerAccess")
-public class ReconyxUltraFireMakernoteDirectory extends Directory
+public class ReconyxUltraFireMakernoteDirectory extends Directory<IntegerKey>
 {
     /**
      * Version number used for identifying makernotes from Reconyx UltraFire cameras.
      */
-    public static final int MAKERNOTE_ID = 0x00010000;
+    public static final IntegerKey MAKERNOTE_ID = new IntegerKey(0x00010000);
 
     /**
      * Version number used for identifying the public portion of makernotes from Reconyx UltraFire cameras.
      */
-    public static final int MAKERNOTE_PUBLIC_ID = 0x07f10001;
+    public static final IntegerKey MAKERNOTE_PUBLIC_ID = new IntegerKey(0x07f10001);
 
-    public static final int TAG_LABEL = 0;
-    public static final int TAG_MAKERNOTE_ID = 10;
-    public static final int TAG_MAKERNOTE_SIZE = 14;
-    public static final int TAG_MAKERNOTE_PUBLIC_ID = 18;
-    public static final int TAG_MAKERNOTE_PUBLIC_SIZE = 22;
-    public static final int TAG_CAMERA_VERSION = 24;
-    public static final int TAG_UIB_VERSION = 31;
-    public static final int TAG_BTL_VERSION = 38;
-    public static final int TAG_PEX_VERSION = 45;
-    public static final int TAG_EVENT_TYPE = 52;
-    public static final int TAG_SEQUENCE = 53;
-    public static final int TAG_EVENT_NUMBER = 55;
-    public static final int TAG_DATE_TIME_ORIGINAL = 59;
-    public static final int TAG_DAY_OF_WEEK = 66;
-    public static final int TAG_MOON_PHASE = 67;
-    public static final int TAG_AMBIENT_TEMPERATURE_FAHRENHEIT = 68;
-    public static final int TAG_AMBIENT_TEMPERATURE = 70;
-    public static final int TAG_FLASH = 72;
-    public static final int TAG_BATTERY_VOLTAGE = 73;
-    public static final int TAG_SERIAL_NUMBER = 75;
-    public static final int TAG_USER_LABEL = 80;
+    public static final IntegerKey TAG_LABEL = new IntegerKey(0);
+    public static final IntegerKey TAG_MAKERNOTE_ID = new IntegerKey(10);
+    public static final IntegerKey TAG_MAKERNOTE_SIZE = new IntegerKey(14);
+    public static final IntegerKey TAG_MAKERNOTE_PUBLIC_ID = new IntegerKey(18);
+    public static final IntegerKey TAG_MAKERNOTE_PUBLIC_SIZE = new IntegerKey(22);
+    public static final IntegerKey TAG_CAMERA_VERSION = new IntegerKey(24);
+    public static final IntegerKey TAG_UIB_VERSION = new IntegerKey(31);
+    public static final IntegerKey TAG_BTL_VERSION = new IntegerKey(38);
+    public static final IntegerKey TAG_PEX_VERSION = new IntegerKey(45);
+    public static final IntegerKey TAG_EVENT_TYPE = new IntegerKey(52);
+    public static final IntegerKey TAG_SEQUENCE = new IntegerKey(53);
+    public static final IntegerKey TAG_EVENT_NUMBER = new IntegerKey(55);
+    public static final IntegerKey TAG_DATE_TIME_ORIGINAL = new IntegerKey(59);
+    public static final IntegerKey TAG_DAY_OF_WEEK = new IntegerKey(66);
+    public static final IntegerKey TAG_MOON_PHASE = new IntegerKey(67);
+    public static final IntegerKey TAG_AMBIENT_TEMPERATURE_FAHRENHEIT = new IntegerKey(68);
+    public static final IntegerKey TAG_AMBIENT_TEMPERATURE = new IntegerKey(70);
+    public static final IntegerKey TAG_FLASH = new IntegerKey(72);
+    public static final IntegerKey TAG_BATTERY_VOLTAGE = new IntegerKey(73);
+    public static final IntegerKey TAG_SERIAL_NUMBER = new IntegerKey(75);
+    public static final IntegerKey TAG_USER_LABEL = new IntegerKey(80);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -109,7 +110,7 @@ public class ReconyxUltraFireMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

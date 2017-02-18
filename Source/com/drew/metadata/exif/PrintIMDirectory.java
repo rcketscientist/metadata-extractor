@@ -23,6 +23,7 @@ package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -34,12 +35,12 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PrintIMDirectory extends Directory
+public class PrintIMDirectory extends Directory<IntegerKey>
 {
-    public static final int TagPrintImVersion = 0x0000;
+    public static final IntegerKey TagPrintImVersion = new IntegerKey(0x0000);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -60,7 +61,7 @@ public class PrintIMDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

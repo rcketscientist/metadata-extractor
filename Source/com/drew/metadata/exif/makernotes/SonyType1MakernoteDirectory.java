@@ -22,6 +22,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -31,101 +32,101 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class SonyType1MakernoteDirectory extends Directory
+public class SonyType1MakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_CAMERA_INFO = 0x0010;
-    public static final int TAG_FOCUS_INFO = 0x0020;
+    public static final IntegerKey TAG_CAMERA_INFO = new IntegerKey(0x0010);
+    public static final IntegerKey TAG_FOCUS_INFO = new IntegerKey(0x0020);
 
-    public static final int TAG_IMAGE_QUALITY = 0x0102;
-    public static final int TAG_FLASH_EXPOSURE_COMP = 0x0104;
-    public static final int TAG_TELECONVERTER = 0x0105;
+    public static final IntegerKey TAG_IMAGE_QUALITY = new IntegerKey(0x0102);
+    public static final IntegerKey TAG_FLASH_EXPOSURE_COMP = new IntegerKey(0x0104);
+    public static final IntegerKey TAG_TELECONVERTER = new IntegerKey(0x0105);
 
-    public static final int TAG_WHITE_BALANCE_FINE_TUNE = 0x0112;
-    public static final int TAG_CAMERA_SETTINGS = 0x0114;
-    public static final int TAG_WHITE_BALANCE = 0x0115;
-    public static final int TAG_EXTRA_INFO = 0x0116;
+    public static final IntegerKey TAG_WHITE_BALANCE_FINE_TUNE = new IntegerKey(0x0112);
+    public static final IntegerKey TAG_CAMERA_SETTINGS = new IntegerKey(0x0114);
+    public static final IntegerKey TAG_WHITE_BALANCE = new IntegerKey(0x0115);
+    public static final IntegerKey TAG_EXTRA_INFO = new IntegerKey(0x0116);
 
-    public static final int TAG_PRINT_IMAGE_MATCHING_INFO = 0x0E00;
+    public static final IntegerKey TAG_PRINT_IMAGE_MATCHING_INFO = new IntegerKey(0x0E00);
 
-    public static final int TAG_MULTI_BURST_MODE = 0x1000;
-    public static final int TAG_MULTI_BURST_IMAGE_WIDTH = 0x1001;
-    public static final int TAG_MULTI_BURST_IMAGE_HEIGHT = 0x1002;
-    public static final int TAG_PANORAMA = 0x1003;
+    public static final IntegerKey TAG_MULTI_BURST_MODE = new IntegerKey(0x1000);
+    public static final IntegerKey TAG_MULTI_BURST_IMAGE_WIDTH = new IntegerKey(0x1001);
+    public static final IntegerKey TAG_MULTI_BURST_IMAGE_HEIGHT = new IntegerKey(0x1002);
+    public static final IntegerKey TAG_PANORAMA = new IntegerKey(0x1003);
 
-    public static final int TAG_PREVIEW_IMAGE = 0x2001;
-    public static final int TAG_RATING = 0x2002;
-    public static final int TAG_CONTRAST = 0x2004;
-    public static final int TAG_SATURATION = 0x2005;
-    public static final int TAG_SHARPNESS = 0x2006;
-    public static final int TAG_BRIGHTNESS = 0x2007;
-    public static final int TAG_LONG_EXPOSURE_NOISE_REDUCTION = 0x2008;
-    public static final int TAG_HIGH_ISO_NOISE_REDUCTION = 0x2009;
-    public static final int TAG_HDR = 0x200a;
-    public static final int TAG_MULTI_FRAME_NOISE_REDUCTION = 0x200b;
-    public static final int TAG_PICTURE_EFFECT = 0x200e;
-    public static final int TAG_SOFT_SKIN_EFFECT = 0x200f;
+    public static final IntegerKey TAG_PREVIEW_IMAGE = new IntegerKey(0x2001);
+    public static final IntegerKey TAG_RATING = new IntegerKey(0x2002);
+    public static final IntegerKey TAG_CONTRAST = new IntegerKey(0x2004);
+    public static final IntegerKey TAG_SATURATION = new IntegerKey(0x2005);
+    public static final IntegerKey TAG_SHARPNESS = new IntegerKey(0x2006);
+    public static final IntegerKey TAG_BRIGHTNESS = new IntegerKey(0x2007);
+    public static final IntegerKey TAG_LONG_EXPOSURE_NOISE_REDUCTION = new IntegerKey(0x2008);
+    public static final IntegerKey TAG_HIGH_ISO_NOISE_REDUCTION = new IntegerKey(0x2009);
+    public static final IntegerKey TAG_HDR = new IntegerKey(0x200a);
+    public static final IntegerKey TAG_MULTI_FRAME_NOISE_REDUCTION = new IntegerKey(0x200b);
+    public static final IntegerKey TAG_PICTURE_EFFECT = new IntegerKey(0x200e);
+    public static final IntegerKey TAG_SOFT_SKIN_EFFECT = new IntegerKey(0x200f);
 
-    public static final int TAG_VIGNETTING_CORRECTION = 0x2011;
-    public static final int TAG_LATERAL_CHROMATIC_ABERRATION = 0x2012;
-    public static final int TAG_DISTORTION_CORRECTION = 0x2013;
-    public static final int TAG_WB_SHIFT_AMBER_MAGENTA = 0x2014;
-    public static final int TAG_AUTO_PORTRAIT_FRAMED = 0x2016;
-    public static final int TAG_FOCUS_MODE = 0x201b;
-    public static final int TAG_AF_POINT_SELECTED = 0x201e;
+    public static final IntegerKey TAG_VIGNETTING_CORRECTION = new IntegerKey(0x2011);
+    public static final IntegerKey TAG_LATERAL_CHROMATIC_ABERRATION = new IntegerKey(0x2012);
+    public static final IntegerKey TAG_DISTORTION_CORRECTION = new IntegerKey(0x2013);
+    public static final IntegerKey TAG_WB_SHIFT_AMBER_MAGENTA = new IntegerKey(0x2014);
+    public static final IntegerKey TAG_AUTO_PORTRAIT_FRAMED = new IntegerKey(0x2016);
+    public static final IntegerKey TAG_FOCUS_MODE = new IntegerKey(0x201b);
+    public static final IntegerKey TAG_AF_POINT_SELECTED = new IntegerKey(0x201e);
 
-    public static final int TAG_SHOT_INFO = 0x3000;
+    public static final IntegerKey TAG_SHOT_INFO = new IntegerKey(0x3000);
 
-    public static final int TAG_FILE_FORMAT = 0xb000;
-    public static final int TAG_SONY_MODEL_ID = 0xb001;
+    public static final IntegerKey TAG_FILE_FORMAT = new IntegerKey(0xb000);
+    public static final IntegerKey TAG_SONY_MODEL_ID = new IntegerKey(0xb001);
 
-    public static final int TAG_COLOR_MODE_SETTING = 0xb020;
-    public static final int TAG_COLOR_TEMPERATURE = 0xb021;
-    public static final int TAG_COLOR_COMPENSATION_FILTER = 0xb022;
-    public static final int TAG_SCENE_MODE = 0xb023;
-    public static final int TAG_ZONE_MATCHING = 0xb024;
-    public static final int TAG_DYNAMIC_RANGE_OPTIMISER = 0xb025;
-    public static final int TAG_IMAGE_STABILISATION = 0xb026;
-    public static final int TAG_LENS_ID = 0xb027;
-    public static final int TAG_MINOLTA_MAKERNOTE = 0xb028;
-    public static final int TAG_COLOR_MODE = 0xb029;
-    public static final int TAG_LENS_SPEC = 0xb02a;
-    public static final int TAG_FULL_IMAGE_SIZE = 0xb02b;
-    public static final int TAG_PREVIEW_IMAGE_SIZE = 0xb02c;
+    public static final IntegerKey TAG_COLOR_MODE_SETTING = new IntegerKey(0xb020);
+    public static final IntegerKey TAG_COLOR_TEMPERATURE = new IntegerKey(0xb021);
+    public static final IntegerKey TAG_COLOR_COMPENSATION_FILTER = new IntegerKey(0xb022);
+    public static final IntegerKey TAG_SCENE_MODE = new IntegerKey(0xb023);
+    public static final IntegerKey TAG_ZONE_MATCHING = new IntegerKey(0xb024);
+    public static final IntegerKey TAG_DYNAMIC_RANGE_OPTIMISER = new IntegerKey(0xb025);
+    public static final IntegerKey TAG_IMAGE_STABILISATION = new IntegerKey(0xb026);
+    public static final IntegerKey TAG_LENS_ID = new IntegerKey(0xb027);
+    public static final IntegerKey TAG_MINOLTA_MAKERNOTE = new IntegerKey(0xb028);
+    public static final IntegerKey TAG_COLOR_MODE = new IntegerKey(0xb029);
+    public static final IntegerKey TAG_LENS_SPEC = new IntegerKey(0xb02a);
+    public static final IntegerKey TAG_FULL_IMAGE_SIZE = new IntegerKey(0xb02b);
+    public static final IntegerKey TAG_PREVIEW_IMAGE_SIZE = new IntegerKey(0xb02c);
 
-    public static final int TAG_MACRO = 0xb040;
-    public static final int TAG_EXPOSURE_MODE = 0xb041;
-    public static final int TAG_FOCUS_MODE_2 = 0xb042;
-    public static final int TAG_AF_MODE = 0xb043;
-    public static final int TAG_AF_ILLUMINATOR = 0xb044;
-    public static final int TAG_JPEG_QUALITY = 0xb047;
-    public static final int TAG_FLASH_LEVEL = 0xb048;
-    public static final int TAG_RELEASE_MODE = 0xb049;
-    public static final int TAG_SEQUENCE_NUMBER = 0xb04a;
-    public static final int TAG_ANTI_BLUR = 0xb04b;
+    public static final IntegerKey TAG_MACRO = new IntegerKey(0xb040);
+    public static final IntegerKey TAG_EXPOSURE_MODE = new IntegerKey(0xb041);
+    public static final IntegerKey TAG_FOCUS_MODE_2 = new IntegerKey(0xb042);
+    public static final IntegerKey TAG_AF_MODE = new IntegerKey(0xb043);
+    public static final IntegerKey TAG_AF_ILLUMINATOR = new IntegerKey(0xb044);
+    public static final IntegerKey TAG_JPEG_QUALITY = new IntegerKey(0xb047);
+    public static final IntegerKey TAG_FLASH_LEVEL = new IntegerKey(0xb048);
+    public static final IntegerKey TAG_RELEASE_MODE = new IntegerKey(0xb049);
+    public static final IntegerKey TAG_SEQUENCE_NUMBER = new IntegerKey(0xb04a);
+    public static final IntegerKey TAG_ANTI_BLUR = new IntegerKey(0xb04b);
     /**
      * (FocusMode for RX100)
-     * 0 = Manual
-     * 2 = AF-S
-     * 3 = AF-C
-     * 5 = Semi-manual
-     * 6 = Direct Manual Focus
+     * 0 = new IntegerKey(Manual
+     * 2 = new IntegerKey(AF-S
+     * 3 = new IntegerKey(AF-C
+     * 5 = new IntegerKey(Semi-manual
+     * 6 = new IntegerKey(Direct Manual Focus
      * (LongExposureNoiseReduction for other models)
-     * 0 = Off
-     * 1 = On
-     * 2 = On 2
-     * 65535 = n/a
+     * 0 = new IntegerKey(Off
+     * 1 = new IntegerKey(On
+     * 2 = new IntegerKey(On 2
+     * 65535 = new IntegerKey(n/a
      */
-    public static final int TAG_LONG_EXPOSURE_NOISE_REDUCTION_OR_FOCUS_MODE = 0xb04e;
-    public static final int TAG_DYNAMIC_RANGE_OPTIMIZER = 0xb04f;
+    public static final IntegerKey TAG_LONG_EXPOSURE_NOISE_REDUCTION_OR_FOCUS_MODE = new IntegerKey(0xb04e);
+    public static final IntegerKey TAG_DYNAMIC_RANGE_OPTIMIZER = new IntegerKey(0xb04f);
 
-    public static final int TAG_HIGH_ISO_NOISE_REDUCTION_2 = 0xb050;
-    public static final int TAG_INTELLIGENT_AUTO = 0xb052;
-    public static final int TAG_WHITE_BALANCE_2 = 0xb054;
+    public static final IntegerKey TAG_HIGH_ISO_NOISE_REDUCTION_2 = new IntegerKey(0xb050);
+    public static final IntegerKey TAG_INTELLIGENT_AUTO = new IntegerKey(0xb052);
+    public static final IntegerKey TAG_WHITE_BALANCE_2 = new IntegerKey(0xb054);
 
-    public static final int TAG_NO_PRINT = 0xFFFF;
+    public static final IntegerKey TAG_NO_PRINT = new IntegerKey(0xFFFF);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -222,7 +223,7 @@ public class SonyType1MakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

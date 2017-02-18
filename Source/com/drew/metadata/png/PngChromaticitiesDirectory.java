@@ -22,6 +22,7 @@ package com.drew.metadata.png;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 import com.drew.metadata.TagDescriptor;
 
 import java.util.HashMap;
@@ -30,19 +31,19 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PngChromaticitiesDirectory extends Directory
+public class PngChromaticitiesDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_WHITE_POINT_X = 1;
-    public static final int TAG_WHITE_POINT_Y = 2;
-    public static final int TAG_RED_X = 3;
-    public static final int TAG_RED_Y = 4;
-    public static final int TAG_GREEN_X = 5;
-    public static final int TAG_GREEN_Y = 6;
-    public static final int TAG_BLUE_X = 7;
-    public static final int TAG_BLUE_Y = 8;
+    public static final IntegerKey TAG_WHITE_POINT_X = new IntegerKey(1);
+    public static final IntegerKey TAG_WHITE_POINT_Y = new IntegerKey(2);
+    public static final IntegerKey TAG_RED_X = new IntegerKey(3);
+    public static final IntegerKey TAG_RED_Y = new IntegerKey(4);
+    public static final IntegerKey TAG_GREEN_X = new IntegerKey(5);
+    public static final IntegerKey TAG_GREEN_Y = new IntegerKey(6);
+    public static final IntegerKey TAG_BLUE_X = new IntegerKey(7);
+    public static final IntegerKey TAG_BLUE_Y = new IntegerKey(8);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_WHITE_POINT_X, "White Point X");
@@ -57,7 +58,7 @@ public class PngChromaticitiesDirectory extends Directory
 
     public PngChromaticitiesDirectory()
     {
-        this.setDescriptor(new TagDescriptor<PngChromaticitiesDirectory>(this));
+        this.setDescriptor(new TagDescriptor<PngChromaticitiesDirectory, IntegerKey>(this));
     }
 
     @Override
@@ -69,7 +70,7 @@ public class PngChromaticitiesDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

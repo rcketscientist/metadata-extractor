@@ -23,6 +23,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -33,34 +34,34 @@ import java.util.HashMap;
  * @author Todd West http://cascadescarnivoreproject.blogspot.com
  */
 @SuppressWarnings("WeakerAccess")
-public class ReconyxHyperFireMakernoteDirectory extends Directory
+public class ReconyxHyperFireMakernoteDirectory extends Directory<IntegerKey>
 {
     /**
      * Version number used for identifying makernotes from Reconyx HyperFire cameras.
      */
-    public static final int MAKERNOTE_VERSION = 61697;
+    public static final IntegerKey MAKERNOTE_VERSION = new IntegerKey(61697);
 
-    public static final int TAG_MAKERNOTE_VERSION = 0;
-    public static final int TAG_FIRMWARE_VERSION = 2;
-    public static final int TAG_TRIGGER_MODE = 12;
-    public static final int TAG_SEQUENCE = 14;
-    public static final int TAG_EVENT_NUMBER = 18;
-    public static final int TAG_DATE_TIME_ORIGINAL = 22;
-    public static final int TAG_MOON_PHASE = 36;
-    public static final int TAG_AMBIENT_TEMPERATURE_FAHRENHEIT = 38;
-    public static final int TAG_AMBIENT_TEMPERATURE = 40;
-    public static final int TAG_SERIAL_NUMBER = 42;
-    public static final int TAG_CONTRAST = 72;
-    public static final int TAG_BRIGHTNESS = 74;
-    public static final int TAG_SHARPNESS = 76;
-    public static final int TAG_SATURATION = 78;
-    public static final int TAG_INFRARED_ILLUMINATOR = 80;
-    public static final int TAG_MOTION_SENSITIVITY = 82;
-    public static final int TAG_BATTERY_VOLTAGE = 84;
-    public static final int TAG_USER_LABEL = 86;
+    public static final IntegerKey TAG_MAKERNOTE_VERSION = new IntegerKey(0);
+    public static final IntegerKey TAG_FIRMWARE_VERSION = new IntegerKey(2);
+    public static final IntegerKey TAG_TRIGGER_MODE = new IntegerKey(12);
+    public static final IntegerKey TAG_SEQUENCE = new IntegerKey(14);
+    public static final IntegerKey TAG_EVENT_NUMBER = new IntegerKey(18);
+    public static final IntegerKey TAG_DATE_TIME_ORIGINAL = new IntegerKey(22);
+    public static final IntegerKey TAG_MOON_PHASE = new IntegerKey(36);
+    public static final IntegerKey TAG_AMBIENT_TEMPERATURE_FAHRENHEIT = new IntegerKey(38);
+    public static final IntegerKey TAG_AMBIENT_TEMPERATURE = new IntegerKey(40);
+    public static final IntegerKey TAG_SERIAL_NUMBER = new IntegerKey(42);
+    public static final IntegerKey TAG_CONTRAST = new IntegerKey(72);
+    public static final IntegerKey TAG_BRIGHTNESS = new IntegerKey(74);
+    public static final IntegerKey TAG_SHARPNESS = new IntegerKey(76);
+    public static final IntegerKey TAG_SATURATION = new IntegerKey(78);
+    public static final IntegerKey TAG_INFRARED_ILLUMINATOR = new IntegerKey(80);
+    public static final IntegerKey TAG_MOTION_SENSITIVITY = new IntegerKey(82);
+    public static final IntegerKey TAG_BATTERY_VOLTAGE = new IntegerKey(84);
+    public static final IntegerKey TAG_USER_LABEL = new IntegerKey(86);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -98,7 +99,7 @@ public class ReconyxHyperFireMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

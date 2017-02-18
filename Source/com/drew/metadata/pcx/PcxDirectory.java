@@ -22,6 +22,7 @@ package com.drew.metadata.pcx;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -31,23 +32,23 @@ import java.util.HashMap;
 @SuppressWarnings("WeakerAccess")
 public class PcxDirectory extends Directory
 {
-    public static final int TAG_VERSION        = 1;
-    public static final int TAG_BITS_PER_PIXEL = 2;
-    public static final int TAG_XMIN           = 3;
-    public static final int TAG_YMIN           = 4;
-    public static final int TAG_XMAX           = 5;
-    public static final int TAG_YMAX           = 6;
-    public static final int TAG_HORIZONTAL_DPI = 7;
-    public static final int TAG_VERTICAL_DPI   = 8;
-    public static final int TAG_PALETTE        = 9;
-    public static final int TAG_COLOR_PLANES   = 10;
-    public static final int TAG_BYTES_PER_LINE = 11;
-    public static final int TAG_PALETTE_TYPE   = 12;
-    public static final int TAG_HSCR_SIZE      = 13;
-    public static final int TAG_VSCR_SIZE      = 14;
+    public static final IntegerKey TAG_VERSION        = new IntegerKey(1);
+    public static final IntegerKey TAG_BITS_PER_PIXEL = new IntegerKey(2);
+    public static final IntegerKey TAG_XMIN           = new IntegerKey(3);
+    public static final IntegerKey TAG_YMIN           = new IntegerKey(4);
+    public static final IntegerKey TAG_XMAX           = new IntegerKey(5);
+    public static final IntegerKey TAG_YMAX           = new IntegerKey(6);
+    public static final IntegerKey TAG_HORIZONTAL_DPI = new IntegerKey(7);
+    public static final IntegerKey TAG_VERTICAL_DPI   = new IntegerKey(8);
+    public static final IntegerKey TAG_PALETTE        = new IntegerKey(9);
+    public static final IntegerKey TAG_COLOR_PLANES   = new IntegerKey(10);
+    public static final IntegerKey TAG_BYTES_PER_LINE = new IntegerKey(11);
+    public static final IntegerKey TAG_PALETTE_TYPE   = new IntegerKey(12);
+    public static final IntegerKey TAG_HSCR_SIZE      = new IntegerKey(13);
+    public static final IntegerKey TAG_VSCR_SIZE      = new IntegerKey(14);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_VERSION, "Version");
@@ -80,7 +81,7 @@ public class PcxDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

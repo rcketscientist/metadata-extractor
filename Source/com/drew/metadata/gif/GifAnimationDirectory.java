@@ -22,6 +22,7 @@ package com.drew.metadata.gif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -30,12 +31,12 @@ import java.util.HashMap;
  * @author Kevin Mott https://github.com/kwhopper
  */
 @SuppressWarnings("WeakerAccess")
-public class GifAnimationDirectory extends Directory
+public class GifAnimationDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_ITERATION_COUNT = 1;
+    public static final IntegerKey TAG_ITERATION_COUNT = new IntegerKey(1);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -56,7 +57,7 @@ public class GifAnimationDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

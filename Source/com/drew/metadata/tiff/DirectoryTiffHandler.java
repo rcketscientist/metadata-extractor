@@ -23,10 +23,7 @@ package com.drew.metadata.tiff;
 import com.drew.imaging.tiff.TiffHandler;
 import com.drew.lang.Rational;
 import com.drew.lang.annotations.NotNull;
-import com.drew.metadata.Directory;
-import com.drew.metadata.ErrorDirectory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.StringValue;
+import com.drew.metadata.*;
 
 import java.util.Stack;
 
@@ -39,7 +36,7 @@ public abstract class DirectoryTiffHandler implements TiffHandler
 {
     private final Stack<Directory> _directoryStack = new Stack<Directory>();
 
-    protected Directory _currentDirectory;
+    protected Directory<IntegerKey> _currentDirectory;
     protected final Metadata _metadata;
 
     protected DirectoryTiffHandler(Metadata metadata)
@@ -99,110 +96,110 @@ public abstract class DirectoryTiffHandler implements TiffHandler
         return _currentDirectory;
     }
 
-    public void setByteArray(int tagId, @NotNull byte[] bytes)
+    public void setByteArray(IntegerKey tagId, @NotNull byte[] bytes)
     {
         _currentDirectory.setByteArray(tagId, bytes);
     }
 
-    public void setString(int tagId, @NotNull StringValue string)
+    public void setString(IntegerKey tagId, @NotNull StringValue string)
     {
         _currentDirectory.setStringValue(tagId, string);
     }
 
-    public void setRational(int tagId, @NotNull Rational rational)
+    public void setRational(IntegerKey tagId, @NotNull Rational rational)
     {
         _currentDirectory.setRational(tagId, rational);
     }
 
-    public void setRationalArray(int tagId, @NotNull Rational[] array)
+    public void setRationalArray(IntegerKey tagId, @NotNull Rational[] array)
     {
         _currentDirectory.setRationalArray(tagId, array);
     }
 
-    public void setFloat(int tagId, float float32)
+    public void setFloat(IntegerKey tagId, float float32)
     {
         _currentDirectory.setFloat(tagId, float32);
     }
 
-    public void setFloatArray(int tagId, @NotNull float[] array)
+    public void setFloatArray(IntegerKey tagId, @NotNull float[] array)
     {
         _currentDirectory.setFloatArray(tagId, array);
     }
 
-    public void setDouble(int tagId, double double64)
+    public void setDouble(IntegerKey tagId, double double64)
     {
         _currentDirectory.setDouble(tagId, double64);
     }
 
-    public void setDoubleArray(int tagId, @NotNull double[] array)
+    public void setDoubleArray(IntegerKey tagId, @NotNull double[] array)
     {
         _currentDirectory.setDoubleArray(tagId, array);
     }
 
-    public void setInt8s(int tagId, byte int8s)
+    public void setInt8s(IntegerKey tagId, byte int8s)
     {
         // NOTE Directory stores all integral types as int32s, except for int32u and long
         _currentDirectory.setInt(tagId, int8s);
     }
 
-    public void setInt8sArray(int tagId, @NotNull byte[] array)
+    public void setInt8sArray(IntegerKey tagId, @NotNull byte[] array)
     {
         // NOTE Directory stores all integral types as int32s, except for int32u and long
         _currentDirectory.setByteArray(tagId, array);
     }
 
-    public void setInt8u(int tagId, short int8u)
+    public void setInt8u(IntegerKey tagId, short int8u)
     {
         // NOTE Directory stores all integral types as int32s, except for int32u and long
         _currentDirectory.setInt(tagId, int8u);
     }
 
-    public void setInt8uArray(int tagId, @NotNull short[] array)
+    public void setInt8uArray(IntegerKey tagId, @NotNull short[] array)
     {
         // TODO create and use a proper setter for short[]
         _currentDirectory.setObjectArray(tagId, array);
     }
 
-    public void setInt16s(int tagId, int int16s)
+    public void setInt16s(IntegerKey tagId, int int16s)
     {
         // TODO create and use a proper setter for int16u?
         _currentDirectory.setInt(tagId, int16s);
     }
 
-    public void setInt16sArray(int tagId, @NotNull short[] array)
+    public void setInt16sArray(IntegerKey tagId, @NotNull short[] array)
     {
         // TODO create and use a proper setter for short[]
         _currentDirectory.setObjectArray(tagId, array);
     }
 
-    public void setInt16u(int tagId, int int16u)
+    public void setInt16u(IntegerKey tagId, int int16u)
     {
         // TODO create and use a proper setter for
         _currentDirectory.setInt(tagId, int16u);
     }
 
-    public void setInt16uArray(int tagId, @NotNull int[] array)
+    public void setInt16uArray(IntegerKey tagId, @NotNull IntegerKey[] array)
     {
         // TODO create and use a proper setter for short[]
         _currentDirectory.setObjectArray(tagId, array);
     }
 
-    public void setInt32s(int tagId, int int32s)
+    public void setInt32s(IntegerKey tagId, int int32s)
     {
         _currentDirectory.setInt(tagId, int32s);
     }
 
-    public void setInt32sArray(int tagId, @NotNull int[] array)
+    public void setInt32sArray(IntegerKey tagId, @NotNull int[] array)
     {
         _currentDirectory.setIntArray(tagId, array);
     }
 
-    public void setInt32u(int tagId, long int32u)
+    public void setInt32u(IntegerKey tagId, long int32u)
     {
         _currentDirectory.setLong(tagId, int32u);
     }
 
-    public void setInt32uArray(int tagId, @NotNull long[] array)
+    public void setInt32uArray(IntegerKey tagId, @NotNull long[] array)
     {
         // TODO create and use a proper setter for short[]
         _currentDirectory.setObjectArray(tagId, array);

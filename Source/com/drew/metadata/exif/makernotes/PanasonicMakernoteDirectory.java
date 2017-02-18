@@ -27,6 +27,7 @@ import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Age;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Face;
+import com.drew.metadata.IntegerKey;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ import java.util.HashMap;
  * @author Philipp Sandhaus
  */
 @SuppressWarnings("WeakerAccess")
-public class PanasonicMakernoteDirectory extends Directory
+public class PanasonicMakernoteDirectory extends Directory<IntegerKey>
 {
 
     /**
@@ -49,8 +50,8 @@ public class PanasonicMakernoteDirectory extends Directory
      * 7 = Raw             <br>
      * 9 = Motion Picture  <br>
      */
-    public static final int TAG_QUALITY_MODE = 0x0001;
-    public static final int TAG_FIRMWARE_VERSION = 0x0002;
+    public static final IntegerKey TAG_QUALITY_MODE = new IntegerKey(0x0001);
+    public static final IntegerKey TAG_FIRMWARE_VERSION = new IntegerKey(0x0002);
 
     /**
      * <br>
@@ -64,7 +65,7 @@ public class PanasonicMakernoteDirectory extends Directory
      * 11 = Manual         <br>
      * 12 = Shade          <br>
      */
-    public static final int TAG_WHITE_BALANCE = 0x0003;
+    public static final IntegerKey TAG_WHITE_BALANCE = new IntegerKey(0x0003);
 
 
     /**
@@ -74,7 +75,7 @@ public class PanasonicMakernoteDirectory extends Directory
      * 4 =  Auto, Focus Button <br>
      * 5 = Auto, Continuous    <br>
      */
-    public static final int TAG_FOCUS_MODE = 0x0007;
+    public static final IntegerKey TAG_FOCUS_MODE = new IntegerKey(0x0007);
 
     /**
      * <br>
@@ -96,7 +97,7 @@ public class PanasonicMakernoteDirectory extends Directory
      * '32 3' = 3-area (right)?        <br>
      * '64 0' = Face Detect            <br>
      */
-    public static final int TAG_AF_AREA_MODE = 0x000f;
+    public static final IntegerKey TAG_AF_AREA_MODE = new IntegerKey(0x000f);
 
     /**
      * <br>
@@ -104,14 +105,14 @@ public class PanasonicMakernoteDirectory extends Directory
      * 3 = Off          <br>
      * 4 = On, Mode 2   <br>
      */
-    public static final int TAG_IMAGE_STABILIZATION = 0x001a;
+    public static final IntegerKey TAG_IMAGE_STABILIZATION = new IntegerKey(0x001a);
 
     /**
      * <br>
      * 1 = On    <br>
      * 2 = Off   <br>
      */
-    public static final int TAG_MACRO_MODE = 0x001C;
+    public static final IntegerKey TAG_MACRO_MODE = new IntegerKey(0x001C);
 
     /**
      * <br>
@@ -161,33 +162,33 @@ public class PanasonicMakernoteDirectory extends Directory
      * 46= Photo Frame                       <br>
      * 51= HDR                               <br>
      */
-    public static final int TAG_RECORD_MODE = 0x001F;
+    public static final IntegerKey TAG_RECORD_MODE = new IntegerKey(0x001F);
 
     /**
      * 1 = Yes <br>
      * 2 = No  <br>
      */
-    public static final int TAG_AUDIO = 0x0020;
+    public static final IntegerKey TAG_AUDIO = new IntegerKey(0x0020);
 
     /**
      * No idea, what this is
      */
-    public static final int TAG_UNKNOWN_DATA_DUMP = 0x0021;
+    public static final IntegerKey TAG_UNKNOWN_DATA_DUMP = new IntegerKey(0x0021);
 
-    public static final int TAG_EASY_MODE = 0x0022;
-    public static final int TAG_WHITE_BALANCE_BIAS = 0x0023;
-    public static final int TAG_FLASH_BIAS = 0x0024;
+    public static final IntegerKey TAG_EASY_MODE = new IntegerKey(0x0022);
+    public static final IntegerKey TAG_WHITE_BALANCE_BIAS = new IntegerKey(0x0023);
+    public static final IntegerKey TAG_FLASH_BIAS = new IntegerKey(0x0024);
 
     /**
      * this number is unique, and contains the date of manufacture,
      * but is not the same as the number printed on the camera body
      */
-    public static final int TAG_INTERNAL_SERIAL_NUMBER = 0x0025;
+    public static final IntegerKey TAG_INTERNAL_SERIAL_NUMBER = new IntegerKey(0x0025);
 
     /**
      * Panasonic Exif Version
      */
-    public static final int TAG_EXIF_VERSION = 0x0026;
+    public static final IntegerKey TAG_EXIF_VERSION = new IntegerKey(0x0026);
 
 
     /**
@@ -197,14 +198,14 @@ public class PanasonicMakernoteDirectory extends Directory
      * 4 = Black &amp; White <br>
      * 5 = Sepia         <br>
      */
-    public static final int TAG_COLOR_EFFECT = 0x0028;
+    public static final IntegerKey TAG_COLOR_EFFECT = new IntegerKey(0x0028);
 
     /**
      * 4 Bytes <br>
      * Time in 1/100 s from when the camera was powered on to when the
      * image is written to memory card
      */
-    public static final int TAG_UPTIME = 0x0029;
+    public static final IntegerKey TAG_UPTIME = new IntegerKey(0x0029);
 
 
     /**
@@ -213,9 +214,9 @@ public class PanasonicMakernoteDirectory extends Directory
      * 2 = Infinite   <br>
      * 4 = Unlimited  <br>
      */
-    public static final int TAG_BURST_MODE = 0x002a;
+    public static final IntegerKey TAG_BURST_MODE = new IntegerKey(0x002a);
 
-    public static final int TAG_SEQUENCE_NUMBER = 0x002b;
+    public static final IntegerKey TAG_SEQUENCE_NUMBER = new IntegerKey(0x002b);
 
     /**
      * (this decoding seems to work for some models such as the LC1, LX2, FZ7, FZ8, FZ18 and FZ50, but may not be correct for other models such as the FX10, G1, L1, L10 and LC80) <br>
@@ -244,7 +245,7 @@ public class PanasonicMakernoteDirectory extends Directory
      * 41 = Dynamic Art (My Color)                             <br>
      * 42 = Retro (My Color)                                   <br>
      */
-    public static final int TAG_CONTRAST_MODE = 0x002c;
+    public static final IntegerKey TAG_CONTRAST_MODE = new IntegerKey(0x002c);
 
 
     /**
@@ -254,14 +255,14 @@ public class PanasonicMakernoteDirectory extends Directory
      * 3 = Lowest (-2)   <br>
      * 4 = Highest (+2)  <br>
      */
-    public static final int TAG_NOISE_REDUCTION = 0x002d;
+    public static final IntegerKey TAG_NOISE_REDUCTION = new IntegerKey(0x002d);
 
     /**
      * 1 = Off   <br>
      * 2 = 10 s  <br>
      * 3 = 2 s   <br>
      */
-    public static final int TAG_SELF_TIMER = 0x002e;
+    public static final IntegerKey TAG_SELF_TIMER = new IntegerKey(0x002e);
 
     /**
      * 1 = 0 DG    <br>
@@ -269,7 +270,7 @@ public class PanasonicMakernoteDirectory extends Directory
      * 6 =  90 DG  <br>
      * 8 = 270 DG  <br>
      */
-    public static final int TAG_ROTATION = 0x0030;
+    public static final IntegerKey TAG_ROTATION = new IntegerKey(0x0030);
 
     /**
      * 1 = Fired <br>
@@ -277,7 +278,7 @@ public class PanasonicMakernoteDirectory extends Directory
      * 3 = Disabled but required <br>
      * 4 = Disabled and not required
      */
-    public static final int TAG_AF_ASSIST_LAMP = 0x0031;
+    public static final IntegerKey TAG_AF_ASSIST_LAMP = new IntegerKey(0x0031);
 
     /**
      * 0 = Normal <br>
@@ -285,15 +286,15 @@ public class PanasonicMakernoteDirectory extends Directory
      * 2 = Vivid
      *
      */
-    public static final int TAG_COLOR_MODE = 0x0032;
+    public static final IntegerKey TAG_COLOR_MODE = new IntegerKey(0x0032);
 
-    public static final int TAG_BABY_AGE = 0x0033;
+    public static final IntegerKey TAG_BABY_AGE = new IntegerKey(0x0033);
 
     /**
      *  1 = Standard <br>
      *  2 = Extended
      */
-    public static final int TAG_OPTICAL_ZOOM_MODE = 0x0034;
+    public static final IntegerKey TAG_OPTICAL_ZOOM_MODE = new IntegerKey(0x0034);
 
     /**
      * 1 = Off <br>
@@ -301,29 +302,29 @@ public class PanasonicMakernoteDirectory extends Directory
      * 3 = Telephoto <br>
      * 4 = Macro
      */
-    public static final int TAG_CONVERSION_LENS = 0x0035;
+    public static final IntegerKey TAG_CONVERSION_LENS = new IntegerKey(0x0035);
 
-    public static final int TAG_TRAVEL_DAY = 0x0036;
+    public static final IntegerKey TAG_TRAVEL_DAY = new IntegerKey(0x0036);
 
     /**
      * 0 = Normal
      */
-    public static final int TAG_CONTRAST = 0x0039;
+    public static final IntegerKey TAG_CONTRAST = new IntegerKey(0x0039);
 
     /**
      * <br>
      * 1 = Home <br>
      * 2 = Destination
      */
-    public static final int TAG_WORLD_TIME_LOCATION = 0x003a;
+    public static final IntegerKey TAG_WORLD_TIME_LOCATION = new IntegerKey(0x003a);
 
     /**
      * 1 = Off   <br>
      * 2 = On
      */
-    public static final int TAG_TEXT_STAMP = 0x003b;
+    public static final IntegerKey TAG_TEXT_STAMP = new IntegerKey(0x003b);
 
-	public static final int TAG_PROGRAM_ISO = 0x003c;
+	public static final IntegerKey TAG_PROGRAM_ISO = new IntegerKey(0x003c);
 
     /**
      * <br>
@@ -340,38 +341,38 @@ public class PanasonicMakernoteDirectory extends Directory
      * 13 = Dynamic Art                         <br>
      * 14 = Silhouette                          <br>
      */
-    public static final int TAG_ADVANCED_SCENE_MODE = 0x003d;
+    public static final IntegerKey TAG_ADVANCED_SCENE_MODE = new IntegerKey(0x003d);
 
     /**
      * 1 = Off   <br>
      * 2 = On
      */
-    public static final int TAG_TEXT_STAMP_1 = 0x003e;
+    public static final IntegerKey TAG_TEXT_STAMP_1 = new IntegerKey(0x003e);
 
-    public static final int TAG_FACES_DETECTED = 0x003f;
+    public static final IntegerKey TAG_FACES_DETECTED = new IntegerKey(0x003f);
 
-    public static final int TAG_SATURATION = 0x0040;
-    public static final int TAG_SHARPNESS = 0x0041;
-    public static final int TAG_FILM_MODE = 0x0042;
+    public static final IntegerKey TAG_SATURATION = new IntegerKey(0x0040);
+    public static final IntegerKey TAG_SHARPNESS = new IntegerKey(0x0041);
+    public static final IntegerKey TAG_FILM_MODE = new IntegerKey(0x0042);
 
-    public static final int TAG_COLOR_TEMP_KELVIN = 0x0044;
-    public static final int TAG_BRACKET_SETTINGS = 0x0045;
+    public static final IntegerKey TAG_COLOR_TEMP_KELVIN = new IntegerKey(0x0044);
+    public static final IntegerKey TAG_BRACKET_SETTINGS = new IntegerKey(0x0045);
 
     /**
     * WB adjust AB. Positive is a shift toward blue.
     */
-    public static final int TAG_WB_ADJUST_AB = 0x0046;
+    public static final IntegerKey TAG_WB_ADJUST_AB = new IntegerKey(0x0046);
     /**
     * WB adjust GM. Positive is a shift toward green.
     */
-    public static final int TAG_WB_ADJUST_GM = 0x0047;
+    public static final IntegerKey TAG_WB_ADJUST_GM = new IntegerKey(0x0047);
 
-    public static final int TAG_FLASH_CURTAIN = 0x0048;
-    public static final int TAG_LONG_EXPOSURE_NOISE_REDUCTION = 0x0049;
+    public static final IntegerKey TAG_FLASH_CURTAIN = new IntegerKey(0x0048);
+    public static final IntegerKey TAG_LONG_EXPOSURE_NOISE_REDUCTION = new IntegerKey(0x0049);
 
-    public static final int TAG_PANASONIC_IMAGE_WIDTH = 0x004b;
-    public static final int TAG_PANASONIC_IMAGE_HEIGHT = 0x004c;
-    public static final int TAG_AF_POINT_POSITION = 0x004d;
+    public static final IntegerKey TAG_PANASONIC_IMAGE_WIDTH = new IntegerKey(0x004b);
+    public static final IntegerKey TAG_PANASONIC_IMAGE_HEIGHT = new IntegerKey(0x004c);
+    public static final IntegerKey TAG_AF_POINT_POSITION = new IntegerKey(0x004d);
 
 
     /**
@@ -387,11 +388,11 @@ public class PanasonicMakernoteDirectory extends Directory
      * All values are in respect to double the size of the thumbnail image  <br>
      *
      */
-    public static final int TAG_FACE_DETECTION_INFO = 0x004e;
-    public static final int TAG_LENS_TYPE = 0x0051;
-    public static final int TAG_LENS_SERIAL_NUMBER = 0x0052;
-    public static final int TAG_ACCESSORY_TYPE = 0x0053;
-    public static final int TAG_ACCESSORY_SERIAL_NUMBER = 0x0054;
+    public static final IntegerKey TAG_FACE_DETECTION_INFO = new IntegerKey(0x004e);
+    public static final IntegerKey TAG_LENS_TYPE = new IntegerKey(0x0051);
+    public static final IntegerKey TAG_LENS_SERIAL_NUMBER = new IntegerKey(0x0052);
+    public static final IntegerKey TAG_ACCESSORY_TYPE = new IntegerKey(0x0053);
+    public static final IntegerKey TAG_ACCESSORY_SERIAL_NUMBER = new IntegerKey(0x0054);
 
     /**
      * (decoded as two 16-bit signed integers)
@@ -401,7 +402,7 @@ public class PanasonicMakernoteDirectory extends Directory
      * '1 1' = Stretch Low
      * '3 2' = Stretch High
      */
-    public static final int TAG_TRANSFORM = 0x0059;
+    public static final IntegerKey TAG_TRANSFORM = new IntegerKey(0x0059);
 
     /**
     * 0 = Off <br>
@@ -409,46 +410,46 @@ public class PanasonicMakernoteDirectory extends Directory
     * 2 = Standard <br>
     * 3 = High
     */
-    public static final int TAG_INTELLIGENT_EXPOSURE = 0x005d;
+    public static final IntegerKey TAG_INTELLIGENT_EXPOSURE = new IntegerKey(0x005d);
 
-    public static final int TAG_LENS_FIRMWARE_VERSION = 0x0060;
-    public static final int TAG_BURST_SPEED = 0x0077;
-    public static final int TAG_INTELLIGENT_D_RANGE = 0x0079;
-    public static final int TAG_CLEAR_RETOUCH = 0x007c;
-    public static final int TAG_CITY2 = 0x0080;
-    public static final int TAG_PHOTO_STYLE = 0x0089;
-    public static final int TAG_SHADING_COMPENSATION = 0x008a;
+    public static final IntegerKey TAG_LENS_FIRMWARE_VERSION = new IntegerKey(0x0060);
+    public static final IntegerKey TAG_BURST_SPEED = new IntegerKey(0x0077);
+    public static final IntegerKey TAG_INTELLIGENT_D_RANGE = new IntegerKey(0x0079);
+    public static final IntegerKey TAG_CLEAR_RETOUCH = new IntegerKey(0x007c);
+    public static final IntegerKey TAG_CITY2 = new IntegerKey(0x0080);
+    public static final IntegerKey TAG_PHOTO_STYLE = new IntegerKey(0x0089);
+    public static final IntegerKey TAG_SHADING_COMPENSATION = new IntegerKey(0x008a);
 
-    public static final int TAG_ACCELEROMETER_Z = 0x008c;
-    public static final int TAG_ACCELEROMETER_X = 0x008d;
-    public static final int TAG_ACCELEROMETER_Y = 0x008e;
-    public static final int TAG_CAMERA_ORIENTATION = 0x008f;
-    public static final int TAG_ROLL_ANGLE = 0x0090;
-    public static final int TAG_PITCH_ANGLE = 0x0091;
-    public static final int TAG_SWEEP_PANORAMA_DIRECTION = 0x0093;
-    public static final int TAG_SWEEP_PANORAMA_FIELD_OF_VIEW = 0x0094;
-    public static final int TAG_TIMER_RECORDING = 0x0096;
+    public static final IntegerKey TAG_ACCELEROMETER_Z = new IntegerKey(0x008c);
+    public static final IntegerKey TAG_ACCELEROMETER_X = new IntegerKey(0x008d);
+    public static final IntegerKey TAG_ACCELEROMETER_Y = new IntegerKey(0x008e);
+    public static final IntegerKey TAG_CAMERA_ORIENTATION = new IntegerKey(0x008f);
+    public static final IntegerKey TAG_ROLL_ANGLE = new IntegerKey(0x0090);
+    public static final IntegerKey TAG_PITCH_ANGLE = new IntegerKey(0x0091);
+    public static final IntegerKey TAG_SWEEP_PANORAMA_DIRECTION = new IntegerKey(0x0093);
+    public static final IntegerKey TAG_SWEEP_PANORAMA_FIELD_OF_VIEW = new IntegerKey(0x0094);
+    public static final IntegerKey TAG_TIMER_RECORDING = new IntegerKey(0x0096);
 
-    public static final int TAG_INTERNAL_ND_FILTER = 0x009d;
-    public static final int TAG_HDR = 0x009e;
-    public static final int TAG_SHUTTER_TYPE = 0x009f;
+    public static final IntegerKey TAG_INTERNAL_ND_FILTER = new IntegerKey(0x009d);
+    public static final IntegerKey TAG_HDR = new IntegerKey(0x009e);
+    public static final IntegerKey TAG_SHUTTER_TYPE = new IntegerKey(0x009f);
 
-    public static final int TAG_CLEAR_RETOUCH_VALUE = 0x00a3;
-    public static final int TAG_TOUCH_AE = 0x00ab;
+    public static final IntegerKey TAG_CLEAR_RETOUCH_VALUE = new IntegerKey(0x00a3);
+    public static final IntegerKey TAG_TOUCH_AE = new IntegerKey(0x00ab);
 
     /**
     * Info at http://www.ozhiker.com/electronics/pjmt/jpeg_info/pim.html
     */
-    public static final int TAG_PRINT_IMAGE_MATCHING_INFO = 0x0E00;
+    public static final IntegerKey TAG_PRINT_IMAGE_MATCHING_INFO = new IntegerKey(0x0E00);
 
     /**
      * Byte Indexes:                                                                       <br>
-     *  0    Int (2  Byte) Number of Recognized Faces                                      <br>
+     *  0    IntegerKey (2  Byte) Number of Recognized Faces                                      <br>
      *  4    String(20 Byte)    Recognized Face 1 Name                                     <br>
-     * 24    4 Int (8 Byte)     Recognized Face 1 Position  (Same Format as Face Detection)  <br>
+     * 24    4 IntegerKey (8 Byte)     Recognized Face 1 Position  (Same Format as Face Detection)  <br>
      * 32    String(20 Byte)    Recognized Face 1 Age                                      <br>
      * 52    String(20 Byte)    Recognized Face 2 Name                                     <br>
-     * 72    4 Int (8 Byte)     Recognized Face 2 Position  (Same Format as Face Detection)  <br>
+     * 72    4 IntegerKey (8 Byte)     Recognized Face 2 Position  (Same Format as Face Detection)  <br>
      * 80    String(20 Byte)    Recognized Face 2 Age                                      <br>
      *                                                                                     <br>
      * And so on                                                                           <br>
@@ -458,38 +459,38 @@ public class PanasonicMakernoteDirectory extends Directory
      * All values are in respect to double the size of the thumbnail image                 <br>
      *
      */
-    public static final int TAG_FACE_RECOGNITION_INFO = 0x0061;
+    public static final IntegerKey TAG_FACE_RECOGNITION_INFO = new IntegerKey(0x0061);
 
     /**
     * 0 = No <br>
     * 1 = Yes
     */
-    public static final int TAG_FLASH_WARNING = 0x0062;
-    public static final int TAG_RECOGNIZED_FACE_FLAGS = 0x0063;
-    public static final int TAG_TITLE = 0x0065;
-    public static final int TAG_BABY_NAME = 0x0066;
-    public static final int TAG_LOCATION = 0x0067;
-    public static final int TAG_COUNTRY = 0x0069;
-    public static final int TAG_STATE = 0x006b;
-    public static final int TAG_CITY = 0x006d;
-    public static final int TAG_LANDMARK = 0x006f;
+    public static final IntegerKey TAG_FLASH_WARNING = new IntegerKey(0x0062);
+    public static final IntegerKey TAG_RECOGNIZED_FACE_FLAGS = new IntegerKey(0x0063);
+    public static final IntegerKey TAG_TITLE = new IntegerKey(0x0065);
+    public static final IntegerKey TAG_BABY_NAME = new IntegerKey(0x0066);
+    public static final IntegerKey TAG_LOCATION = new IntegerKey(0x0067);
+    public static final IntegerKey TAG_COUNTRY = new IntegerKey(0x0069);
+    public static final IntegerKey TAG_STATE = new IntegerKey(0x006b);
+    public static final IntegerKey TAG_CITY = new IntegerKey(0x006d);
+    public static final IntegerKey TAG_LANDMARK = new IntegerKey(0x006f);
 
     /**
      * 0 = Off <br>
      * 2 = Auto <br>
      * 3 = On
      */
-    public static final int TAG_INTELLIGENT_RESOLUTION = 0x0070;
+    public static final IntegerKey TAG_INTELLIGENT_RESOLUTION = new IntegerKey(0x0070);
 
-    public static final int TAG_MAKERNOTE_VERSION = 0x8000;
-    public static final int TAG_SCENE_MODE = 0x8001;
-    public static final int TAG_WB_RED_LEVEL = 0x8004;
-    public static final int TAG_WB_GREEN_LEVEL = 0x8005;
-    public static final int TAG_WB_BLUE_LEVEL = 0x8006;
-    public static final int TAG_FLASH_FIRED = 0x8007;
-    public static final int TAG_TEXT_STAMP_2 = 0x8008;
-    public static final int TAG_TEXT_STAMP_3 = 0x8009;
-    public static final int TAG_BABY_AGE_1 = 0x8010;
+    public static final IntegerKey TAG_MAKERNOTE_VERSION = new IntegerKey(0x8000);
+    public static final IntegerKey TAG_SCENE_MODE = new IntegerKey(0x8001);
+    public static final IntegerKey TAG_WB_RED_LEVEL = new IntegerKey(0x8004);
+    public static final IntegerKey TAG_WB_GREEN_LEVEL = new IntegerKey(0x8005);
+    public static final IntegerKey TAG_WB_BLUE_LEVEL = new IntegerKey(0x8006);
+    public static final IntegerKey TAG_FLASH_FIRED = new IntegerKey(0x8007);
+    public static final IntegerKey TAG_TEXT_STAMP_2 = new IntegerKey(0x8008);
+    public static final IntegerKey TAG_TEXT_STAMP_3 = new IntegerKey(0x8009);
+    public static final IntegerKey TAG_BABY_AGE_1 = new IntegerKey(0x8010);
 
 	/**
      * (decoded as two 16-bit signed integers)
@@ -499,10 +500,10 @@ public class PanasonicMakernoteDirectory extends Directory
      * '1 1' = Stretch Low
      * '3 2' = Stretch High
      */
-    public static final int TAG_TRANSFORM_1 = 0x8012;
+    public static final IntegerKey TAG_TRANSFORM_1 = new IntegerKey(0x8012);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -625,7 +626,7 @@ public class PanasonicMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }
@@ -701,7 +702,7 @@ public class PanasonicMakernoteDirectory extends Directory
      * @return The parsed Age object, or null if the tag was empty of the value unable to be parsed.
      */
 	@Nullable
-	public Age getAge(int tag)
+	public Age getAge(IntegerKey tag)
     {
         final String ageString = getString(tag);
         if (ageString==null)

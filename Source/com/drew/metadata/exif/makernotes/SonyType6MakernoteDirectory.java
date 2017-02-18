@@ -23,6 +23,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -32,15 +33,15 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class SonyType6MakernoteDirectory extends Directory
+public class SonyType6MakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_MAKERNOTE_THUMB_OFFSET = 0x0513;
-    public static final int TAG_MAKERNOTE_THUMB_LENGTH = 0x0514;
-//    public static final int TAG_UNKNOWN_1 = 0x0515;
-    public static final int TAG_MAKERNOTE_THUMB_VERSION = 0x2000;
+    public static final IntegerKey TAG_MAKERNOTE_THUMB_OFFSET = new IntegerKey(0x0513);
+    public static final IntegerKey TAG_MAKERNOTE_THUMB_LENGTH = new IntegerKey(0x0514);
+//    public static final IntegerKey TAG_UNKNOWN_1 = new IntegerKey(0x0515);
+    public static final IntegerKey TAG_MAKERNOTE_THUMB_VERSION = new IntegerKey(0x2000);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -64,7 +65,7 @@ public class SonyType6MakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

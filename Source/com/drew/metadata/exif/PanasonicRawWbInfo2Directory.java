@@ -23,6 +23,7 @@ package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -34,33 +35,33 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PanasonicRawWbInfo2Directory extends Directory
+public class PanasonicRawWbInfo2Directory extends Directory<IntegerKey>
 {
-    public static final int TagNumWbEntries = 0;
+    public static final IntegerKey TagNumWbEntries = new IntegerKey(0);
 
-    public static final int TagWbType1 = 1;
-    public static final int TagWbRgbLevels1 = 2;
+    public static final IntegerKey TagWbType1 = new IntegerKey(1);
+    public static final IntegerKey TagWbRgbLevels1 = new IntegerKey(2);
 
-    public static final int TagWbType2 = 5;
-    public static final int TagWbRgbLevels2 = 6;
+    public static final IntegerKey TagWbType2 = new IntegerKey(5);
+    public static final IntegerKey TagWbRgbLevels2 = new IntegerKey(6);
 
-    public static final int TagWbType3 = 9;
-    public static final int TagWbRgbLevels3 = 10;
+    public static final IntegerKey TagWbType3 = new IntegerKey(9);
+    public static final IntegerKey TagWbRgbLevels3 = new IntegerKey(10);
 
-    public static final int TagWbType4 = 13;
-    public static final int TagWbRgbLevels4 = 14;
+    public static final IntegerKey TagWbType4 = new IntegerKey(13);
+    public static final IntegerKey TagWbRgbLevels4 = new IntegerKey(14);
 
-    public static final int TagWbType5 = 17;
-    public static final int TagWbRgbLevels5 = 18;
+    public static final IntegerKey TagWbType5 = new IntegerKey(17);
+    public static final IntegerKey TagWbRgbLevels5 = new IntegerKey(18);
 
-    public static final int TagWbType6 = 21;
-    public static final int TagWbRgbLevels6 = 22;
+    public static final IntegerKey TagWbType6 = new IntegerKey(21);
+    public static final IntegerKey TagWbRgbLevels6 = new IntegerKey(22);
 
-    public static final int TagWbType7 = 25;
-    public static final int TagWbRgbLevels7 = 26;
+    public static final IntegerKey TagWbType7 = new IntegerKey(25);
+    public static final IntegerKey TagWbRgbLevels7 = new IntegerKey(26);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -96,7 +97,7 @@ public class PanasonicRawWbInfo2Directory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

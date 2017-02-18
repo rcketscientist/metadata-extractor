@@ -22,6 +22,7 @@ package com.drew.metadata.icc;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -30,82 +31,82 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class IccDirectory extends Directory
+public class IccDirectory extends Directory<IntegerKey>
 {
     // These (smaller valued) tags have an integer value that's equal to their offset within the ICC data buffer.
 
-    public static final int TAG_PROFILE_BYTE_COUNT = 0;
-    public static final int TAG_CMM_TYPE = 4;
-    public static final int TAG_PROFILE_VERSION = 8;
-    public static final int TAG_PROFILE_CLASS = 12;
-    public static final int TAG_COLOR_SPACE = 16;
-    public static final int TAG_PROFILE_CONNECTION_SPACE = 20;
-    public static final int TAG_PROFILE_DATETIME = 24;
-    public static final int TAG_SIGNATURE = 36;
-    public static final int TAG_PLATFORM = 40;
-    public static final int TAG_CMM_FLAGS = 44;
-    public static final int TAG_DEVICE_MAKE = 48;
-    public static final int TAG_DEVICE_MODEL = 52;
-    public static final int TAG_DEVICE_ATTR = 56;
-    public static final int TAG_RENDERING_INTENT = 64;
-    public static final int TAG_XYZ_VALUES = 68;
-    public static final int TAG_PROFILE_CREATOR = 80;
-    public static final int TAG_TAG_COUNT = 128;
+    public static final IntegerKey TAG_PROFILE_BYTE_COUNT = new IntegerKey(0);
+    public static final IntegerKey TAG_CMM_TYPE = new IntegerKey(4);
+    public static final IntegerKey TAG_PROFILE_VERSION = new IntegerKey(8);
+    public static final IntegerKey TAG_PROFILE_CLASS = new IntegerKey(12);
+    public static final IntegerKey TAG_COLOR_SPACE = new IntegerKey(16);
+    public static final IntegerKey TAG_PROFILE_CONNECTION_SPACE = new IntegerKey(20);
+    public static final IntegerKey TAG_PROFILE_DATETIME = new IntegerKey(24);
+    public static final IntegerKey TAG_SIGNATURE = new IntegerKey(36);
+    public static final IntegerKey TAG_PLATFORM = new IntegerKey(40);
+    public static final IntegerKey TAG_CMM_FLAGS = new IntegerKey(44);
+    public static final IntegerKey TAG_DEVICE_MAKE = new IntegerKey(48);
+    public static final IntegerKey TAG_DEVICE_MODEL = new IntegerKey(52);
+    public static final IntegerKey TAG_DEVICE_ATTR = new IntegerKey(56);
+    public static final IntegerKey TAG_RENDERING_INTENT = new IntegerKey(64);
+    public static final IntegerKey TAG_XYZ_VALUES = new IntegerKey(68);
+    public static final IntegerKey TAG_PROFILE_CREATOR = new IntegerKey(80);
+    public static final IntegerKey TAG_TAG_COUNT = new IntegerKey(128);
 
     // These tag values
 
-    public static final int TAG_TAG_A2B0 = 0x41324230;
-    public static final int TAG_TAG_A2B1 = 0x41324231;
-    public static final int TAG_TAG_A2B2 = 0x41324232;
-    public static final int TAG_TAG_bXYZ = 0x6258595A;
-    public static final int TAG_TAG_bTRC = 0x62545243;
-    public static final int TAG_TAG_B2A0 = 0x42324130;
-    public static final int TAG_TAG_B2A1 = 0x42324131;
-    public static final int TAG_TAG_B2A2 = 0x42324132;
-    public static final int TAG_TAG_calt = 0x63616C74;
-    public static final int TAG_TAG_targ = 0x74617267;
-    public static final int TAG_TAG_chad = 0x63686164;
-    public static final int TAG_TAG_chrm = 0x6368726D;
-    public static final int TAG_TAG_cprt = 0x63707274;
-    public static final int TAG_TAG_crdi = 0x63726469;
-    public static final int TAG_TAG_dmnd = 0x646D6E64;
-    public static final int TAG_TAG_dmdd = 0x646D6464;
-    public static final int TAG_TAG_devs = 0x64657673;
-    public static final int TAG_TAG_gamt = 0x67616D74;
-    public static final int TAG_TAG_kTRC = 0x6B545243;
-    public static final int TAG_TAG_gXYZ = 0x6758595A;
-    public static final int TAG_TAG_gTRC = 0x67545243;
-    public static final int TAG_TAG_lumi = 0x6C756D69;
-    public static final int TAG_TAG_meas = 0x6D656173;
-    public static final int TAG_TAG_bkpt = 0x626B7074;
-    public static final int TAG_TAG_wtpt = 0x77747074;
-    public static final int TAG_TAG_ncol = 0x6E636F6C;
-    public static final int TAG_TAG_ncl2 = 0x6E636C32;
-    public static final int TAG_TAG_resp = 0x72657370;
-    public static final int TAG_TAG_pre0 = 0x70726530;
-    public static final int TAG_TAG_pre1 = 0x70726531;
-    public static final int TAG_TAG_pre2 = 0x70726532;
-    public static final int TAG_TAG_desc = 0x64657363;
-    public static final int TAG_TAG_pseq = 0x70736571;
-    public static final int TAG_TAG_psd0 = 0x70736430;
-    public static final int TAG_TAG_psd1 = 0x70736431;
-    public static final int TAG_TAG_psd2 = 0x70736432;
-    public static final int TAG_TAG_psd3 = 0x70736433;
-    public static final int TAG_TAG_ps2s = 0x70733273;
-    public static final int TAG_TAG_ps2i = 0x70733269;
-    public static final int TAG_TAG_rXYZ = 0x7258595A;
-    public static final int TAG_TAG_rTRC = 0x72545243;
-    public static final int TAG_TAG_scrd = 0x73637264;
-    public static final int TAG_TAG_scrn = 0x7363726E;
-    public static final int TAG_TAG_tech = 0x74656368;
-    public static final int TAG_TAG_bfd = 0x62666420;
-    public static final int TAG_TAG_vued = 0x76756564;
-    public static final int TAG_TAG_view = 0x76696577;
+    public static final IntegerKey TAG_TAG_A2B0 = new IntegerKey(0x41324230);
+    public static final IntegerKey TAG_TAG_A2B1 = new IntegerKey(0x41324231);
+    public static final IntegerKey TAG_TAG_A2B2 = new IntegerKey(0x41324232);
+    public static final IntegerKey TAG_TAG_bXYZ = new IntegerKey(0x6258595A);
+    public static final IntegerKey TAG_TAG_bTRC = new IntegerKey(0x62545243);
+    public static final IntegerKey TAG_TAG_B2A0 = new IntegerKey(0x42324130);
+    public static final IntegerKey TAG_TAG_B2A1 = new IntegerKey(0x42324131);
+    public static final IntegerKey TAG_TAG_B2A2 = new IntegerKey(0x42324132);
+    public static final IntegerKey TAG_TAG_calt = new IntegerKey(0x63616C74);
+    public static final IntegerKey TAG_TAG_targ = new IntegerKey(0x74617267);
+    public static final IntegerKey TAG_TAG_chad = new IntegerKey(0x63686164);
+    public static final IntegerKey TAG_TAG_chrm = new IntegerKey(0x6368726D);
+    public static final IntegerKey TAG_TAG_cprt = new IntegerKey(0x63707274);
+    public static final IntegerKey TAG_TAG_crdi = new IntegerKey(0x63726469);
+    public static final IntegerKey TAG_TAG_dmnd = new IntegerKey(0x646D6E64);
+    public static final IntegerKey TAG_TAG_dmdd = new IntegerKey(0x646D6464);
+    public static final IntegerKey TAG_TAG_devs = new IntegerKey(0x64657673);
+    public static final IntegerKey TAG_TAG_gamt = new IntegerKey(0x67616D74);
+    public static final IntegerKey TAG_TAG_kTRC = new IntegerKey(0x6B545243);
+    public static final IntegerKey TAG_TAG_gXYZ = new IntegerKey(0x6758595A);
+    public static final IntegerKey TAG_TAG_gTRC = new IntegerKey(0x67545243);
+    public static final IntegerKey TAG_TAG_lumi = new IntegerKey(0x6C756D69);
+    public static final IntegerKey TAG_TAG_meas = new IntegerKey(0x6D656173);
+    public static final IntegerKey TAG_TAG_bkpt = new IntegerKey(0x626B7074);
+    public static final IntegerKey TAG_TAG_wtpt = new IntegerKey(0x77747074);
+    public static final IntegerKey TAG_TAG_ncol = new IntegerKey(0x6E636F6C);
+    public static final IntegerKey TAG_TAG_ncl2 = new IntegerKey(0x6E636C32);
+    public static final IntegerKey TAG_TAG_resp = new IntegerKey(0x72657370);
+    public static final IntegerKey TAG_TAG_pre0 = new IntegerKey(0x70726530);
+    public static final IntegerKey TAG_TAG_pre1 = new IntegerKey(0x70726531);
+    public static final IntegerKey TAG_TAG_pre2 = new IntegerKey(0x70726532);
+    public static final IntegerKey TAG_TAG_desc = new IntegerKey(0x64657363);
+    public static final IntegerKey TAG_TAG_pseq = new IntegerKey(0x70736571);
+    public static final IntegerKey TAG_TAG_psd0 = new IntegerKey(0x70736430);
+    public static final IntegerKey TAG_TAG_psd1 = new IntegerKey(0x70736431);
+    public static final IntegerKey TAG_TAG_psd2 = new IntegerKey(0x70736432);
+    public static final IntegerKey TAG_TAG_psd3 = new IntegerKey(0x70736433);
+    public static final IntegerKey TAG_TAG_ps2s = new IntegerKey(0x70733273);
+    public static final IntegerKey TAG_TAG_ps2i = new IntegerKey(0x70733269);
+    public static final IntegerKey TAG_TAG_rXYZ = new IntegerKey(0x7258595A);
+    public static final IntegerKey TAG_TAG_rTRC = new IntegerKey(0x72545243);
+    public static final IntegerKey TAG_TAG_scrd = new IntegerKey(0x73637264);
+    public static final IntegerKey TAG_TAG_scrn = new IntegerKey(0x7363726E);
+    public static final IntegerKey TAG_TAG_tech = new IntegerKey(0x74656368);
+    public static final IntegerKey TAG_TAG_bfd = new IntegerKey(0x62666420);
+    public static final IntegerKey TAG_TAG_vued = new IntegerKey(0x76756564);
+    public static final IntegerKey TAG_TAG_view = new IntegerKey(0x76696577);
 
-    public static final int TAG_APPLE_MULTI_LANGUAGE_PROFILE_NAME = 0x6473636d;
+    public static final IntegerKey TAG_APPLE_MULTI_LANGUAGE_PROFILE_NAME = new IntegerKey(0x6473636d);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_PROFILE_BYTE_COUNT, "Profile Size");
@@ -189,7 +190,7 @@ public class IccDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

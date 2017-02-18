@@ -22,6 +22,7 @@ package com.drew.metadata.webp;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -29,15 +30,15 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class WebpDirectory extends Directory
+public class WebpDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_IMAGE_HEIGHT = 1;
-    public static final int TAG_IMAGE_WIDTH = 2;
-    public static final int TAG_HAS_ALPHA = 3;
-    public static final int TAG_IS_ANIMATION = 4;
+    public static final IntegerKey TAG_IMAGE_HEIGHT = new IntegerKey(1);
+    public static final IntegerKey TAG_IMAGE_WIDTH = new IntegerKey(2);
+    public static final IntegerKey TAG_HAS_ALPHA = new IntegerKey(3);
+    public static final IntegerKey TAG_IS_ANIMATION = new IntegerKey(4);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_IMAGE_HEIGHT, "Image Height");
@@ -60,7 +61,7 @@ public class WebpDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

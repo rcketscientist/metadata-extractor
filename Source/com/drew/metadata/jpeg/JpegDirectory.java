@@ -23,6 +23,7 @@ package com.drew.metadata.jpeg;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 import com.drew.metadata.MetadataException;
 
 import java.util.HashMap;
@@ -33,15 +34,15 @@ import java.util.HashMap;
  * @author Darrell Silver http://www.darrellsilver.com and Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class JpegDirectory extends Directory
+public class JpegDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_COMPRESSION_TYPE = -3;
+    public static final IntegerKey TAG_COMPRESSION_TYPE = new IntegerKey(-3);
     /** This is in bits/sample, usually 8 (12 and 16 not supported by most software). */
-    public static final int TAG_DATA_PRECISION = 0;
+    public static final IntegerKey TAG_DATA_PRECISION = new IntegerKey(0);
     /** The image's height.  Necessary for decoding the image, so it should always be there. */
-    public static final int TAG_IMAGE_HEIGHT = 1;
+    public static final IntegerKey TAG_IMAGE_HEIGHT = new IntegerKey(1);
     /** The image's width.  Necessary for decoding the image, so it should always be there. */
-    public static final int TAG_IMAGE_WIDTH = 3;
+    public static final IntegerKey TAG_IMAGE_WIDTH = new IntegerKey(3);
     /**
      * Usually 1 = grey scaled, 3 = color YcbCr or YIQ, 4 = color CMYK
      * Each component TAG_COMPONENT_DATA_[1-4], has the following meaning:
@@ -51,21 +52,21 @@ public class JpegDirectory extends Directory
      * <p>
      * This info is from http://www.funducode.com/freec/Fileformats/format3/format3b.htm
      */
-    public static final int TAG_NUMBER_OF_COMPONENTS = 5;
+    public static final IntegerKey TAG_NUMBER_OF_COMPONENTS =  new IntegerKey(5);
 
     // NOTE!  Component tag type int values must increment in steps of 1
 
     /** the first of a possible 4 color components.  Number of components specified in TAG_NUMBER_OF_COMPONENTS. */
-    public static final int TAG_COMPONENT_DATA_1 = 6;
+    public static final IntegerKey TAG_COMPONENT_DATA_1 =  new IntegerKey(6);
     /** the second of a possible 4 color components.  Number of components specified in TAG_NUMBER_OF_COMPONENTS. */
-    public static final int TAG_COMPONENT_DATA_2 = 7;
+    public static final IntegerKey TAG_COMPONENT_DATA_2 =  new IntegerKey(7);
     /** the third of a possible 4 color components.  Number of components specified in TAG_NUMBER_OF_COMPONENTS. */
-    public static final int TAG_COMPONENT_DATA_3 = 8;
+    public static final IntegerKey TAG_COMPONENT_DATA_3 =  new IntegerKey(8);
     /** the fourth of a possible 4 color components.  Number of components specified in TAG_NUMBER_OF_COMPONENTS. */
-    public static final int TAG_COMPONENT_DATA_4 = 9;
+    public static final IntegerKey TAG_COMPONENT_DATA_4 =  new IntegerKey(9);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_COMPRESSION_TYPE, "Compression Type");
@@ -93,7 +94,7 @@ public class JpegDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }
@@ -106,8 +107,14 @@ public class JpegDirectory extends Directory
     @Nullable
     public JpegComponent getComponent(int componentNumber)
     {
-        int tagType = JpegDirectory.TAG_COMPONENT_DATA_1 + componentNumber;
-        return (JpegComponent)getObject(tagType);
+        switch(componentNumber)
+        {
+            case 0: return (JpegComponent) getObject(TAG_COMPONENT_DATA_1);
+            case 1: return (JpegComponent) getObject(TAG_COMPONENT_DATA_2);
+            case 2: return (JpegComponent) getObject(TAG_COMPONENT_DATA_3);
+            case 3: return (JpegComponent) getObject(TAG_COMPONENT_DATA_4);
+            default: return null;
+        }
     }
 
     public int getImageWidth() throws MetadataException

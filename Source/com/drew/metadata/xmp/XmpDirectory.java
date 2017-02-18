@@ -27,6 +27,7 @@ import com.adobe.xmp.properties.XMPPropertyInfo;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,12 +45,12 @@ import java.util.Map;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class XmpDirectory extends Directory
+public class XmpDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_XMP_VALUE_COUNT = 0xFFFF;
+    public static final IntegerKey TAG_XMP_VALUE_COUNT = new IntegerKey(0xFFFF);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_XMP_VALUE_COUNT, "XMP Value Count");
@@ -72,7 +73,7 @@ public class XmpDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

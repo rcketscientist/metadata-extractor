@@ -24,6 +24,7 @@ package com.drew.metadata.photoshop;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -34,99 +35,99 @@ import java.util.HashMap;
  * @author Yuri Binev
  */
 @SuppressWarnings("WeakerAccess")
-public class PhotoshopDirectory extends Directory
+public class PhotoshopDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_CHANNELS_ROWS_COLUMNS_DEPTH_MODE                  = 0x03E8;
-    public static final int TAG_MAC_PRINT_INFO                                    = 0x03E9;
-    public static final int TAG_XML                                               = 0x03EA;
-    public static final int TAG_INDEXED_COLOR_TABLE                               = 0x03EB;
-    public static final int TAG_RESOLUTION_INFO                                   = 0x03ED;
-    public static final int TAG_ALPHA_CHANNELS                                    = 0x03EE;
-    public static final int TAG_DISPLAY_INFO_OBSOLETE                             = 0x03EF;
-    public static final int TAG_CAPTION                                           = 0x03F0;
-    public static final int TAG_BORDER_INFORMATION                                = 0x03F1;
-    public static final int TAG_BACKGROUND_COLOR                                  = 0x03F2;
-    public static final int TAG_PRINT_FLAGS                                       = 0x03F3;
-    public static final int TAG_GRAYSCALE_AND_MULTICHANNEL_HALFTONING_INFORMATION = 0x03F4;
-    public static final int TAG_COLOR_HALFTONING_INFORMATION                      = 0x03F5;
-    public static final int TAG_DUOTONE_HALFTONING_INFORMATION                    = 0x03F6;
-    public static final int TAG_GRAYSCALE_AND_MULTICHANNEL_TRANSFER_FUNCTION      = 0x03F7;
-    public static final int TAG_COLOR_TRANSFER_FUNCTIONS                          = 0x03F8;
-    public static final int TAG_DUOTONE_TRANSFER_FUNCTIONS                        = 0x03F9;
-    public static final int TAG_DUOTONE_IMAGE_INFORMATION                         = 0x03FA;
-    public static final int TAG_EFFECTIVE_BLACK_AND_WHITE_VALUES                  = 0x03FB;
+    public static final IntegerKey TAG_CHANNELS_ROWS_COLUMNS_DEPTH_MODE                  = new IntegerKey(0x03E8);
+    public static final IntegerKey TAG_MAC_PRINT_INFO                                    = new IntegerKey(0x03E9);
+    public static final IntegerKey TAG_XML                                               = new IntegerKey(0x03EA);
+    public static final IntegerKey TAG_INDEXED_COLOR_TABLE                               = new IntegerKey(0x03EB);
+    public static final IntegerKey TAG_RESOLUTION_INFO                                   = new IntegerKey(0x03ED);
+    public static final IntegerKey TAG_ALPHA_CHANNELS                                    = new IntegerKey(0x03EE);
+    public static final IntegerKey TAG_DISPLAY_INFO_OBSOLETE                             = new IntegerKey(0x03EF);
+    public static final IntegerKey TAG_CAPTION                                           = new IntegerKey(0x03F0);
+    public static final IntegerKey TAG_BORDER_INFORMATION                                = new IntegerKey(0x03F1);
+    public static final IntegerKey TAG_BACKGROUND_COLOR                                  = new IntegerKey(0x03F2);
+    public static final IntegerKey TAG_PRINT_FLAGS                                       = new IntegerKey(0x03F3);
+    public static final IntegerKey TAG_GRAYSCALE_AND_MULTICHANNEL_HALFTONING_INFORMATION = new IntegerKey(0x03F4);
+    public static final IntegerKey TAG_COLOR_HALFTONING_INFORMATION                      = new IntegerKey(0x03F5);
+    public static final IntegerKey TAG_DUOTONE_HALFTONING_INFORMATION                    = new IntegerKey(0x03F6);
+    public static final IntegerKey TAG_GRAYSCALE_AND_MULTICHANNEL_TRANSFER_FUNCTION      = new IntegerKey(0x03F7);
+    public static final IntegerKey TAG_COLOR_TRANSFER_FUNCTIONS                          = new IntegerKey(0x03F8);
+    public static final IntegerKey TAG_DUOTONE_TRANSFER_FUNCTIONS                        = new IntegerKey(0x03F9);
+    public static final IntegerKey TAG_DUOTONE_IMAGE_INFORMATION                         = new IntegerKey(0x03FA);
+    public static final IntegerKey TAG_EFFECTIVE_BLACK_AND_WHITE_VALUES                  = new IntegerKey(0x03FB);
     // OBSOLETE                                                                     0x03FC
-    public static final int TAG_EPS_OPTIONS                                       = 0x03FD;
-    public static final int TAG_QUICK_MASK_INFORMATION                            = 0x03FE;
+    public static final IntegerKey TAG_EPS_OPTIONS                                       = new IntegerKey(0x03FD);
+    public static final IntegerKey TAG_QUICK_MASK_INFORMATION                            = new IntegerKey(0x03FE);
     // OBSOLETE                                                                     0x03FF
-    public static final int TAG_LAYER_STATE_INFORMATION                           = 0x0400;
+    public static final IntegerKey TAG_LAYER_STATE_INFORMATION                           = new IntegerKey(0x0400);
     // Working path (not saved)                                                     0x0401
-    public static final int TAG_LAYERS_GROUP_INFORMATION                          = 0x0402;
+    public static final IntegerKey TAG_LAYERS_GROUP_INFORMATION                          = new IntegerKey(0x0402);
     // OBSOLETE                                                                     0x0403
-    public static final int TAG_IPTC                                              = 0x0404;
-    public static final int TAG_IMAGE_MODE_FOR_RAW_FORMAT_FILES                   = 0x0405;
-    public static final int TAG_JPEG_QUALITY                                      = 0x0406;
-    public static final int TAG_GRID_AND_GUIDES_INFORMATION                       = 0x0408;
-    public static final int TAG_THUMBNAIL_OLD                                     = 0x0409;
-    public static final int TAG_COPYRIGHT                                         = 0x040A;
-    public static final int TAG_URL                                               = 0x040B;
-    public static final int TAG_THUMBNAIL                                         = 0x040C;
-    public static final int TAG_GLOBAL_ANGLE                                      = 0x040D;
+    public static final IntegerKey TAG_IPTC                                              = new IntegerKey(0x0404);
+    public static final IntegerKey TAG_IMAGE_MODE_FOR_RAW_FORMAT_FILES                   = new IntegerKey(0x0405);
+    public static final IntegerKey TAG_JPEG_QUALITY                                      = new IntegerKey(0x0406);
+    public static final IntegerKey TAG_GRID_AND_GUIDES_INFORMATION                       = new IntegerKey(0x0408);
+    public static final IntegerKey TAG_THUMBNAIL_OLD                                     = new IntegerKey(0x0409);
+    public static final IntegerKey TAG_COPYRIGHT                                         = new IntegerKey(0x040A);
+    public static final IntegerKey TAG_URL                                               = new IntegerKey(0x040B);
+    public static final IntegerKey TAG_THUMBNAIL                                         = new IntegerKey(0x040C);
+    public static final IntegerKey TAG_GLOBAL_ANGLE                                      = new IntegerKey(0x040D);
     // OBSOLETE                                                                     0x040E
-    public static final int TAG_ICC_PROFILE_BYTES                                 = 0x040F;
-    public static final int TAG_WATERMARK                                         = 0x0410;
-    public static final int TAG_ICC_UNTAGGED_PROFILE                              = 0x0411;
-    public static final int TAG_EFFECTS_VISIBLE                                   = 0x0412;
-    public static final int TAG_SPOT_HALFTONE                                     = 0x0413;
-    public static final int TAG_SEED_NUMBER                                       = 0x0414;
-    public static final int TAG_UNICODE_ALPHA_NAMES                               = 0x0415;
-    public static final int TAG_INDEXED_COLOR_TABLE_COUNT                         = 0x0416;
-    public static final int TAG_TRANSPARENCY_INDEX                                = 0x0417;
-    public static final int TAG_GLOBAL_ALTITUDE                                   = 0x0419;
-    public static final int TAG_SLICES                                            = 0x041A;
-    public static final int TAG_WORKFLOW_URL                                      = 0x041B;
-    public static final int TAG_JUMP_TO_XPEP                                      = 0x041C;
-    public static final int TAG_ALPHA_IDENTIFIERS                                 = 0x041D;
-    public static final int TAG_URL_LIST                                          = 0x041E;
-    public static final int TAG_VERSION                                           = 0x0421;
-    public static final int TAG_EXIF_DATA_1                                       = 0x0422;
-    public static final int TAG_EXIF_DATA_3                                       = 0x0423;
-    public static final int TAG_XMP_DATA                                          = 0x0424;
-    public static final int TAG_CAPTION_DIGEST                                    = 0x0425;
-    public static final int TAG_PRINT_SCALE                                       = 0x0426;
-    public static final int TAG_PIXEL_ASPECT_RATIO                                = 0x0428;
-    public static final int TAG_LAYER_COMPS                                       = 0x0429;
-    public static final int TAG_ALTERNATE_DUOTONE_COLORS                          = 0x042A;
-    public static final int TAG_ALTERNATE_SPOT_COLORS                             = 0x042B;
-    public static final int TAG_LAYER_SELECTION_IDS                               = 0x042D;
-    public static final int TAG_HDR_TONING_INFO                                   = 0x042E;
-    public static final int TAG_PRINT_INFO                                        = 0x042F;
-    public static final int TAG_LAYER_GROUPS_ENABLED_ID                           = 0x0430;
-    public static final int TAG_COLOR_SAMPLERS                                    = 0x0431;
-    public static final int TAG_MEASUREMENT_SCALE                                 = 0x0432;
-    public static final int TAG_TIMELINE_INFORMATION                              = 0x0433;
-    public static final int TAG_SHEET_DISCLOSURE                                  = 0x0434;
-    public static final int TAG_DISPLAY_INFO                                      = 0x0435;
-    public static final int TAG_ONION_SKINS                                       = 0x0436;
-    public static final int TAG_COUNT_INFORMATION                                 = 0x0438;
-    public static final int TAG_PRINT_INFO_2                                      = 0x043A;
-    public static final int TAG_PRINT_STYLE                                       = 0x043B;
-    public static final int TAG_MAC_NSPRINTINFO                                   = 0x043C;
-    public static final int TAG_WIN_DEVMODE                                       = 0x043D;
-    public static final int TAG_AUTO_SAVE_FILE_PATH                               = 0x043E;
-    public static final int TAG_AUTO_SAVE_FORMAT                                  = 0x043F;
-    public static final int TAG_PATH_SELECTION_STATE                              = 0x0440;
+    public static final IntegerKey TAG_ICC_PROFILE_BYTES                                 = new IntegerKey(0x040F);
+    public static final IntegerKey TAG_WATERMARK                                         = new IntegerKey(0x0410);
+    public static final IntegerKey TAG_ICC_UNTAGGED_PROFILE                              = new IntegerKey(0x0411);
+    public static final IntegerKey TAG_EFFECTS_VISIBLE                                   = new IntegerKey(0x0412);
+    public static final IntegerKey TAG_SPOT_HALFTONE                                     = new IntegerKey(0x0413);
+    public static final IntegerKey TAG_SEED_NUMBER                                       = new IntegerKey(0x0414);
+    public static final IntegerKey TAG_UNICODE_ALPHA_NAMES                               = new IntegerKey(0x0415);
+    public static final IntegerKey TAG_INDEXED_COLOR_TABLE_COUNT                         = new IntegerKey(0x0416);
+    public static final IntegerKey TAG_TRANSPARENCY_INDEX                                = new IntegerKey(0x0417);
+    public static final IntegerKey TAG_GLOBAL_ALTITUDE                                   = new IntegerKey(0x0419);
+    public static final IntegerKey TAG_SLICES                                            = new IntegerKey(0x041A);
+    public static final IntegerKey TAG_WORKFLOW_URL                                      = new IntegerKey(0x041B);
+    public static final IntegerKey TAG_JUMP_TO_XPEP                                      = new IntegerKey(0x041C);
+    public static final IntegerKey TAG_ALPHA_IDENTIFIERS                                 = new IntegerKey(0x041D);
+    public static final IntegerKey TAG_URL_LIST                                          = new IntegerKey(0x041E);
+    public static final IntegerKey TAG_VERSION                                           = new IntegerKey(0x0421);
+    public static final IntegerKey TAG_EXIF_DATA_1                                       = new IntegerKey(0x0422);
+    public static final IntegerKey TAG_EXIF_DATA_3                                       = new IntegerKey(0x0423);
+    public static final IntegerKey TAG_XMP_DATA                                          = new IntegerKey(0x0424);
+    public static final IntegerKey TAG_CAPTION_DIGEST                                    = new IntegerKey(0x0425);
+    public static final IntegerKey TAG_PRINT_SCALE                                       = new IntegerKey(0x0426);
+    public static final IntegerKey TAG_PIXEL_ASPECT_RATIO                                = new IntegerKey(0x0428);
+    public static final IntegerKey TAG_LAYER_COMPS                                       = new IntegerKey(0x0429);
+    public static final IntegerKey TAG_ALTERNATE_DUOTONE_COLORS                          = new IntegerKey(0x042A);
+    public static final IntegerKey TAG_ALTERNATE_SPOT_COLORS                             = new IntegerKey(0x042B);
+    public static final IntegerKey TAG_LAYER_SELECTION_IDS                               = new IntegerKey(0x042D);
+    public static final IntegerKey TAG_HDR_TONING_INFO                                   = new IntegerKey(0x042E);
+    public static final IntegerKey TAG_PRINT_INFO                                        = new IntegerKey(0x042F);
+    public static final IntegerKey TAG_LAYER_GROUPS_ENABLED_ID                           = new IntegerKey(0x0430);
+    public static final IntegerKey TAG_COLOR_SAMPLERS                                    = new IntegerKey(0x0431);
+    public static final IntegerKey TAG_MEASUREMENT_SCALE                                 = new IntegerKey(0x0432);
+    public static final IntegerKey TAG_TIMELINE_INFORMATION                              = new IntegerKey(0x0433);
+    public static final IntegerKey TAG_SHEET_DISCLOSURE                                  = new IntegerKey(0x0434);
+    public static final IntegerKey TAG_DISPLAY_INFO                                      = new IntegerKey(0x0435);
+    public static final IntegerKey TAG_ONION_SKINS                                       = new IntegerKey(0x0436);
+    public static final IntegerKey TAG_COUNT_INFORMATION                                 = new IntegerKey(0x0438);
+    public static final IntegerKey TAG_PRINT_INFO_2                                      = new IntegerKey(0x043A);
+    public static final IntegerKey TAG_PRINT_STYLE                                       = new IntegerKey(0x043B);
+    public static final IntegerKey TAG_MAC_NSPRINTINFO                                   = new IntegerKey(0x043C);
+    public static final IntegerKey TAG_WIN_DEVMODE                                       = new IntegerKey(0x043D);
+    public static final IntegerKey TAG_AUTO_SAVE_FILE_PATH                               = new IntegerKey(0x043E);
+    public static final IntegerKey TAG_AUTO_SAVE_FORMAT                                  = new IntegerKey(0x043F);
+    public static final IntegerKey TAG_PATH_SELECTION_STATE                              = new IntegerKey(0x0440);
     // CLIPPING PATHS                                                               0x07D0 -> 0x0BB6
-    public static final int TAG_CLIPPING_PATH_NAME                                = 0x0BB7;
-    public static final int TAG_ORIGIN_PATH_INFO                                  = 0x0BB8;
+    public static final IntegerKey TAG_CLIPPING_PATH_NAME                                = new IntegerKey(0x0BB7);
+    public static final IntegerKey TAG_ORIGIN_PATH_INFO                                  = new IntegerKey(0x0BB8);
     // PLUG IN RESOURCES                                                            0x0FA0 -> 0x1387
-    public static final int TAG_IMAGE_READY_VARIABLES_XML                         = 0x1B58;
-    public static final int TAG_IMAGE_READY_DATA_SETS                             = 0x1B59;
-    public static final int TAG_LIGHTROOM_WORKFLOW                                = 0x1F40;
-    public static final int TAG_PRINT_FLAGS_INFO                                  = 0x2710;
+    public static final IntegerKey TAG_IMAGE_READY_VARIABLES_XML                         = new IntegerKey(0x1B58);
+    public static final IntegerKey TAG_IMAGE_READY_DATA_SETS                             = new IntegerKey(0x1B59);
+    public static final IntegerKey TAG_LIGHTROOM_WORKFLOW                                = new IntegerKey(0x1F40);
+    public static final IntegerKey TAG_PRINT_FLAGS_INFO                                  = new IntegerKey(0x2710);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_CHANNELS_ROWS_COLUMNS_DEPTH_MODE, "Channels, Rows, Columns, Depth, Mode");
@@ -226,7 +227,7 @@ public class PhotoshopDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

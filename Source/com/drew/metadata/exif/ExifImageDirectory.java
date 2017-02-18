@@ -21,6 +21,7 @@
 package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -36,7 +37,7 @@ import java.util.HashMap;
 public class ExifImageDirectory extends ExifDirectoryBase
 {
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -57,7 +58,7 @@ public class ExifImageDirectory extends ExifDirectoryBase
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

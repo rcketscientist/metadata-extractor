@@ -42,7 +42,7 @@ import java.util.List;
  *
  * @author Drew Noakes https://drewnoakes.com
  */
-public class TagDescriptor<T extends Directory>
+public class TagDescriptor<T extends Directory, U extends Key>
 {
     @NotNull
     protected final T _directory;
@@ -63,7 +63,7 @@ public class TagDescriptor<T extends Directory>
      *         <code>null</code> if the tag hasn't been defined.
      */
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(U tagType)
     {
         Object object = _directory.getObject(tagType);
 
@@ -124,20 +124,20 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getVersionBytesDescription(final int tagType, int majorDigits)
+    protected String getVersionBytesDescription(final U tagType, int majorDigits)
     {
         int[] values = _directory.getIntArray(tagType);
         return values == null ? null : convertBytesToVersionString(values, majorDigits);
     }
 
     @Nullable
-    protected String getIndexedDescription(final int tagType, @NotNull String... descriptions)
+    protected String getIndexedDescription(final U tagType, @NotNull String... descriptions)
     {
         return getIndexedDescription(tagType, 0, descriptions);
     }
 
     @Nullable
-    protected String getIndexedDescription(final int tagType, final int baseIndex, @NotNull String... descriptions)
+    protected String getIndexedDescription(final U tagType, final int baseIndex, @NotNull String... descriptions)
     {
         final Integer index = _directory.getInteger(tagType);
         if (index == null)
@@ -152,7 +152,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getByteLengthDescription(final int tagType)
+    protected String getByteLengthDescription(final U tagType)
     {
         byte[] bytes = _directory.getByteArray(tagType);
         if (bytes == null)
@@ -161,7 +161,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getSimpleRational(final int tagType)
+    protected String getSimpleRational(final U tagType)
     {
         Rational value = _directory.getRational(tagType);
         if (value == null)
@@ -170,7 +170,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getDecimalRational(final int tagType, final int decimalPlaces)
+    protected String getDecimalRational(final U tagType, final int decimalPlaces)
     {
         Rational value = _directory.getRational(tagType);
         if (value == null)
@@ -179,7 +179,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getFormattedInt(final int tagType, @NotNull final String format)
+    protected String getFormattedInt(final U tagType, @NotNull final String format)
     {
         Integer value = _directory.getInteger(tagType);
         if (value == null)
@@ -188,7 +188,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getFormattedFloat(final int tagType, @NotNull final String format)
+    protected String getFormattedFloat(final U tagType, @NotNull final String format)
     {
         Float value = _directory.getFloatObject(tagType);
         if (value == null)
@@ -197,7 +197,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getFormattedString(final int tagType, @NotNull final String format)
+    protected String getFormattedString(final U tagType, @NotNull final String format)
     {
         String value = _directory.getString(tagType);
         if (value == null)
@@ -206,7 +206,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getEpochTimeDescription(final int tagType)
+    protected String getEpochTimeDescription(final U tagType)
     {
         // TODO have observed a byte[8] here which is likely some kind of date (ticks as long?)
         Long value = _directory.getLongObject(tagType);
@@ -219,7 +219,7 @@ public class TagDescriptor<T extends Directory>
      * LSB first. Labels may be null, a String, or a String[2] with (low label,high label) values.
      */
     @Nullable
-    protected String getBitFlagDescription(final int tagType, @NotNull final Object... labels)
+    protected String getBitFlagDescription(final U tagType, @NotNull final Object... labels)
     {
         Integer value = _directory.getInteger(tagType);
 
@@ -249,7 +249,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String get7BitStringFromBytes(final int tagType)
+    protected String get7BitStringFromBytes(final U tagType)
     {
         final byte[] bytes = _directory.getByteArray(tagType);
 
@@ -269,7 +269,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getStringFromBytes(int tag, Charset cs)
+    protected String getStringFromBytes(U tag, Charset cs)
     {
         byte[] values = _directory.getByteArray(tag);
 
@@ -284,7 +284,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getRationalOrDoubleString(int tagType)
+    protected String getRationalOrDoubleString(U tagType)
     {
         Rational rational = _directory.getRational(tagType);
         if (rational != null)
@@ -317,7 +317,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getLensSpecificationDescription(int tag)
+    protected String getLensSpecificationDescription(U tag)
     {
         Rational[] values = _directory.getRationalArray(tag);
 
@@ -347,7 +347,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getOrientationDescription(int tag)
+    protected String getOrientationDescription(U tag)
     {
         return getIndexedDescription(tag, 1,
             "Top, left side (Horizontal / normal)",
@@ -361,7 +361,7 @@ public class TagDescriptor<T extends Directory>
     }
 
     @Nullable
-    protected String getShutterSpeedDescription(int tag)
+    protected String getShutterSpeedDescription(U tag)
     {
         // I believe this method to now be stable, but am leaving some alternative snippets of
         // code in here, to assist anyone who's looking into this (given that I don't have a public CVS).
@@ -458,9 +458,11 @@ public class TagDescriptor<T extends Directory>
             case 24:
                 return "ISO Studio Tungsten";
             case 255:
+            default:
                 return "Other";
         }
 
-        return getDescription(wbtype);
+        // TODO: AJM: Does this even make any sense???
+//        return getDescription(wbtype);
     }
 }

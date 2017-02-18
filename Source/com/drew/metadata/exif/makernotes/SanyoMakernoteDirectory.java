@@ -23,6 +23,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -32,42 +33,42 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class SanyoMakernoteDirectory extends Directory
+public class SanyoMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_MAKERNOTE_OFFSET = 0x00ff;
+    public static final IntegerKey TAG_MAKERNOTE_OFFSET = new IntegerKey(0x00ff);
 
-    public static final int TAG_SANYO_THUMBNAIL = 0x0100;
+    public static final IntegerKey TAG_SANYO_THUMBNAIL = new IntegerKey(0x0100);
 
-    public static final int TAG_SPECIAL_MODE = 0x0200;
-    public static final int TAG_SANYO_QUALITY = 0x0201;
-    public static final int TAG_MACRO = 0x0202;
-    public static final int TAG_DIGITAL_ZOOM = 0x0204;
-    public static final int TAG_SOFTWARE_VERSION = 0x0207;
-    public static final int TAG_PICT_INFO = 0x0208;
-    public static final int TAG_CAMERA_ID = 0x0209;
-    public static final int TAG_SEQUENTIAL_SHOT = 0x020e;
-    public static final int TAG_WIDE_RANGE = 0x020f;
-    public static final int TAG_COLOR_ADJUSTMENT_MODE = 0x0210;
-    public static final int TAG_QUICK_SHOT = 0x0213;
-    public static final int TAG_SELF_TIMER = 0x0214;
-    public static final int TAG_VOICE_MEMO = 0x0216;
-    public static final int TAG_RECORD_SHUTTER_RELEASE = 0x0217;
-    public static final int TAG_FLICKER_REDUCE = 0x0218;
-    public static final int TAG_OPTICAL_ZOOM_ON = 0x0219;
-    public static final int TAG_DIGITAL_ZOOM_ON = 0x021b;
-    public static final int TAG_LIGHT_SOURCE_SPECIAL = 0x021d;
-    public static final int TAG_RESAVED = 0x021e;
-    public static final int TAG_SCENE_SELECT = 0x021f;
-    public static final int TAG_MANUAL_FOCUS_DISTANCE_OR_FACE_INFO = 0x0223;
-    public static final int TAG_SEQUENCE_SHOT_INTERVAL = 0x0224;
-    public static final int TAG_FLASH_MODE = 0x0225;
+    public static final IntegerKey TAG_SPECIAL_MODE = new IntegerKey(0x0200);
+    public static final IntegerKey TAG_SANYO_QUALITY = new IntegerKey(0x0201);
+    public static final IntegerKey TAG_MACRO = new IntegerKey(0x0202);
+    public static final IntegerKey TAG_DIGITAL_ZOOM = new IntegerKey(0x0204);
+    public static final IntegerKey TAG_SOFTWARE_VERSION = new IntegerKey(0x0207);
+    public static final IntegerKey TAG_PICT_INFO = new IntegerKey(0x0208);
+    public static final IntegerKey TAG_CAMERA_ID = new IntegerKey(0x0209);
+    public static final IntegerKey TAG_SEQUENTIAL_SHOT = new IntegerKey(0x020e);
+    public static final IntegerKey TAG_WIDE_RANGE = new IntegerKey(0x020f);
+    public static final IntegerKey TAG_COLOR_ADJUSTMENT_MODE = new IntegerKey(0x0210);
+    public static final IntegerKey TAG_QUICK_SHOT = new IntegerKey(0x0213);
+    public static final IntegerKey TAG_SELF_TIMER = new IntegerKey(0x0214);
+    public static final IntegerKey TAG_VOICE_MEMO = new IntegerKey(0x0216);
+    public static final IntegerKey TAG_RECORD_SHUTTER_RELEASE = new IntegerKey(0x0217);
+    public static final IntegerKey TAG_FLICKER_REDUCE = new IntegerKey(0x0218);
+    public static final IntegerKey TAG_OPTICAL_ZOOM_ON = new IntegerKey(0x0219);
+    public static final IntegerKey TAG_DIGITAL_ZOOM_ON = new IntegerKey(0x021b);
+    public static final IntegerKey TAG_LIGHT_SOURCE_SPECIAL = new IntegerKey(0x021d);
+    public static final IntegerKey TAG_RESAVED = new IntegerKey(0x021e);
+    public static final IntegerKey TAG_SCENE_SELECT = new IntegerKey(0x021f);
+    public static final IntegerKey TAG_MANUAL_FOCUS_DISTANCE_OR_FACE_INFO = new IntegerKey(0x0223);
+    public static final IntegerKey TAG_SEQUENCE_SHOT_INTERVAL = new IntegerKey(0x0224);
+    public static final IntegerKey TAG_FLASH_MODE = new IntegerKey(0x0225);
 
-    public static final int TAG_PRINT_IMAGE_MATCHING_INFO = 0x0E00;
+    public static final IntegerKey TAG_PRINT_IMAGE_MATCHING_INFO = new IntegerKey(0x0E00);
 
-    public static final int TAG_DATA_DUMP = 0x0f00;
+    public static final IntegerKey TAG_DATA_DUMP = new IntegerKey(0x0f00);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -118,7 +119,7 @@ public class SanyoMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

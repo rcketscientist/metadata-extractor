@@ -23,6 +23,7 @@ package com.drew.metadata.iptc;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -38,93 +39,93 @@ import java.util.List;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class IptcDirectory extends Directory
+public class IptcDirectory extends Directory<IntegerKey>
 {
     // IPTC EnvelopeRecord Tags
-    public static final int TAG_ENVELOPE_RECORD_VERSION          = 0x0100; // 0 + 0x0100
-    public static final int TAG_DESTINATION                      = 0x0105; // 5
-    public static final int TAG_FILE_FORMAT                      = 0x0114; // 20
-    public static final int TAG_FILE_VERSION                     = 0x0116; // 22
-    public static final int TAG_SERVICE_ID                       = 0x011E; // 30
-    public static final int TAG_ENVELOPE_NUMBER                  = 0x0128; // 40
-    public static final int TAG_PRODUCT_ID                       = 0x0132; // 50
-    public static final int TAG_ENVELOPE_PRIORITY                = 0x013C; // 60
-    public static final int TAG_DATE_SENT                        = 0x0146; // 70
-    public static final int TAG_TIME_SENT                        = 0x0150; // 80
-    public static final int TAG_CODED_CHARACTER_SET              = 0x015A; // 90
-    public static final int TAG_UNIQUE_OBJECT_NAME               = 0x0164; // 100
-    public static final int TAG_ARM_IDENTIFIER                   = 0x0178; // 120
-    public static final int TAG_ARM_VERSION                      = 0x017a; // 122
+    public static final IntegerKey TAG_ENVELOPE_RECORD_VERSION          = new IntegerKey(0x0100); // 0 + 0x0100
+    public static final IntegerKey TAG_DESTINATION                      = new IntegerKey(0x0105); // 5
+    public static final IntegerKey TAG_FILE_FORMAT                      = new IntegerKey(0x0114); // 20
+    public static final IntegerKey TAG_FILE_VERSION                     = new IntegerKey(0x0116); // 22
+    public static final IntegerKey TAG_SERVICE_ID                       = new IntegerKey(0x011E); // 30
+    public static final IntegerKey TAG_ENVELOPE_NUMBER                  = new IntegerKey(0x0128); // 40
+    public static final IntegerKey TAG_PRODUCT_ID                       = new IntegerKey(0x0132); // 50
+    public static final IntegerKey TAG_ENVELOPE_PRIORITY                = new IntegerKey(0x013C); // 60
+    public static final IntegerKey TAG_DATE_SENT                        = new IntegerKey(0x0146); // 70
+    public static final IntegerKey TAG_TIME_SENT                        = new IntegerKey(0x0150); // 80
+    public static final IntegerKey TAG_CODED_CHARACTER_SET              = new IntegerKey(0x015A); // 90
+    public static final IntegerKey TAG_UNIQUE_OBJECT_NAME               = new IntegerKey(0x0164); // 100
+    public static final IntegerKey TAG_ARM_IDENTIFIER                   = new IntegerKey(0x0178); // 120
+    public static final IntegerKey TAG_ARM_VERSION                      = new IntegerKey(0x017a); // 122
 
     // IPTC ApplicationRecord Tags
-    public static final int TAG_APPLICATION_RECORD_VERSION       = 0x0200; // 0 + 0x0200
-    public static final int TAG_OBJECT_TYPE_REFERENCE            = 0x0203; // 3
-    public static final int TAG_OBJECT_ATTRIBUTE_REFERENCE       = 0x0204; // 4
-    public static final int TAG_OBJECT_NAME                      = 0x0205; // 5
-    public static final int TAG_EDIT_STATUS                      = 0x0207; // 7
-    public static final int TAG_EDITORIAL_UPDATE                 = 0x0208; // 8
-    public static final int TAG_URGENCY                          = 0X020A; // 10
-    public static final int TAG_SUBJECT_REFERENCE                = 0X020C; // 12
-    public static final int TAG_CATEGORY                         = 0x020F; // 15
-    public static final int TAG_SUPPLEMENTAL_CATEGORIES          = 0x0214; // 20
-    public static final int TAG_FIXTURE_ID                       = 0x0216; // 22
-    public static final int TAG_KEYWORDS                         = 0x0219; // 25
-    public static final int TAG_CONTENT_LOCATION_CODE            = 0x021A; // 26
-    public static final int TAG_CONTENT_LOCATION_NAME            = 0x021B; // 27
-    public static final int TAG_RELEASE_DATE                     = 0X021E; // 30
-    public static final int TAG_RELEASE_TIME                     = 0x0223; // 35
-    public static final int TAG_EXPIRATION_DATE                  = 0x0225; // 37
-    public static final int TAG_EXPIRATION_TIME                  = 0x0226; // 38
-    public static final int TAG_SPECIAL_INSTRUCTIONS             = 0x0228; // 40
-    public static final int TAG_ACTION_ADVISED                   = 0x022A; // 42
-    public static final int TAG_REFERENCE_SERVICE                = 0x022D; // 45
-    public static final int TAG_REFERENCE_DATE                   = 0x022F; // 47
-    public static final int TAG_REFERENCE_NUMBER                 = 0x0232; // 50
-    public static final int TAG_DATE_CREATED                     = 0x0237; // 55
-    public static final int TAG_TIME_CREATED                     = 0X023C; // 60
-    public static final int TAG_DIGITAL_DATE_CREATED             = 0x023E; // 62
-    public static final int TAG_DIGITAL_TIME_CREATED             = 0x023F; // 63
-    public static final int TAG_ORIGINATING_PROGRAM              = 0x0241; // 65
-    public static final int TAG_PROGRAM_VERSION                  = 0x0246; // 70
-    public static final int TAG_OBJECT_CYCLE                     = 0x024B; // 75
-    public static final int TAG_BY_LINE                          = 0x0250; // 80
-    public static final int TAG_BY_LINE_TITLE                    = 0x0255; // 85
-    public static final int TAG_CITY                             = 0x025A; // 90
-    public static final int TAG_SUB_LOCATION                     = 0x025C; // 92
-    public static final int TAG_PROVINCE_OR_STATE                = 0x025F; // 95
-    public static final int TAG_COUNTRY_OR_PRIMARY_LOCATION_CODE = 0x0264; // 100
-    public static final int TAG_COUNTRY_OR_PRIMARY_LOCATION_NAME = 0x0265; // 101
-    public static final int TAG_ORIGINAL_TRANSMISSION_REFERENCE  = 0x0267; // 103
-    public static final int TAG_HEADLINE                         = 0x0269; // 105
-    public static final int TAG_CREDIT                           = 0x026E; // 110
-    public static final int TAG_SOURCE                           = 0x0273; // 115
-    public static final int TAG_COPYRIGHT_NOTICE                 = 0x0274; // 116
-    public static final int TAG_CONTACT                          = 0x0276; // 118
-    public static final int TAG_CAPTION                          = 0x0278; // 120
-    public static final int TAG_LOCAL_CAPTION                    = 0x0279; // 121
-    public static final int TAG_CAPTION_WRITER                   = 0x027A; // 122
-    public static final int TAG_RASTERIZED_CAPTION               = 0x027D; // 125
-    public static final int TAG_IMAGE_TYPE                       = 0x0282; // 130
-    public static final int TAG_IMAGE_ORIENTATION                = 0x0283; // 131
-    public static final int TAG_LANGUAGE_IDENTIFIER              = 0x0287; // 135
-    public static final int TAG_AUDIO_TYPE                       = 0x0296; // 150
-    public static final int TAG_AUDIO_SAMPLING_RATE              = 0x0297; // 151
-    public static final int TAG_AUDIO_SAMPLING_RESOLUTION        = 0x0298; // 152
-    public static final int TAG_AUDIO_DURATION                   = 0x0299; // 153
-    public static final int TAG_AUDIO_OUTCUE                     = 0x029A; // 154
+    public static final IntegerKey TAG_APPLICATION_RECORD_VERSION       = new IntegerKey(0x0200); // 0 + 0x0200
+    public static final IntegerKey TAG_OBJECT_TYPE_REFERENCE            = new IntegerKey(0x0203); // 3
+    public static final IntegerKey TAG_OBJECT_ATTRIBUTE_REFERENCE       = new IntegerKey(0x0204); // 4
+    public static final IntegerKey TAG_OBJECT_NAME                      = new IntegerKey(0x0205); // 5
+    public static final IntegerKey TAG_EDIT_STATUS                      = new IntegerKey(0x0207); // 7
+    public static final IntegerKey TAG_EDITORIAL_UPDATE                 = new IntegerKey(0x0208); // 8
+    public static final IntegerKey TAG_URGENCY                          = new IntegerKey(0X020A); // 10
+    public static final IntegerKey TAG_SUBJECT_REFERENCE                = new IntegerKey(0X020C); // 12
+    public static final IntegerKey TAG_CATEGORY                         = new IntegerKey(0x020F); // 15
+    public static final IntegerKey TAG_SUPPLEMENTAL_CATEGORIES          = new IntegerKey(0x0214); // 20
+    public static final IntegerKey TAG_FIXTURE_ID                       = new IntegerKey(0x0216); // 22
+    public static final IntegerKey TAG_KEYWORDS                         = new IntegerKey(0x0219); // 25
+    public static final IntegerKey TAG_CONTENT_LOCATION_CODE            = new IntegerKey(0x021A); // 26
+    public static final IntegerKey TAG_CONTENT_LOCATION_NAME            = new IntegerKey(0x021B); // 27
+    public static final IntegerKey TAG_RELEASE_DATE                     = new IntegerKey(0X021E); // 30
+    public static final IntegerKey TAG_RELEASE_TIME                     = new IntegerKey(0x0223); // 35
+    public static final IntegerKey TAG_EXPIRATION_DATE                  = new IntegerKey(0x0225); // 37
+    public static final IntegerKey TAG_EXPIRATION_TIME                  = new IntegerKey(0x0226); // 38
+    public static final IntegerKey TAG_SPECIAL_INSTRUCTIONS             = new IntegerKey(0x0228); // 40
+    public static final IntegerKey TAG_ACTION_ADVISED                   = new IntegerKey(0x022A); // 42
+    public static final IntegerKey TAG_REFERENCE_SERVICE                = new IntegerKey(0x022D); // 45
+    public static final IntegerKey TAG_REFERENCE_DATE                   = new IntegerKey(0x022F); // 47
+    public static final IntegerKey TAG_REFERENCE_NUMBER                 = new IntegerKey(0x0232); // 50
+    public static final IntegerKey TAG_DATE_CREATED                     = new IntegerKey(0x0237); // 55
+    public static final IntegerKey TAG_TIME_CREATED                     = new IntegerKey(0X023C); // 60
+    public static final IntegerKey TAG_DIGITAL_DATE_CREATED             = new IntegerKey(0x023E); // 62
+    public static final IntegerKey TAG_DIGITAL_TIME_CREATED             = new IntegerKey(0x023F); // 63
+    public static final IntegerKey TAG_ORIGINATING_PROGRAM              = new IntegerKey(0x0241); // 65
+    public static final IntegerKey TAG_PROGRAM_VERSION                  = new IntegerKey(0x0246); // 70
+    public static final IntegerKey TAG_OBJECT_CYCLE                     = new IntegerKey(0x024B); // 75
+    public static final IntegerKey TAG_BY_LINE                          = new IntegerKey(0x0250); // 80
+    public static final IntegerKey TAG_BY_LINE_TITLE                    = new IntegerKey(0x0255); // 85
+    public static final IntegerKey TAG_CITY                             = new IntegerKey(0x025A); // 90
+    public static final IntegerKey TAG_SUB_LOCATION                     = new IntegerKey(0x025C); // 92
+    public static final IntegerKey TAG_PROVINCE_OR_STATE                = new IntegerKey(0x025F); // 95
+    public static final IntegerKey TAG_COUNTRY_OR_PRIMARY_LOCATION_CODE = new IntegerKey(0x0264); // 100
+    public static final IntegerKey TAG_COUNTRY_OR_PRIMARY_LOCATION_NAME = new IntegerKey(0x0265); // 101
+    public static final IntegerKey TAG_ORIGINAL_TRANSMISSION_REFERENCE  = new IntegerKey(0x0267); // 103
+    public static final IntegerKey TAG_HEADLINE                         = new IntegerKey(0x0269); // 105
+    public static final IntegerKey TAG_CREDIT                           = new IntegerKey(0x026E); // 110
+    public static final IntegerKey TAG_SOURCE                           = new IntegerKey(0x0273); // 115
+    public static final IntegerKey TAG_COPYRIGHT_NOTICE                 = new IntegerKey(0x0274); // 116
+    public static final IntegerKey TAG_CONTACT                          = new IntegerKey(0x0276); // 118
+    public static final IntegerKey TAG_CAPTION                          = new IntegerKey(0x0278); // 120
+    public static final IntegerKey TAG_LOCAL_CAPTION                    = new IntegerKey(0x0279); // 121
+    public static final IntegerKey TAG_CAPTION_WRITER                   = new IntegerKey(0x027A); // 122
+    public static final IntegerKey TAG_RASTERIZED_CAPTION               = new IntegerKey(0x027D); // 125
+    public static final IntegerKey TAG_IMAGE_TYPE                       = new IntegerKey(0x0282); // 130
+    public static final IntegerKey TAG_IMAGE_ORIENTATION                = new IntegerKey(0x0283); // 131
+    public static final IntegerKey TAG_LANGUAGE_IDENTIFIER              = new IntegerKey(0x0287); // 135
+    public static final IntegerKey TAG_AUDIO_TYPE                       = new IntegerKey(0x0296); // 150
+    public static final IntegerKey TAG_AUDIO_SAMPLING_RATE              = new IntegerKey(0x0297); // 151
+    public static final IntegerKey TAG_AUDIO_SAMPLING_RESOLUTION        = new IntegerKey(0x0298); // 152
+    public static final IntegerKey TAG_AUDIO_DURATION                   = new IntegerKey(0x0299); // 153
+    public static final IntegerKey TAG_AUDIO_OUTCUE                     = new IntegerKey(0x029A); // 154
 
-    public static final int TAG_JOB_ID                           = 0x02B8; // 184
-    public static final int TAG_MASTER_DOCUMENT_ID               = 0x02B9; // 185
-    public static final int TAG_SHORT_DOCUMENT_ID                = 0x02BA; // 186
-    public static final int TAG_UNIQUE_DOCUMENT_ID               = 0x02BB; // 187
-    public static final int TAG_OWNER_ID                         = 0x02BC; // 188
+    public static final IntegerKey TAG_JOB_ID                           = new IntegerKey(0x02B8); // 184
+    public static final IntegerKey TAG_MASTER_DOCUMENT_ID               = new IntegerKey(0x02B9); // 185
+    public static final IntegerKey TAG_SHORT_DOCUMENT_ID                = new IntegerKey(0x02BA); // 186
+    public static final IntegerKey TAG_UNIQUE_DOCUMENT_ID               = new IntegerKey(0x02BB); // 187
+    public static final IntegerKey TAG_OWNER_ID                         = new IntegerKey(0x02BC); // 188
 
-    public static final int TAG_OBJECT_PREVIEW_FILE_FORMAT       = 0x02C8; // 200
-    public static final int TAG_OBJECT_PREVIEW_FILE_FORMAT_VERSION  = 0x02C9; // 201
-    public static final int TAG_OBJECT_PREVIEW_DATA              = 0x02CA; // 202
+    public static final IntegerKey TAG_OBJECT_PREVIEW_FILE_FORMAT       = new IntegerKey(0x02C8); // 200
+    public static final IntegerKey TAG_OBJECT_PREVIEW_FILE_FORMAT_VERSION  = new IntegerKey(0x02C9); // 201
+    public static final IntegerKey TAG_OBJECT_PREVIEW_DATA              = new IntegerKey(0x02CA); // 202
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -224,7 +225,7 @@ public class IptcDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }
@@ -298,7 +299,7 @@ public class IptcDirectory extends Directory
     }
 
     @Nullable
-    private Date getDate(int dateTagType, int timeTagType)
+    private Date getDate(IntegerKey dateTagType, IntegerKey timeTagType)
     {
         String date = getString(dateTagType);
         String time = getString(timeTagType);

@@ -23,6 +23,7 @@ package com.drew.metadata.photoshop;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -32,32 +33,32 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PsdHeaderDirectory extends Directory
+public class PsdHeaderDirectory extends Directory<IntegerKey>
 {
     /**
      * The number of channels in the image, including any alpha channels. Supported range is 1 to 56.
      */
-    public static final int TAG_CHANNEL_COUNT = 1;
+    public static final IntegerKey TAG_CHANNEL_COUNT = new IntegerKey(1);
     /**
      * The height of the image in pixels.
      */
-    public static final int TAG_IMAGE_HEIGHT = 2;
+    public static final IntegerKey TAG_IMAGE_HEIGHT = new IntegerKey(2);
     /**
      * The width of the image in pixels.
      */
-    public static final int TAG_IMAGE_WIDTH = 3;
+    public static final IntegerKey TAG_IMAGE_WIDTH = new IntegerKey(3);
     /**
      * The number of bits per channel. Supported values are 1, 8, 16 and 32.
      */
-    public static final int TAG_BITS_PER_CHANNEL = 4;
+    public static final IntegerKey TAG_BITS_PER_CHANNEL = new IntegerKey(4);
     /**
      * The color mode of the file. Supported values are:
      * Bitmap = 0; Grayscale = 1; Indexed = 2; RGB = 3; CMYK = 4; Multichannel = 7; Duotone = 8; Lab = 9.
      */
-    public static final int TAG_COLOR_MODE = 5;
+    public static final IntegerKey TAG_COLOR_MODE = new IntegerKey(5);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_CHANNEL_COUNT, "Channel Count");
@@ -81,7 +82,7 @@ public class PsdHeaderDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

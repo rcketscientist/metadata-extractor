@@ -22,6 +22,8 @@
 package com.drew.metadata.exif;
 
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
+import com.drew.metadata.Property;
 
 import java.util.HashMap;
 
@@ -31,10 +33,13 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public abstract class ExifDirectoryBase extends Directory
+public abstract class ExifDirectoryBase extends Directory<IntegerKey>
 {
-    public static final int TAG_INTEROP_INDEX = 0x0001;
-    public static final int TAG_INTEROP_VERSION = 0x0002;
+    /* TODO: We'd still need a map...
+    public static final IntegerKey TAG_INTEROP_INDEX = new Property<Integer>(0x0001, "Interoperability Index");
+    */
+    public static final IntegerKey TAG_INTEROP_INDEX = new IntegerKey(0x0001);
+    public static final IntegerKey TAG_INTEROP_VERSION = new IntegerKey(0x0002);
 
     /**
      * The new subfile type tag.
@@ -47,24 +52,24 @@ public abstract class ExifDirectoryBase extends Directory
      * 6 = Transparency mask of multi-page image
      * 7 = Transparency mask of reduced-resolution multi-page image
      */
-    public static final int TAG_NEW_SUBFILE_TYPE                  = 0x00FE;
+    public static final IntegerKey TAG_NEW_SUBFILE_TYPE                  = new IntegerKey(0x00FE);
     /**
      * The old subfile type tag.
      * 1 = Full-resolution image (Main image)
      * 2 = Reduced-resolution image (Thumbnail)
      * 3 = Single page of multi-page image
      */
-    public static final int TAG_SUBFILE_TYPE                      = 0x00FF;
+    public static final IntegerKey TAG_SUBFILE_TYPE                      = new IntegerKey(0x00FF);
 
-    public static final int TAG_IMAGE_WIDTH                       = 0x0100;
-    public static final int TAG_IMAGE_HEIGHT                      = 0x0101;
+    public static final IntegerKey TAG_IMAGE_WIDTH                       = new IntegerKey(0x0100);
+    public static final IntegerKey TAG_IMAGE_HEIGHT                      = new IntegerKey(0x0101);
 
     /**
      * When image format is no compression, this value shows the number of bits
      * per component for each pixel. Usually this value is '8,8,8'.
      */
-    public static final int TAG_BITS_PER_SAMPLE                   = 0x0102;
-    public static final int TAG_COMPRESSION                       = 0x0103;
+    public static final IntegerKey TAG_BITS_PER_SAMPLE                   = new IntegerKey(0x0102);
+    public static final IntegerKey TAG_COMPRESSION                       = new IntegerKey(0x0103);
 
     /**
      * Shows the color space of the image data components.
@@ -83,121 +88,121 @@ public abstract class ExifDirectoryBase extends Directory
      * 32845 = Pixar LogLuv
      * 34892 = Linear Raw
      */
-    public static final int TAG_PHOTOMETRIC_INTERPRETATION        = 0x0106;
+    public static final IntegerKey TAG_PHOTOMETRIC_INTERPRETATION        = new IntegerKey(0x0106);
 
     /**
      * 1 = No dithering or halftoning
      * 2 = Ordered dither or halftone
      * 3 = Randomized dither
      */
-    public static final int TAG_THRESHOLDING                      = 0x0107;
+    public static final IntegerKey TAG_THRESHOLDING                      = new IntegerKey(0x0107);
 
     /**
      * 1 = Normal
      * 2 = Reversed
      */
-    public static final int TAG_FILL_ORDER                        = 0x010A;
-    public static final int TAG_DOCUMENT_NAME                     = 0x010D;
+    public static final IntegerKey TAG_FILL_ORDER                        = new IntegerKey(0x010A);
+    public static final IntegerKey TAG_DOCUMENT_NAME                     = new IntegerKey(0x010D);
 
-    public static final int TAG_IMAGE_DESCRIPTION                 = 0x010E;
+    public static final IntegerKey TAG_IMAGE_DESCRIPTION                 = new IntegerKey(0x010E);
 
-    public static final int TAG_MAKE                              = 0x010F;
-    public static final int TAG_MODEL                             = 0x0110;
+    public static final IntegerKey TAG_MAKE                              = new IntegerKey(0x010F);
+    public static final IntegerKey TAG_MODEL                             = new IntegerKey(0x0110);
     /** The position in the file of raster data. */
-    public static final int TAG_STRIP_OFFSETS                     = 0x0111;
-    public static final int TAG_ORIENTATION                       = 0x0112;
+    public static final IntegerKey TAG_STRIP_OFFSETS                     = new IntegerKey(0x0111);
+    public static final IntegerKey TAG_ORIENTATION                       = new IntegerKey(0x0112);
     /** Each pixel is composed of this many samples. */
-    public static final int TAG_SAMPLES_PER_PIXEL                 = 0x0115;
+    public static final IntegerKey TAG_SAMPLES_PER_PIXEL                 = new IntegerKey(0x0115);
     /** The raster is codified by a single block of data holding this many rows. */
-    public static final int TAG_ROWS_PER_STRIP                    = 0x0116;
+    public static final IntegerKey TAG_ROWS_PER_STRIP                    = new IntegerKey(0x0116);
     /** The size of the raster data in bytes. */
-    public static final int TAG_STRIP_BYTE_COUNTS                 = 0x0117;
-    public static final int TAG_MIN_SAMPLE_VALUE                  = 0x0118;
-    public static final int TAG_MAX_SAMPLE_VALUE                  = 0x0119;
-    public static final int TAG_X_RESOLUTION                      = 0x011A;
-    public static final int TAG_Y_RESOLUTION                      = 0x011B;
+    public static final IntegerKey TAG_STRIP_BYTE_COUNTS                 = new IntegerKey(0x0117);
+    public static final IntegerKey TAG_MIN_SAMPLE_VALUE                  = new IntegerKey(0x0118);
+    public static final IntegerKey TAG_MAX_SAMPLE_VALUE                  = new IntegerKey(0x0119);
+    public static final IntegerKey TAG_X_RESOLUTION                      = new IntegerKey(0x011A);
+    public static final IntegerKey TAG_Y_RESOLUTION                      = new IntegerKey(0x011B);
     /**
      * When image format is no compression YCbCr, this value shows byte aligns of
      * YCbCr data. If value is '1', Y/Cb/Cr value is chunky format, contiguous for
      * each subsampling pixel. If value is '2', Y/Cb/Cr value is separated and
      * stored to Y plane/Cb plane/Cr plane format.
      */
-    public static final int TAG_PLANAR_CONFIGURATION              = 0x011C;
-    public static final int TAG_PAGE_NAME                         = 0x011D;
+    public static final IntegerKey TAG_PLANAR_CONFIGURATION              = new IntegerKey(0x011C);
+    public static final IntegerKey TAG_PAGE_NAME                         = new IntegerKey(0x011D);
 
-    public static final int TAG_RESOLUTION_UNIT                   = 0x0128;
-    public static final int TAG_PAGE_NUMBER                       = 0x0129;
+    public static final IntegerKey TAG_RESOLUTION_UNIT                   = new IntegerKey(0x0128);
+    public static final IntegerKey TAG_PAGE_NUMBER                       = new IntegerKey(0x0129);
 
-    public static final int TAG_TRANSFER_FUNCTION                 = 0x012D;
-    public static final int TAG_SOFTWARE                          = 0x0131;
-    public static final int TAG_DATETIME                          = 0x0132;
-    public static final int TAG_ARTIST                            = 0x013B;
-    public static final int TAG_HOST_COMPUTER                     = 0x013C;
-    public static final int TAG_PREDICTOR                         = 0x013D;
-    public static final int TAG_WHITE_POINT                       = 0x013E;
-    public static final int TAG_PRIMARY_CHROMATICITIES            = 0x013F;
+    public static final IntegerKey TAG_TRANSFER_FUNCTION                 = new IntegerKey(0x012D);
+    public static final IntegerKey TAG_SOFTWARE                          = new IntegerKey(0x0131);
+    public static final IntegerKey TAG_DATETIME                          = new IntegerKey(0x0132);
+    public static final IntegerKey TAG_ARTIST                            = new IntegerKey(0x013B);
+    public static final IntegerKey TAG_HOST_COMPUTER                     = new IntegerKey(0x013C);
+    public static final IntegerKey TAG_PREDICTOR                         = new IntegerKey(0x013D);
+    public static final IntegerKey TAG_WHITE_POINT                       = new IntegerKey(0x013E);
+    public static final IntegerKey TAG_PRIMARY_CHROMATICITIES            = new IntegerKey(0x013F);
 
-    public static final int TAG_TILE_WIDTH                        = 0x0142;
-    public static final int TAG_TILE_LENGTH                       = 0x0143;
-    public static final int TAG_TILE_OFFSETS                      = 0x0144;
-    public static final int TAG_TILE_BYTE_COUNTS                  = 0x0145;
+    public static final IntegerKey TAG_TILE_WIDTH                        = new IntegerKey(0x0142);
+    public static final IntegerKey TAG_TILE_LENGTH                       = new IntegerKey(0x0143);
+    public static final IntegerKey TAG_TILE_OFFSETS                      = new IntegerKey(0x0144);
+    public static final IntegerKey TAG_TILE_BYTE_COUNTS                  = new IntegerKey(0x0145);
 
     /**
      * Tag is a pointer to one or more sub-IFDs.
      + Seems to be used exclusively by raw formats, referencing one or two IFDs.
      */
-    public static final int TAG_SUB_IFD_OFFSET                    = 0x014a;
+    public static final IntegerKey TAG_SUB_IFD_OFFSET                    = new IntegerKey(0x014a);
 
-    public static final int TAG_TRANSFER_RANGE                    = 0x0156;
-    public static final int TAG_JPEG_TABLES                       = 0x015B;
-    public static final int TAG_JPEG_PROC                         = 0x0200;
+    public static final IntegerKey TAG_TRANSFER_RANGE                    = new IntegerKey(0x0156);
+    public static final IntegerKey TAG_JPEG_TABLES                       = new IntegerKey(0x015B);
+    public static final IntegerKey TAG_JPEG_PROC                         = new IntegerKey(0x0200);
 
     // 0x0201 can have all kinds of descriptions for thumbnail starting index
     // 0x0202 can have all kinds of descriptions for thumbnail length
-    public static final int TAG_JPEG_RESTART_INTERVAL = 0x0203;
-    public static final int TAG_JPEG_LOSSLESS_PREDICTORS = 0x0205;
-    public static final int TAG_JPEG_POINT_TRANSFORMS = 0x0206;
-    public static final int TAG_JPEG_Q_TABLES = 0x0207;
-    public static final int TAG_JPEG_DC_TABLES = 0x0208;
-    public static final int TAG_JPEG_AC_TABLES = 0x0209;
+    public static final IntegerKey TAG_JPEG_RESTART_INTERVAL = new IntegerKey(0x0203);
+    public static final IntegerKey TAG_JPEG_LOSSLESS_PREDICTORS = new IntegerKey(0x0205);
+    public static final IntegerKey TAG_JPEG_POINT_TRANSFORMS = new IntegerKey(0x0206);
+    public static final IntegerKey TAG_JPEG_Q_TABLES = new IntegerKey(0x0207);
+    public static final IntegerKey TAG_JPEG_DC_TABLES = new IntegerKey(0x0208);
+    public static final IntegerKey TAG_JPEG_AC_TABLES = new IntegerKey(0x0209);
 
-    public static final int TAG_YCBCR_COEFFICIENTS                = 0x0211;
-    public static final int TAG_YCBCR_SUBSAMPLING                 = 0x0212;
-    public static final int TAG_YCBCR_POSITIONING                 = 0x0213;
-    public static final int TAG_REFERENCE_BLACK_WHITE             = 0x0214;
-    public static final int TAG_STRIP_ROW_COUNTS                  = 0x022f;
-    public static final int TAG_APPLICATION_NOTES                 = 0x02bc;
+    public static final IntegerKey TAG_YCBCR_COEFFICIENTS                = new IntegerKey(0x0211);
+    public static final IntegerKey TAG_YCBCR_SUBSAMPLING                 = new IntegerKey(0x0212);
+    public static final IntegerKey TAG_YCBCR_POSITIONING                 = new IntegerKey(0x0213);
+    public static final IntegerKey TAG_REFERENCE_BLACK_WHITE             = new IntegerKey(0x0214);
+    public static final IntegerKey TAG_STRIP_ROW_COUNTS                  = new IntegerKey(0x022f);
+    public static final IntegerKey TAG_APPLICATION_NOTES                 = new IntegerKey(0x02bc);
 
-    public static final int TAG_RELATED_IMAGE_FILE_FORMAT         = 0x1000;
-    public static final int TAG_RELATED_IMAGE_WIDTH               = 0x1001;
-    public static final int TAG_RELATED_IMAGE_HEIGHT              = 0x1002;
+    public static final IntegerKey TAG_RELATED_IMAGE_FILE_FORMAT         = new IntegerKey(0x1000);
+    public static final IntegerKey TAG_RELATED_IMAGE_WIDTH               = new IntegerKey(0x1001);
+    public static final IntegerKey TAG_RELATED_IMAGE_HEIGHT              = new IntegerKey(0x1002);
 
-    public static final int TAG_RATING                            = 0x4746;
+    public static final IntegerKey TAG_RATING                            = new IntegerKey(0x4746);
 
-    public static final int TAG_CFA_REPEAT_PATTERN_DIM            = 0x828D;
+    public static final IntegerKey TAG_CFA_REPEAT_PATTERN_DIM            = new IntegerKey(0x828D);
     /** There are two definitions for CFA pattern, I don't know the difference... */
-    public static final int TAG_CFA_PATTERN_2                     = 0x828E;
-    public static final int TAG_BATTERY_LEVEL                     = 0x828F;
-    public static final int TAG_COPYRIGHT                         = 0x8298;
+    public static final IntegerKey TAG_CFA_PATTERN_2                     = new IntegerKey(0x828E);
+    public static final IntegerKey TAG_BATTERY_LEVEL                     = new IntegerKey(0x828F);
+    public static final IntegerKey TAG_COPYRIGHT                         = new IntegerKey(0x8298);
     /**
      * Exposure time (reciprocal of shutter speed). Unit is second.
      */
-    public static final int TAG_EXPOSURE_TIME                     = 0x829A;
+    public static final IntegerKey TAG_EXPOSURE_TIME                     = new IntegerKey(0x829A);
     /**
      * The actual F-number(F-stop) of lens when the image was taken.
      */
-    public static final int TAG_FNUMBER                           = 0x829D;
-    public static final int TAG_IPTC_NAA                          = 0x83BB;
-    public static final int TAG_INTER_COLOR_PROFILE               = 0x8773;
+    public static final IntegerKey TAG_FNUMBER                           = new IntegerKey(0x829D);
+    public static final IntegerKey TAG_IPTC_NAA                          = new IntegerKey(0x83BB);
+    public static final IntegerKey TAG_INTER_COLOR_PROFILE               = new IntegerKey(0x8773);
     /**
      * Exposure program that the camera used when image was taken. '1' means
      * manual control, '2' program normal, '3' aperture priority, '4' shutter
      * priority, '5' program creative (slow program), '6' program action
      * (high-speed program), '7' portrait mode, '8' landscape mode.
      */
-    public static final int TAG_EXPOSURE_PROGRAM                  = 0x8822;
-    public static final int TAG_SPECTRAL_SENSITIVITY              = 0x8824;
-    public static final int TAG_ISO_EQUIVALENT                    = 0x8827;
+    public static final IntegerKey TAG_EXPOSURE_PROGRAM                  = new IntegerKey(0x8822);
+    public static final IntegerKey TAG_SPECTRAL_SENSITIVITY              = new IntegerKey(0x8824);
+    public static final IntegerKey TAG_ISO_EQUIVALENT                    = new IntegerKey(0x8827);
     /**
      * Indicates the Opto-Electric Conversion Function (OECF) specified in ISO 14524.
      * <p>
@@ -210,10 +215,10 @@ public abstract class ExifDirectoryBase extends Directory
      *   <li>For each cell, an SRATIONAL value.</li>
      * </ul>
      */
-    public static final int TAG_OPTO_ELECTRIC_CONVERSION_FUNCTION = 0x8828;
-    public static final int TAG_INTERLACE                         = 0x8829;
-    public static final int TAG_TIME_ZONE_OFFSET_TIFF_EP          = 0x882A;
-    public static final int TAG_SELF_TIMER_MODE_TIFF_EP           = 0x882B;
+    public static final IntegerKey TAG_OPTO_ELECTRIC_CONVERSION_FUNCTION = new IntegerKey(0x8828);
+    public static final IntegerKey TAG_INTERLACE                         = new IntegerKey(0x8829);
+    public static final IntegerKey TAG_TIME_ZONE_OFFSET_TIFF_EP          = new IntegerKey(0x882A);
+    public static final IntegerKey TAG_SELF_TIMER_MODE_TIFF_EP           = new IntegerKey(0x882B);
     /**
      * Applies to ISO tag.
      *
@@ -226,38 +231,38 @@ public abstract class ExifDirectoryBase extends Directory
      * 6 = Recommended Exposure Index and ISO Speed
      * 7 = Standard Output Sensitivity, Recommended Exposure Index and ISO Speed
      */
-    public static final int TAG_SENSITIVITY_TYPE                  = 0x8830;
-    public static final int TAG_STANDARD_OUTPUT_SENSITIVITY       = 0x8831;
-    public static final int TAG_RECOMMENDED_EXPOSURE_INDEX        = 0x8832;
+    public static final IntegerKey TAG_SENSITIVITY_TYPE                  = new IntegerKey(0x8830);
+    public static final IntegerKey TAG_STANDARD_OUTPUT_SENSITIVITY       = new IntegerKey(0x8831);
+    public static final IntegerKey TAG_RECOMMENDED_EXPOSURE_INDEX        = new IntegerKey(0x8832);
     /** Non-standard, but in use. */
-    public static final int TAG_TIME_ZONE_OFFSET                  = 0x882A;
-    public static final int TAG_SELF_TIMER_MODE                   = 0x882B;
+    public static final IntegerKey TAG_TIME_ZONE_OFFSET                  = new IntegerKey(0x882A);
+    public static final IntegerKey TAG_SELF_TIMER_MODE                   = new IntegerKey(0x882B);
 
-    public static final int TAG_EXIF_VERSION                      = 0x9000;
-    public static final int TAG_DATETIME_ORIGINAL                 = 0x9003;
-    public static final int TAG_DATETIME_DIGITIZED                = 0x9004;
+    public static final IntegerKey TAG_EXIF_VERSION                      = new IntegerKey(0x9000);
+    public static final IntegerKey TAG_DATETIME_ORIGINAL                 = new IntegerKey(0x9003);
+    public static final IntegerKey TAG_DATETIME_DIGITIZED                = new IntegerKey(0x9004);
 
-    public static final int TAG_COMPONENTS_CONFIGURATION          = 0x9101;
+    public static final IntegerKey TAG_COMPONENTS_CONFIGURATION          = new IntegerKey(0x9101);
     /**
      * Average (rough estimate) compression level in JPEG bits per pixel.
      * */
-    public static final int TAG_COMPRESSED_AVERAGE_BITS_PER_PIXEL = 0x9102;
+    public static final IntegerKey TAG_COMPRESSED_AVERAGE_BITS_PER_PIXEL = new IntegerKey(0x9102);
 
     /**
-     * Shutter speed by APEX value. To convert this value to ordinary 'Shutter Speed';
+     * Shutter speed by APEX value. To convert this value to ordinary 'Shutter Speed');
      * calculate this value's power of 2, then reciprocal. For example, if the
      * ShutterSpeedValue is '4', shutter speed is 1/(24)=1/16 second.
      */
-    public static final int TAG_SHUTTER_SPEED                     = 0x9201;
+    public static final IntegerKey TAG_SHUTTER_SPEED                     = new IntegerKey(0x9201);
     /**
      * The actual aperture value of lens when the image was taken. Unit is APEX.
      * To convert this value to ordinary F-number (F-stop), calculate this value's
      * power of root 2 (=1.4142). For example, if the ApertureValue is '5',
      * F-number is 1.4142^5 = F5.6.
      */
-    public static final int TAG_APERTURE                          = 0x9202;
-    public static final int TAG_BRIGHTNESS_VALUE                  = 0x9203;
-    public static final int TAG_EXPOSURE_BIAS                     = 0x9204;
+    public static final IntegerKey TAG_APERTURE                          = new IntegerKey(0x9202);
+    public static final IntegerKey TAG_BRIGHTNESS_VALUE                  = new IntegerKey(0x9203);
+    public static final IntegerKey TAG_EXPOSURE_BIAS                     = new IntegerKey(0x9204);
     /**
      * Maximum aperture value of lens. You can convert to F-number by calculating
      * power of root 2 (same process of ApertureValue:0x9202).
@@ -265,30 +270,30 @@ public abstract class ExifDirectoryBase extends Directory
      * value to ordinary f-number(f-stop), calculate the value's power of root 2
      * (=1.4142). For example, if the ApertureValue is '5', f-number is 1.41425^5 = F5.6.
      */
-    public static final int TAG_MAX_APERTURE                      = 0x9205;
+    public static final IntegerKey TAG_MAX_APERTURE                      = new IntegerKey(0x9205);
     /**
      * Indicates the distance the autofocus camera is focused to.  Tends to be less accurate as distance increases.
      */
-    public static final int TAG_SUBJECT_DISTANCE                  = 0x9206;
+    public static final IntegerKey TAG_SUBJECT_DISTANCE                  = new IntegerKey(0x9206);
     /**
      * Exposure metering method. '0' means unknown, '1' average, '2' center
      * weighted average, '3' spot, '4' multi-spot, '5' multi-segment, '6' partial,
      * '255' other.
      */
-    public static final int TAG_METERING_MODE                     = 0x9207;
+    public static final IntegerKey TAG_METERING_MODE                     = new IntegerKey(0x9207);
 
     /**
      * @deprecated use {@link com.drew.metadata.exif.ExifDirectoryBase#TAG_WHITE_BALANCE} instead.
      */
     @Deprecated
-    public static final int TAG_LIGHT_SOURCE                      = 0x9208;
+    public static final IntegerKey TAG_LIGHT_SOURCE                      = new IntegerKey(0x9208);
     /**
      * White balance (aka light source). '0' means unknown, '1' daylight,
      * '2' fluorescent, '3' tungsten, '10' flash, '17' standard light A,
      * '18' standard light B, '19' standard light C, '20' D55, '21' D65,
      * '22' D75, '255' other.
      */
-    public static final int TAG_WHITE_BALANCE                     = 0x9208;
+    public static final IntegerKey TAG_WHITE_BALANCE                     = new IntegerKey(0x9208);
     /**
      * 0x0  = 0000000 = No Flash
      * 0x1  = 0000001 = Fired
@@ -323,24 +328,24 @@ public abstract class ExifDirectoryBase extends Directory
      * 5 = unknown
      * 6 = red eye reduction used
      */
-    public static final int TAG_FLASH                             = 0x9209;
+    public static final IntegerKey TAG_FLASH                             = new IntegerKey(0x9209);
     /**
      * Focal length of lens used to take image.  Unit is millimeter.
      * Nice digital cameras actually save the focal length as a function of how far they are zoomed in.
      */
-    public static final int TAG_FOCAL_LENGTH                      = 0x920A;
+    public static final IntegerKey TAG_FOCAL_LENGTH                      = new IntegerKey(0x920A);
 
-    public static final int TAG_FLASH_ENERGY_TIFF_EP              = 0x920B;
-    public static final int TAG_SPATIAL_FREQ_RESPONSE_TIFF_EP     = 0x920C;
-    public static final int TAG_NOISE                             = 0x920D;
-    public static final int TAG_FOCAL_PLANE_X_RESOLUTION_TIFF_EP  = 0x920E;
-    public static final int TAG_FOCAL_PLANE_Y_RESOLUTION_TIFF_EP = 0x920F;
-    public static final int TAG_IMAGE_NUMBER                      = 0x9211;
-    public static final int TAG_SECURITY_CLASSIFICATION           = 0x9212;
-    public static final int TAG_IMAGE_HISTORY                     = 0x9213;
-    public static final int TAG_SUBJECT_LOCATION_TIFF_EP          = 0x9214;
-    public static final int TAG_EXPOSURE_INDEX_TIFF_EP            = 0x9215;
-    public static final int TAG_STANDARD_ID_TIFF_EP               = 0x9216;
+    public static final IntegerKey TAG_FLASH_ENERGY_TIFF_EP              = new IntegerKey(0x920B);
+    public static final IntegerKey TAG_SPATIAL_FREQ_RESPONSE_TIFF_EP     = new IntegerKey(0x920C);
+    public static final IntegerKey TAG_NOISE                             = new IntegerKey(0x920D);
+    public static final IntegerKey TAG_FOCAL_PLANE_X_RESOLUTION_TIFF_EP  = new IntegerKey(0x920E);
+    public static final IntegerKey TAG_FOCAL_PLANE_Y_RESOLUTION_TIFF_EP = new IntegerKey(0x920F);
+    public static final IntegerKey TAG_IMAGE_NUMBER                      = new IntegerKey(0x9211);
+    public static final IntegerKey TAG_SECURITY_CLASSIFICATION           = new IntegerKey(0x9212);
+    public static final IntegerKey TAG_IMAGE_HISTORY                     = new IntegerKey(0x9213);
+    public static final IntegerKey TAG_SUBJECT_LOCATION_TIFF_EP          = new IntegerKey(0x9214);
+    public static final IntegerKey TAG_EXPOSURE_INDEX_TIFF_EP            = new IntegerKey(0x9215);
+    public static final IntegerKey TAG_STANDARD_ID_TIFF_EP               = new IntegerKey(0x9216);
 
     /**
      * This tag holds the Exif Makernote. Makernotes are free to be in any format, though they are often IFDs.
@@ -349,40 +354,40 @@ public abstract class ExifDirectoryBase extends Directory
      * <p>
      * The component count for this tag includes all of the bytes needed for the makernote.
      */
-    public static final int TAG_MAKERNOTE                         = 0x927C;
+    public static final IntegerKey TAG_MAKERNOTE                         = new IntegerKey(0x927C);
 
-    public static final int TAG_USER_COMMENT                      = 0x9286;
+    public static final IntegerKey TAG_USER_COMMENT                      = new IntegerKey(0x9286);
 
-    public static final int TAG_SUBSECOND_TIME                    = 0x9290;
-    public static final int TAG_SUBSECOND_TIME_ORIGINAL           = 0x9291;
-    public static final int TAG_SUBSECOND_TIME_DIGITIZED          = 0x9292;
+    public static final IntegerKey TAG_SUBSECOND_TIME                    = new IntegerKey(0x9290);
+    public static final IntegerKey TAG_SUBSECOND_TIME_ORIGINAL           = new IntegerKey(0x9291);
+    public static final IntegerKey TAG_SUBSECOND_TIME_DIGITIZED          = new IntegerKey(0x9292);
 
     /** The image title, as used by Windows XP. */
-    public static final int TAG_WIN_TITLE                         = 0x9C9B;
+    public static final IntegerKey TAG_WIN_TITLE                         = new IntegerKey(0x9C9B);
     /** The image comment, as used by Windows XP. */
-    public static final int TAG_WIN_COMMENT                       = 0x9C9C;
+    public static final IntegerKey TAG_WIN_COMMENT                       = new IntegerKey(0x9C9C);
     /** The image author, as used by Windows XP (called Artist in the Windows shell). */
-    public static final int TAG_WIN_AUTHOR                        = 0x9C9D;
+    public static final IntegerKey TAG_WIN_AUTHOR                        = new IntegerKey(0x9C9D);
     /** The image keywords, as used by Windows XP. */
-    public static final int TAG_WIN_KEYWORDS                      = 0x9C9E;
+    public static final IntegerKey TAG_WIN_KEYWORDS                      = new IntegerKey(0x9C9E);
     /** The image subject, as used by Windows XP. */
-    public static final int TAG_WIN_SUBJECT                       = 0x9C9F;
+    public static final IntegerKey TAG_WIN_SUBJECT                       = new IntegerKey(0x9C9F);
 
-    public static final int TAG_FLASHPIX_VERSION                  = 0xA000;
+    public static final IntegerKey TAG_FLASHPIX_VERSION                  = new IntegerKey(0xA000);
     /**
      * Defines Color Space. DCF image must use sRGB color space so value is
      * always '1'. If the picture uses the other color space, value is
      * '65535':Uncalibrated.
      */
-    public static final int TAG_COLOR_SPACE                       = 0xA001;
-    public static final int TAG_EXIF_IMAGE_WIDTH                  = 0xA002;
-    public static final int TAG_EXIF_IMAGE_HEIGHT                 = 0xA003;
-    public static final int TAG_RELATED_SOUND_FILE                = 0xA004;
+    public static final IntegerKey TAG_COLOR_SPACE                       = new IntegerKey(0xA001);
+    public static final IntegerKey TAG_EXIF_IMAGE_WIDTH                  = new IntegerKey(0xA002);
+    public static final IntegerKey TAG_EXIF_IMAGE_HEIGHT                 = new IntegerKey(0xA003);
+    public static final IntegerKey TAG_RELATED_SOUND_FILE                = new IntegerKey(0xA004);
 
-    public static final int TAG_FLASH_ENERGY                      = 0xA20B;
-    public static final int TAG_SPATIAL_FREQ_RESPONSE             = 0xA20C;
-    public static final int TAG_FOCAL_PLANE_X_RESOLUTION          = 0xA20E;
-    public static final int TAG_FOCAL_PLANE_Y_RESOLUTION          = 0xA20F;
+    public static final IntegerKey TAG_FLASH_ENERGY                      = new IntegerKey(0xA20B);
+    public static final IntegerKey TAG_SPATIAL_FREQ_RESPONSE             = new IntegerKey(0xA20C);
+    public static final IntegerKey TAG_FOCAL_PLANE_X_RESOLUTION          = new IntegerKey(0xA20E);
+    public static final IntegerKey TAG_FOCAL_PLANE_Y_RESOLUTION          = new IntegerKey(0xA20F);
     /**
      * Unit of FocalPlaneXResolution/FocalPlaneYResolution. '1' means no-unit,
      * '2' inch, '3' centimeter.
@@ -392,14 +397,14 @@ public abstract class ExifDirectoryBase extends Directory
      * '8.3mm?'(1/3in.?) to their ResolutionUnit. Fuji's BUG? Finepix4900Z has
      * been changed to use value '2' but it doesn't match to actual value also.
      */
-    public static final int TAG_FOCAL_PLANE_RESOLUTION_UNIT       = 0xA210;
-    public static final int TAG_SUBJECT_LOCATION                  = 0xA214;
-    public static final int TAG_EXPOSURE_INDEX                    = 0xA215;
-    public static final int TAG_SENSING_METHOD                    = 0xA217;
+    public static final IntegerKey TAG_FOCAL_PLANE_RESOLUTION_UNIT       = new IntegerKey(0xA210);
+    public static final IntegerKey TAG_SUBJECT_LOCATION                  = new IntegerKey(0xA214);
+    public static final IntegerKey TAG_EXPOSURE_INDEX                    = new IntegerKey(0xA215);
+    public static final IntegerKey TAG_SENSING_METHOD                    = new IntegerKey(0xA217);
 
-    public static final int TAG_FILE_SOURCE                       = 0xA300;
-    public static final int TAG_SCENE_TYPE                        = 0xA301;
-    public static final int TAG_CFA_PATTERN                       = 0xA302;
+    public static final IntegerKey TAG_FILE_SOURCE                       = new IntegerKey(0xA300);
+    public static final IntegerKey TAG_SCENE_TYPE                        = new IntegerKey(0xA301);
+    public static final IntegerKey TAG_CFA_PATTERN                       = new IntegerKey(0xA302);
 
     /**
      * This tag indicates the use of special processing on image data, such as rendering
@@ -413,7 +418,7 @@ public abstract class ExifDirectoryBase extends Directory
      *   1 = Custom process
      *   Other = reserved
      */
-    public static final int TAG_CUSTOM_RENDERED                   = 0xA401;
+    public static final IntegerKey TAG_CUSTOM_RENDERED                   = new IntegerKey(0xA401);
     /**
      * This tag indicates the exposure mode set when the image was shot. In auto-bracketing
      * mode, the camera shoots a series of frames of the same scene at different exposure settings.
@@ -426,7 +431,7 @@ public abstract class ExifDirectoryBase extends Directory
      *   2 = Auto bracket
      *   Other = reserved
      */
-    public static final int TAG_EXPOSURE_MODE                     = 0xA402;
+    public static final IntegerKey TAG_EXPOSURE_MODE                     = new IntegerKey(0xA402);
     /**
      * This tag indicates the white balance mode set when the image was shot.
      * Tag = 41987 (A403.H)
@@ -437,7 +442,7 @@ public abstract class ExifDirectoryBase extends Directory
      *   1 = Manual white balance
      *   Other = reserved
      */
-    public static final int TAG_WHITE_BALANCE_MODE                = 0xA403;
+    public static final IntegerKey TAG_WHITE_BALANCE_MODE                = new IntegerKey(0xA403);
     /**
      * This tag indicates the digital zoom ratio when the image was shot. If the
      * numerator of the recorded value is 0, this indicates that digital zoom was
@@ -447,7 +452,7 @@ public abstract class ExifDirectoryBase extends Directory
      * Count = 1
      * Default = none
      */
-    public static final int TAG_DIGITAL_ZOOM_RATIO                = 0xA404;
+    public static final IntegerKey TAG_DIGITAL_ZOOM_RATIO                = new IntegerKey(0xA404);
     /**
      * This tag indicates the equivalent focal length assuming a 35mm film camera,
      * in mm. A value of 0 means the focal length is unknown. Note that this tag
@@ -457,7 +462,7 @@ public abstract class ExifDirectoryBase extends Directory
      * Count = 1
      * Default = none
      */
-    public static final int TAG_35MM_FILM_EQUIV_FOCAL_LENGTH      = 0xA405;
+    public static final IntegerKey TAG_35MM_FILM_EQUIV_FOCAL_LENGTH      = new IntegerKey(0xA405);
     /**
      * This tag indicates the type of scene that was shot. It can also be used to
      * record the mode in which the image was shot. Note that this differs from
@@ -472,7 +477,7 @@ public abstract class ExifDirectoryBase extends Directory
      *   3 = Night scene
      *   Other = reserved
      */
-    public static final int TAG_SCENE_CAPTURE_TYPE                = 0xA406;
+    public static final IntegerKey TAG_SCENE_CAPTURE_TYPE                = new IntegerKey(0xA406);
     /**
      * This tag indicates the degree of overall image gain adjustment.
      * Tag = 41991 (A407.H)
@@ -486,7 +491,7 @@ public abstract class ExifDirectoryBase extends Directory
      *   4 = High gain down
      *   Other = reserved
      */
-    public static final int TAG_GAIN_CONTROL                      = 0xA407;
+    public static final IntegerKey TAG_GAIN_CONTROL                      = new IntegerKey(0xA407);
     /**
      * This tag indicates the direction of contrast processing applied by the camera
      * when the image was shot.
@@ -499,7 +504,7 @@ public abstract class ExifDirectoryBase extends Directory
      *   2 = Hard
      *   Other = reserved
      */
-    public static final int TAG_CONTRAST                          = 0xA408;
+    public static final IntegerKey TAG_CONTRAST                          = new IntegerKey(0xA408);
     /**
      * This tag indicates the direction of saturation processing applied by the camera
      * when the image was shot.
@@ -512,7 +517,7 @@ public abstract class ExifDirectoryBase extends Directory
      *   2 = High saturation
      *   Other = reserved
      */
-    public static final int TAG_SATURATION                        = 0xA409;
+    public static final IntegerKey TAG_SATURATION                        = new IntegerKey(0xA409);
     /**
      * This tag indicates the direction of sharpness processing applied by the camera
      * when the image was shot.
@@ -525,7 +530,7 @@ public abstract class ExifDirectoryBase extends Directory
      *   2 = Hard
      *   Other = reserved
      */
-    public static final int TAG_SHARPNESS                         = 0xA40A;
+    public static final IntegerKey TAG_SHARPNESS                         = new IntegerKey(0xA40A);
     /**
      * This tag indicates information on the picture-taking conditions of a particular
      * camera model. The tag is used only to indicate the picture-taking conditions in
@@ -550,7 +555,7 @@ public abstract class ExifDirectoryBase extends Directory
      *      :       :           :
      *      Any     UNDEFINED   Camera setting-n
      */
-    public static final int TAG_DEVICE_SETTING_DESCRIPTION        = 0xA40B;
+    public static final IntegerKey TAG_DEVICE_SETTING_DESCRIPTION        = new IntegerKey(0xA40B);
     /**
      * This tag indicates the distance to the subject.
      * Tag = 41996 (A40C.H)
@@ -563,7 +568,7 @@ public abstract class ExifDirectoryBase extends Directory
      *   3 = Distant view
      *   Other = reserved
      */
-    public static final int TAG_SUBJECT_DISTANCE_RANGE            = 0xA40C;
+    public static final IntegerKey TAG_SUBJECT_DISTANCE_RANGE            = new IntegerKey(0xA40C);
 
     /**
      * This tag indicates an identifier assigned uniquely to each image. It is
@@ -574,32 +579,32 @@ public abstract class ExifDirectoryBase extends Directory
      * Count = 33
      * Default = none
      */
-    public static final int TAG_IMAGE_UNIQUE_ID                   = 0xA420;
+    public static final IntegerKey TAG_IMAGE_UNIQUE_ID                   = new IntegerKey(0xA420);
     /** String. */
-    public static final int TAG_CAMERA_OWNER_NAME                 = 0xA430;
+    public static final IntegerKey TAG_CAMERA_OWNER_NAME                 = new IntegerKey(0xA430);
     /** String. */
-    public static final int TAG_BODY_SERIAL_NUMBER                = 0xA431;
+    public static final IntegerKey TAG_BODY_SERIAL_NUMBER                = new IntegerKey(0xA431);
     /** An array of four Rational64u numbers giving focal and aperture ranges. */
-    public static final int TAG_LENS_SPECIFICATION                = 0xA432;
+    public static final IntegerKey TAG_LENS_SPECIFICATION                = new IntegerKey(0xA432);
     /** String. */
-    public static final int TAG_LENS_MAKE                         = 0xA433;
+    public static final IntegerKey TAG_LENS_MAKE                         = new IntegerKey(0xA433);
     /** String. */
-    public static final int TAG_LENS_MODEL                        = 0xA434;
+    public static final IntegerKey TAG_LENS_MODEL                        = new IntegerKey(0xA434);
     /** String. */
-    public static final int TAG_LENS_SERIAL_NUMBER                = 0xA435;
+    public static final IntegerKey TAG_LENS_SERIAL_NUMBER                = new IntegerKey(0xA435);
     /** Rational64u. */
-    public static final int TAG_GAMMA                             = 0xA500;
+    public static final IntegerKey TAG_GAMMA                             = new IntegerKey(0xA500);
 
-    public static final int TAG_PRINT_IMAGE_MATCHING_INFO         = 0xC4A5;
+    public static final IntegerKey TAG_PRINT_IMAGE_MATCHING_INFO         = new IntegerKey(0xC4A5);
 
-    public static final int TAG_PANASONIC_TITLE                   = 0xC6D2;
-    public static final int TAG_PANASONIC_TITLE_2                 = 0xC6D3;
+    public static final IntegerKey TAG_PANASONIC_TITLE                   = new IntegerKey(0xC6D2);
+    public static final IntegerKey TAG_PANASONIC_TITLE_2                 = new IntegerKey(0xC6D3);
 
-    public static final int TAG_PADDING                           = 0xEA1C;
+    public static final IntegerKey TAG_PADDING                           = new IntegerKey(0xEA1C);
 
-    public static final int TAG_LENS                              = 0xFDEA;
+    public static final IntegerKey TAG_LENS                              = new IntegerKey(0xFDEA);
 
-    protected static void addExifTagNames(HashMap<Integer, String> map)
+    protected static void addExifTagNames(HashMap<IntegerKey, String> map)
     {
         map.put(TAG_INTEROP_INDEX, "Interoperability Index");
         map.put(TAG_INTEROP_VERSION, "Interoperability Version");

@@ -23,6 +23,7 @@ package com.drew.metadata.png;
 import com.drew.imaging.png.PngChunkType;
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -30,32 +31,32 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PngDirectory extends Directory
+public class PngDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_IMAGE_WIDTH = 1;
-    public static final int TAG_IMAGE_HEIGHT = 2;
-    public static final int TAG_BITS_PER_SAMPLE = 3;
-    public static final int TAG_COLOR_TYPE = 4;
-    public static final int TAG_COMPRESSION_TYPE = 5;
-    public static final int TAG_FILTER_METHOD = 6;
-    public static final int TAG_INTERLACE_METHOD = 7;
-    public static final int TAG_PALETTE_SIZE = 8;
-    public static final int TAG_PALETTE_HAS_TRANSPARENCY = 9;
-    public static final int TAG_SRGB_RENDERING_INTENT = 10;
-    public static final int TAG_GAMMA = 11;
-    public static final int TAG_ICC_PROFILE_NAME = 12;
-    public static final int TAG_TEXTUAL_DATA = 13;
-    public static final int TAG_LAST_MODIFICATION_TIME = 14;
-    public static final int TAG_BACKGROUND_COLOR = 15;
+    public static final IntegerKey TAG_IMAGE_WIDTH = new IntegerKey(1);
+    public static final IntegerKey TAG_IMAGE_HEIGHT = new IntegerKey(2);
+    public static final IntegerKey TAG_BITS_PER_SAMPLE = new IntegerKey(3);
+    public static final IntegerKey TAG_COLOR_TYPE = new IntegerKey(4);
+    public static final IntegerKey TAG_COMPRESSION_TYPE = new IntegerKey(5);
+    public static final IntegerKey TAG_FILTER_METHOD = new IntegerKey(6);
+    public static final IntegerKey TAG_INTERLACE_METHOD = new IntegerKey(7);
+    public static final IntegerKey TAG_PALETTE_SIZE = new IntegerKey(8);
+    public static final IntegerKey TAG_PALETTE_HAS_TRANSPARENCY = new IntegerKey(9);
+    public static final IntegerKey TAG_SRGB_RENDERING_INTENT = new IntegerKey(10);
+    public static final IntegerKey TAG_GAMMA = new IntegerKey(11);
+    public static final IntegerKey TAG_ICC_PROFILE_NAME = new IntegerKey(12);
+    public static final IntegerKey TAG_TEXTUAL_DATA = new IntegerKey(13);
+    public static final IntegerKey TAG_LAST_MODIFICATION_TIME = new IntegerKey(14);
+    public static final IntegerKey TAG_BACKGROUND_COLOR = new IntegerKey(15);
 
-    public static final int TAG_PIXELS_PER_UNIT_X = 16;
-    public static final int TAG_PIXELS_PER_UNIT_Y = 17;
-    public static final int TAG_UNIT_SPECIFIER = 18;
+    public static final IntegerKey TAG_PIXELS_PER_UNIT_X = new IntegerKey(16);
+    public static final IntegerKey TAG_PIXELS_PER_UNIT_Y = new IntegerKey(17);
+    public static final IntegerKey TAG_UNIT_SPECIFIER = new IntegerKey(18);
 
-    public static final int TAG_SIGNIFICANT_BITS = 19;
+    public static final IntegerKey TAG_SIGNIFICANT_BITS = new IntegerKey(19);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_IMAGE_HEIGHT, "Image Height");
@@ -103,7 +104,7 @@ public class PngDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

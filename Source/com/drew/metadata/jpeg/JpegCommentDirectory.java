@@ -22,6 +22,7 @@ package com.drew.metadata.jpeg;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -31,16 +32,16 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class JpegCommentDirectory extends Directory
+public class JpegCommentDirectory extends Directory<IntegerKey>
 {
     /**
      * This value does not apply to a particular standard. Rather, this value has been fabricated to maintain
      * consistency with other directory types.
      */
-    public static final int TAG_COMMENT = 0;
+    public static final IntegerKey TAG_COMMENT = new IntegerKey(0);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_COMMENT, "JPEG Comment");
@@ -60,7 +61,7 @@ public class JpegCommentDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }
