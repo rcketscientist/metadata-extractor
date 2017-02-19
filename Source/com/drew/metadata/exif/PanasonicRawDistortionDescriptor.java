@@ -44,7 +44,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TagDistortionParam02:
@@ -67,7 +67,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
     }
 
     @Nullable
-    public String getWbTypeDescription(int tagType)
+    public String getWbTypeDescription(IntegerKey tagType)
     {
         Integer wbtype = _directory.getInteger(tagType);
         if (wbtype == null)

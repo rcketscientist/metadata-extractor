@@ -39,7 +39,7 @@ public class PsdHeaderDescriptor extends TagDescriptor<PsdHeaderDirectory>
     }
 
     @Override
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_CHANNEL_COUNT:

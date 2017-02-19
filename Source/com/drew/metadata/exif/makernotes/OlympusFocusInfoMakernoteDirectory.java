@@ -33,37 +33,37 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class OlympusFocusInfoMakernoteDirectory extends Directory
+public class OlympusFocusInfoMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TagFocusInfoVersion = 0x0000;
-    public static final int TagAutoFocus = 0x0209;
-    public static final int TagSceneDetect = 0x0210;
-    public static final int TagSceneArea = 0x0211;
-    public static final int TagSceneDetectData = 0x0212;
+    public static final IntegerKey TAGFocusInfoVersion = new IntegerKey(0x0000);
+    public static final IntegerKey TAGAutoFocus = new IntegerKey(0x0209);
+    public static final IntegerKey TAGSceneDetect = new IntegerKey(0x0210);
+    public static final IntegerKey TAGSceneArea = new IntegerKey(0x0211);
+    public static final IntegerKey TAGSceneDetectData = new IntegerKey(0x0212);
 
-    public static final int TagZoomStepCount = 0x0300;
-    public static final int TagFocusStepCount = 0x0301;
-    public static final int TagFocusStepInfinity = 0x0303;
-    public static final int TagFocusStepNear = 0x0304;
-    public static final int TagFocusDistance = 0x0305;
-    public static final int TagAfPoint = 0x0308;
+    public static final IntegerKey TAGZoomStepCount = new IntegerKey(0x0300);
+    public static final IntegerKey TAGFocusStepCount = new IntegerKey(0x0301);
+    public static final IntegerKey TAGFocusStepInfinity = new IntegerKey(0x0303);
+    public static final IntegerKey TAGFocusStepNear = new IntegerKey(0x0304);
+    public static final IntegerKey TAGFocusDistance = new IntegerKey(0x0305);
+    public static final IntegerKey TAGAfPoint = new IntegerKey(0x0308);
     // 0x031a Continuous AF parameters?
-    public static final int TagAfInfo = 0x0328;    // ifd
+    public static final IntegerKey TAGAfInfo = new IntegerKey(0x0328);    // ifd
 
-    public static final int TagExternalFlash = 0x1201;
-    public static final int TagExternalFlashGuideNumber = 0x1203;
-    public static final int TagExternalFlashBounce = 0x1204;
-    public static final int TagExternalFlashZoom = 0x1205;
-    public static final int TagInternalFlash = 0x1208;
-    public static final int TagManualFlash = 0x1209;
-    public static final int TagMacroLed = 0x120A;
+    public static final IntegerKey TAGExternalFlash = new IntegerKey(0x1201);
+    public static final IntegerKey TAGExternalFlashGuideNumber = new IntegerKey(0x1203);
+    public static final IntegerKey TAGExternalFlashBounce = new IntegerKey(0x1204);
+    public static final IntegerKey TAGExternalFlashZoom = new IntegerKey(0x1205);
+    public static final IntegerKey TAGInternalFlash = new IntegerKey(0x1208);
+    public static final IntegerKey TAGManualFlash = new IntegerKey(0x1209);
+    public static final IntegerKey TAGMacroLed = new IntegerKey(0x120A);
 
-    public static final int TagSensorTemperature = 0x1500;
+    public static final IntegerKey TAGSensorTemperature = new IntegerKey(0x1500);
 
-    public static final int TagImageStabilization = 0x1600;
+    public static final IntegerKey TAGImageStabilization = new IntegerKey(0x1600);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TagFocusInfoVersion, "Focus Info Version");
@@ -103,7 +103,7 @@ public class OlympusFocusInfoMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

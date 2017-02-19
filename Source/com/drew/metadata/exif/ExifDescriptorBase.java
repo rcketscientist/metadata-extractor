@@ -65,7 +65,7 @@ public abstract class ExifDescriptorBase<T extends Directory, U extends Key> ext
 
     @Nullable
     @Override
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         // TODO order case blocks and corresponding methods in the same order as the TAG_* values are defined
 
@@ -805,7 +805,7 @@ public abstract class ExifDescriptorBase<T extends Directory, U extends Key> ext
     /// - Next, for every pixel in that pattern, an identification code.
     /// </remarks>
     @Nullable
-    private int[] decodeCfaPattern(int tagType)
+    private int[] decodeCfaPattern(IntegerKey tagType)
     {
         int[] ret;
 

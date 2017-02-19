@@ -22,6 +22,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -32,53 +33,53 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class OlympusRawInfoMakernoteDirectory extends Directory
+public class OlympusRawInfoMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TagRawInfoVersion = 0x0000;
-    public static final int TagWbRbLevelsUsed = 0x0100;
-    public static final int TagWbRbLevelsAuto = 0x0110;
-    public static final int TagWbRbLevelsShade = 0x0120;
-    public static final int TagWbRbLevelsCloudy = 0x0121;
-    public static final int TagWbRbLevelsFineWeather = 0x0122;
-    public static final int TagWbRbLevelsTungsten = 0x0123;
-    public static final int TagWbRbLevelsEveningSunlight = 0x0124;
-    public static final int TagWbRbLevelsDaylightFluor = 0x0130;
-    public static final int TagWbRbLevelsDayWhiteFluor = 0x0131;
-    public static final int TagWbRbLevelsCoolWhiteFluor = 0x0132;
-    public static final int TagWbRbLevelsWhiteFluorescent = 0x0133;
+    public static final IntegerKey TagRawInfoVersion = new IntegerKey(0x0000);
+    public static final IntegerKey TagWbRbLevelsUsed = new IntegerKey(0x0100);
+    public static final IntegerKey TagWbRbLevelsAuto = new IntegerKey(0x0110);
+    public static final IntegerKey TagWbRbLevelsShade = new IntegerKey(0x0120);
+    public static final IntegerKey TagWbRbLevelsCloudy = new IntegerKey(0x0121);
+    public static final IntegerKey TagWbRbLevelsFineWeather = new IntegerKey(0x0122);
+    public static final IntegerKey TagWbRbLevelsTungsten = new IntegerKey(0x0123);
+    public static final IntegerKey TagWbRbLevelsEveningSunlight = new IntegerKey(0x0124);
+    public static final IntegerKey TagWbRbLevelsDaylightFluor = new IntegerKey(0x0130);
+    public static final IntegerKey TagWbRbLevelsDayWhiteFluor = new IntegerKey(0x0131);
+    public static final IntegerKey TagWbRbLevelsCoolWhiteFluor = new IntegerKey(0x0132);
+    public static final IntegerKey TagWbRbLevelsWhiteFluorescent = new IntegerKey(0x0133);
 
-    public static final int TagColorMatrix2 = 0x0200;
-    public static final int TagCoringFilter = 0x0310;
-    public static final int TagCoringValues = 0x0311;
-    public static final int TagBlackLevel2 = 0x0600;
-    public static final int TagYCbCrCoefficients = 0x0601;
-    public static final int TagValidPixelDepth = 0x0611;
-    public static final int TagCropLeft = 0x0612;
-    public static final int TagCropTop = 0x0613;
-    public static final int TagCropWidth = 0x0614;
-    public static final int TagCropHeight = 0x0615;
+    public static final IntegerKey TagColorMatrix2 = new IntegerKey(0x0200);
+    public static final IntegerKey TagCoringFilter = new IntegerKey(0x0310);
+    public static final IntegerKey TagCoringValues = new IntegerKey(0x0311);
+    public static final IntegerKey TagBlackLevel2 = new IntegerKey(0x0600);
+    public static final IntegerKey TagYCbCrCoefficients = new IntegerKey(0x0601);
+    public static final IntegerKey TagValidPixelDepth = new IntegerKey(0x0611);
+    public static final IntegerKey TagCropLeft = new IntegerKey(0x0612);
+    public static final IntegerKey TagCropTop = new IntegerKey(0x0613);
+    public static final IntegerKey TagCropWidth = new IntegerKey(0x0614);
+    public static final IntegerKey TagCropHeight = new IntegerKey(0x0615);
 
-    public static final int TagLightSource = 0x1000;
+    public static final IntegerKey TagLightSource = new IntegerKey(0x1000);
 
     //the following 5 tags all have 3 values: val, min, max
-    public static final int TagWhiteBalanceComp = 0x1001;
-    public static final int TagSaturationSetting = 0x1010;
-    public static final int TagHueSetting = 0x1011;
-    public static final int TagContrastSetting = 0x1012;
-    public static final int TagSharpnessSetting = 0x1013;
+    public static final IntegerKey TagWhiteBalanceComp = new IntegerKey(0x1001);
+    public static final IntegerKey TagSaturationSetting = new IntegerKey(0x1010);
+    public static final IntegerKey TagHueSetting = new IntegerKey(0x1011);
+    public static final IntegerKey TagContrastSetting = new IntegerKey(0x1012);
+    public static final IntegerKey TagSharpnessSetting = new IntegerKey(0x1013);
 
     // settings written by Camedia Master 4.x
-    public static final int TagCmExposureCompensation = 0x2000;
-    public static final int TagCmWhiteBalance = 0x2001;
-    public static final int TagCmWhiteBalanceComp = 0x2002;
-    public static final int TagCmWhiteBalanceGrayPoint = 0x2010;
-    public static final int TagCmSaturation = 0x2020;
-    public static final int TagCmHue = 0x2021;
-    public static final int TagCmContrast = 0x2022;
-    public static final int TagCmSharpness = 0x2023;
+    public static final IntegerKey TagCmExposureCompensation = new IntegerKey(0x2000);
+    public static final IntegerKey TagCmWhiteBalance = new IntegerKey(0x2001);
+    public static final IntegerKey TagCmWhiteBalanceComp = new IntegerKey(0x2002);
+    public static final IntegerKey TagCmWhiteBalanceGrayPoint = new IntegerKey(0x2010);
+    public static final IntegerKey TagCmSaturation = new IntegerKey(0x2020);
+    public static final IntegerKey TagCmHue = new IntegerKey(0x2021);
+    public static final IntegerKey TagCmContrast = new IntegerKey(0x2022);
+    public static final IntegerKey TagCmSharpness = new IntegerKey(0x2023);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TagRawInfoVersion, "Raw Info Version");
@@ -135,7 +136,7 @@ public class OlympusRawInfoMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

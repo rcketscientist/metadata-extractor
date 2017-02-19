@@ -34,25 +34,25 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class CasioType2MakernoteDirectory extends Directory
+public class CasioType2MakernoteDirectory extends Directory<IntegerKey>
 {
     /**
      * 2 values - x,y dimensions in pixels.
      */
-    public static final int TAG_THUMBNAIL_DIMENSIONS = 0x0002;
+    public static final IntegerKey TAG_THUMBNAIL_DIMENSIONS = new IntegerKey(0x0002);
     /**
      * Size in bytes
      */
-    public static final int TAG_THUMBNAIL_SIZE = 0x0003;
+    public static final IntegerKey TAG_THUMBNAIL_SIZE = new IntegerKey(0x0003);
     /**
      * Offset of Preview Thumbnail
      */
-    public static final int TAG_THUMBNAIL_OFFSET = 0x0004;
+    public static final IntegerKey TAG_THUMBNAIL_OFFSET = new IntegerKey(0x0004);
     /**
      * 1 = Fine
      * 2 = Super Fine
      */
-    public static final int TAG_QUALITY_MODE = 0x0008;
+    public static final IntegerKey TAG_QUALITY_MODE = new IntegerKey(0x0008);
     /**
      * 0 = 640 x 480 pixels
      * 4 = 1600 x 1200 pixels
@@ -62,19 +62,19 @@ public class CasioType2MakernoteDirectory extends Directory
      * 22 = 2304 x 1728 pixels
      * 36 = 3008 x 2008 pixels
      */
-    public static final int TAG_IMAGE_SIZE = 0x0009;
+    public static final IntegerKey TAG_IMAGE_SIZE = new IntegerKey(0x0009);
     /**
      * 0 = Normal
      * 1 = Macro
      */
-    public static final int TAG_FOCUS_MODE_1 = 0x000D;
+    public static final IntegerKey TAG_FOCUS_MODE_1 = new IntegerKey(0x000D);
     /**
      * 3 = 50
      * 4 = 64
      * 6 = 100
      * 9 = 200
      */
-    public static final int TAG_ISO_SENSITIVITY = 0x0014;
+    public static final IntegerKey TAG_ISO_SENSITIVITY = new IntegerKey(0x0014);
     /**
      * 0 = Auto
      * 1 = Daylight
@@ -83,101 +83,101 @@ public class CasioType2MakernoteDirectory extends Directory
      * 4 = Fluorescent
      * 5 = Manual
      */
-    public static final int TAG_WHITE_BALANCE_1 = 0x0019;
+    public static final IntegerKey TAG_WHITE_BALANCE_1 = new IntegerKey(0x0019);
     /**
      * Units are tenths of a millimetre
      */
-    public static final int TAG_FOCAL_LENGTH = 0x001D;
+    public static final IntegerKey TAG_FOCAL_LENGTH = new IntegerKey(0x001D);
     /**
      * 0 = -1
      * 1 = Normal
      * 2 = +1
      */
-    public static final int TAG_SATURATION = 0x001F;
+    public static final IntegerKey TAG_SATURATION = new IntegerKey(0x001F);
     /**
      * 0 = -1
      * 1 = Normal
      * 2 = +1
      */
-    public static final int TAG_CONTRAST = 0x0020;
+    public static final IntegerKey TAG_CONTRAST = new IntegerKey(0x0020);
     /**
      * 0 = -1
      * 1 = Normal
      * 2 = +1
      */
-    public static final int TAG_SHARPNESS = 0x0021;
+    public static final IntegerKey TAG_SHARPNESS = new IntegerKey(0x0021);
     /**
      * See PIM specification here: http://www.ozhiker.com/electronics/pjmt/jpeg_info/pim.html
      */
-    public static final int TAG_PRINT_IMAGE_MATCHING_INFO = 0x0E00;
+    public static final IntegerKey TAG_PRINT_IMAGE_MATCHING_INFO = new IntegerKey(0x0E00);
     /**
      * Alternate thumbnail offset
      */
-    public static final int TAG_PREVIEW_THUMBNAIL = 0x2000;
+    public static final IntegerKey TAG_PREVIEW_THUMBNAIL = new IntegerKey(0x2000);
     /**
      *
      */
-    public static final int TAG_WHITE_BALANCE_BIAS = 0x2011;
+    public static final IntegerKey TAG_WHITE_BALANCE_BIAS = new IntegerKey(0x2011);
     /**
      * 12 = Flash
      * 0 = Manual
      * 1 = Auto?
      * 4 = Flash?
      */
-    public static final int TAG_WHITE_BALANCE_2 = 0x2012;
+    public static final IntegerKey TAG_WHITE_BALANCE_2 = new IntegerKey(0x2012);
     /**
      * Units are millimetres
      */
-    public static final int TAG_OBJECT_DISTANCE = 0x2022;
+    public static final IntegerKey TAG_OBJECT_DISTANCE = new IntegerKey(0x2022);
     /**
      * 0 = Off
      */
-    public static final int TAG_FLASH_DISTANCE = 0x2034;
+    public static final IntegerKey TAG_FLASH_DISTANCE = new IntegerKey(0x2034);
     /**
      * 2 = Normal Mode
      */
-    public static final int TAG_RECORD_MODE = 0x3000;
+    public static final IntegerKey TAG_RECORD_MODE = new IntegerKey(0x3000);
     /**
      * 1 = Off?
      */
-    public static final int TAG_SELF_TIMER = 0x3001;
+    public static final IntegerKey TAG_SELF_TIMER = new IntegerKey(0x3001);
     /**
      * 3 = Fine
      */
-    public static final int TAG_QUALITY = 0x3002;
+    public static final IntegerKey TAG_QUALITY = new IntegerKey(0x3002);
     /**
      * 1 = Fixation
      * 6 = Multi-Area Auto Focus
      */
-    public static final int TAG_FOCUS_MODE_2 = 0x3003;
+    public static final IntegerKey TAG_FOCUS_MODE_2 = new IntegerKey(0x3003);
     /**
      * (string)
      */
-    public static final int TAG_TIME_ZONE = 0x3006;
+    public static final IntegerKey TAG_TIME_ZONE = new IntegerKey(0x3006);
     /**
      *
      */
-    public static final int TAG_BESTSHOT_MODE = 0x3007;
+    public static final IntegerKey TAG_BESTSHOT_MODE = new IntegerKey(0x3007);
     /**
      * 0 = Off
      * 1 = On?
      */
-    public static final int TAG_CCD_ISO_SENSITIVITY = 0x3014;
+    public static final IntegerKey TAG_CCD_ISO_SENSITIVITY = new IntegerKey(0x3014);
     /**
      * 0 = Off
      */
-    public static final int TAG_COLOUR_MODE = 0x3015;
+    public static final IntegerKey TAG_COLOUR_MODE = new IntegerKey(0x3015);
     /**
      * 0 = Off
      */
-    public static final int TAG_ENHANCEMENT = 0x3016;
+    public static final IntegerKey TAG_ENHANCEMENT = new IntegerKey(0x3016);
     /**
      * 0 = Off
      */
-    public static final int TAG_FILTER = 0x3017;
+    public static final IntegerKey TAG_FILTER = new IntegerKey(0x3017);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -226,7 +226,7 @@ public class CasioType2MakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

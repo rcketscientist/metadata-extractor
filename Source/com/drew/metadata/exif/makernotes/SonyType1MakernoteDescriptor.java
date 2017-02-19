@@ -42,7 +42,7 @@ public class SonyType1MakernoteDescriptor extends TagDescriptor<SonyType1Makerno
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_IMAGE_QUALITY:

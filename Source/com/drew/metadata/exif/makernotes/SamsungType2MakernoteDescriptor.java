@@ -45,7 +45,7 @@ public class SamsungType2MakernoteDescriptor extends TagDescriptor<SamsungType2M
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TagMakerNoteVersion:

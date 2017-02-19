@@ -34,31 +34,31 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class CasioType1MakernoteDirectory extends Directory
+public class CasioType1MakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_RECORDING_MODE = 0x0001;
-    public static final int TAG_QUALITY = 0x0002;
-    public static final int TAG_FOCUSING_MODE = 0x0003;
-    public static final int TAG_FLASH_MODE = 0x0004;
-    public static final int TAG_FLASH_INTENSITY = 0x0005;
-    public static final int TAG_OBJECT_DISTANCE = 0x0006;
-    public static final int TAG_WHITE_BALANCE = 0x0007;
-    public static final int TAG_UNKNOWN_1 = 0x0008;
-    public static final int TAG_UNKNOWN_2 = 0x0009;
-    public static final int TAG_DIGITAL_ZOOM = 0x000A;
-    public static final int TAG_SHARPNESS = 0x000B;
-    public static final int TAG_CONTRAST = 0x000C;
-    public static final int TAG_SATURATION = 0x000D;
-    public static final int TAG_UNKNOWN_3 = 0x000E;
-    public static final int TAG_UNKNOWN_4 = 0x000F;
-    public static final int TAG_UNKNOWN_5 = 0x0010;
-    public static final int TAG_UNKNOWN_6 = 0x0011;
-    public static final int TAG_UNKNOWN_7 = 0x0012;
-    public static final int TAG_UNKNOWN_8 = 0x0013;
-    public static final int TAG_CCD_SENSITIVITY = 0x0014;
+    public static final IntegerKey TAG_RECORDING_MODE = new IntegerKey(0x0001);
+    public static final IntegerKey TAG_QUALITY = new IntegerKey(0x0002);
+    public static final IntegerKey TAG_FOCUSING_MODE = new IntegerKey(0x0003);
+    public static final IntegerKey TAG_FLASH_MODE = new IntegerKey(0x0004);
+    public static final IntegerKey TAG_FLASH_INTENSITY = new IntegerKey(0x0005);
+    public static final IntegerKey TAG_OBJECT_DISTANCE = new IntegerKey(0x0006);
+    public static final IntegerKey TAG_WHITE_BALANCE = new IntegerKey(0x0007);
+    public static final IntegerKey TAG_UNKNOWN_1 = new IntegerKey(0x0008);
+    public static final IntegerKey TAG_UNKNOWN_2 = new IntegerKey(0x0009);
+    public static final IntegerKey TAG_DIGITAL_ZOOM = new IntegerKey(0x000A);
+    public static final IntegerKey TAG_SHARPNESS = new IntegerKey(0x000B);
+    public static final IntegerKey TAG_CONTRAST = new IntegerKey(0x000C);
+    public static final IntegerKey TAG_SATURATION = new IntegerKey(0x000D);
+    public static final IntegerKey TAG_UNKNOWN_3 = new IntegerKey(0x000E);
+    public static final IntegerKey TAG_UNKNOWN_4 = new IntegerKey(0x000F);
+    public static final IntegerKey TAG_UNKNOWN_5 = new IntegerKey(0x0010);
+    public static final IntegerKey TAG_UNKNOWN_6 = new IntegerKey(0x0011);
+    public static final IntegerKey TAG_UNKNOWN_7 = new IntegerKey(0x0012);
+    public static final IntegerKey TAG_UNKNOWN_8 = new IntegerKey(0x0013);
+    public static final IntegerKey TAG_CCD_SENSITIVITY = new IntegerKey(0x0014);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -98,7 +98,7 @@ public class CasioType1MakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

@@ -23,6 +23,7 @@ package com.drew.metadata.webp;
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
 import com.drew.metadata.IntegerKey;
+import com.drew.metadata.Key;
 
 import java.util.HashMap;
 
@@ -32,6 +33,25 @@ import java.util.HashMap;
 @SuppressWarnings("WeakerAccess")
 public class WebpDirectory extends Directory<IntegerKey>
 {
+    public enum Keys implements Key<Integer>
+    {
+        TAG_IMAGE_HEIGHT(1),
+        TAG_IMAGE_WIDTH(2),
+        TAG_HAS_ALPHA(3),
+        TAG_IS_ANIMATION(4);
+
+        private final int key;
+        Keys(int key)
+        {
+            this.key = key;
+        }
+
+        @Override
+        public Integer getKey()
+        {
+            return key;
+        }
+    }
     public static final IntegerKey TAG_IMAGE_HEIGHT = new IntegerKey(1);
     public static final IntegerKey TAG_IMAGE_WIDTH = new IntegerKey(2);
     public static final IntegerKey TAG_HAS_ALPHA = new IntegerKey(3);

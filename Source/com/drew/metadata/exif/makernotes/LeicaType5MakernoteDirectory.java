@@ -34,18 +34,18 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class LeicaType5MakernoteDirectory extends Directory
+public class LeicaType5MakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TagLensModel = 0x0303;
-    public static final int TagOriginalFileName = 0x0407;
-    public static final int TagOriginalDirectory = 0x0408;
-    public static final int TagExposureMode = 0x040d;
-    public static final int TagShotInfo = 0x0410;
-    public static final int TagFilmMode = 0x0412;
-    public static final int TagWbRgbLevels = 0x0413;
+    public static final IntegerKey TAGLensModel = new IntegerKey(0x0303);
+    public static final IntegerKey TAGOriginalFileName = new IntegerKey(0x0407);
+    public static final IntegerKey TAGOriginalDirectory = new IntegerKey(0x0408);
+    public static final IntegerKey TAGExposureMode = new IntegerKey(0x040d);
+    public static final IntegerKey TAGShotInfo = new IntegerKey(0x0410);
+    public static final IntegerKey TAGFilmMode = new IntegerKey(0x0412);
+    public static final IntegerKey TAGWbRgbLevels = new IntegerKey(0x0413);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -72,7 +72,7 @@ public class LeicaType5MakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

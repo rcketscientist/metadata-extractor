@@ -42,7 +42,7 @@ public class JpegDescriptor extends TagDescriptor<JpegDirectory>
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType)
         {

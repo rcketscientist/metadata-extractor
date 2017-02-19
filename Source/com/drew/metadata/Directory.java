@@ -42,13 +42,13 @@ import java.util.regex.Pattern;
  * @author Drew Noakes https://drewnoakes.com
  */
 @java.lang.SuppressWarnings("WeakerAccess")
-public abstract class Directory<T extends Key>
+public abstract class Directory<K extends Key>
 {
     private static final String _floatFormatPattern = "0.###";
 
     /** Map of values hashed by type identifiers. */
     @NotNull
-    protected final Map<T, Object> _tagMap = new HashMap<T, Object>();
+    protected final Map<K, Object> _tagMap = new HashMap<K, Object>();
 
     /**
      * A convenient list holding tag values in the order in which they were stored.
@@ -83,7 +83,7 @@ public abstract class Directory<T extends Key>
      * @return the map of tag names
      */
     @NotNull
-    protected abstract HashMap<T, String> getTagNameMap();
+    protected abstract HashMap<K, String> getTagNameMap();
 
     protected Directory()
     {}
@@ -105,7 +105,7 @@ public abstract class Directory<T extends Key>
      * @return true if a value exists for the specified tag type, false if not
      */
     @java.lang.SuppressWarnings({ "UnnecessaryBoxing" })
-    public boolean containsTag(T tagType)
+    public boolean containsTag(K tagType)
     {
         return _tagMap.containsKey(tagType);
     }
@@ -200,7 +200,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as an int
      */
-    public void setInt(T tagType, int value)
+    public void setInt(K tagType, int value)
     {
         setObject(tagType, value);
     }
@@ -211,7 +211,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag identifier
      * @param ints    the int array to store
      */
-    public void setIntArray(T tagType, @NotNull int[] ints)
+    public void setIntArray(K tagType, @NotNull int[] ints)
     {
         setObjectArray(tagType, ints);
     }
@@ -222,7 +222,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a float
      */
-    public void setFloat(T tagType, float value)
+    public void setFloat(K tagType, float value)
     {
         setObject(tagType, value);
     }
@@ -233,7 +233,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag identifier
      * @param floats  the float array to store
      */
-    public void setFloatArray(T tagType, @NotNull float[] floats)
+    public void setFloatArray(K tagType, @NotNull float[] floats)
     {
         setObjectArray(tagType, floats);
     }
@@ -244,7 +244,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a double
      */
-    public void setDouble(T tagType, double value)
+    public void setDouble(K tagType, double value)
     {
         setObject(tagType, value);
     }
@@ -255,7 +255,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag identifier
      * @param doubles the double array to store
      */
-    public void setDoubleArray(T tagType, @NotNull double[] doubles)
+    public void setDoubleArray(K tagType, @NotNull double[] doubles)
     {
         setObjectArray(tagType, doubles);
     }
@@ -267,7 +267,7 @@ public abstract class Directory<T extends Key>
      * @param value   the value for the specified tag as a StringValue
      */
     @java.lang.SuppressWarnings({ "ConstantConditions" })
-    public void setStringValue(T tagType, @NotNull StringValue value)
+    public void setStringValue(K tagType, @NotNull StringValue value)
     {
         if (value == null)
             throw new NullPointerException("cannot set a null StringValue");
@@ -281,7 +281,7 @@ public abstract class Directory<T extends Key>
      * @param value   the value for the specified tag as a String
      */
     @java.lang.SuppressWarnings({ "ConstantConditions" })
-    public void setString(T tagType, @NotNull String value)
+    public void setString(K tagType, @NotNull String value)
     {
         if (value == null)
             throw new NullPointerException("cannot set a null String");
@@ -294,7 +294,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag identifier
      * @param strings the String array to store
      */
-    public void setStringArray(T tagType, @NotNull String[] strings)
+    public void setStringArray(K tagType, @NotNull String[] strings)
     {
         setObjectArray(tagType, strings);
     }
@@ -305,7 +305,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag identifier
      * @param strings the StringValue array to store
      */
-    public void setStringValueArray(T tagType, @NotNull StringValue[] strings)
+    public void setStringValueArray(K tagType, @NotNull StringValue[] strings)
     {
         setObjectArray(tagType, strings);
     }
@@ -316,7 +316,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a boolean
      */
-    public void setBoolean(T tagType, boolean value)
+    public void setBoolean(K tagType, boolean value)
     {
         setObject(tagType, value);
     }
@@ -327,7 +327,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a long
      */
-    public void setLong(T tagType, long value)
+    public void setLong(K tagType, long value)
     {
         setObject(tagType, value);
     }
@@ -338,7 +338,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a java.util.Date
      */
-    public void setDate(T tagType, @NotNull java.util.Date value)
+    public void setDate(K tagType, @NotNull java.util.Date value)
     {
         setObject(tagType, value);
     }
@@ -349,7 +349,7 @@ public abstract class Directory<T extends Key>
      * @param tagType  the tag's value as an int
      * @param rational rational number
      */
-    public void setRational(T tagType, @NotNull Rational rational)
+    public void setRational(K tagType, @NotNull Rational rational)
     {
         setObject(tagType, rational);
     }
@@ -360,7 +360,7 @@ public abstract class Directory<T extends Key>
      * @param tagType   the tag identifier
      * @param rationals the Rational array to store
      */
-    public void setRationalArray(T tagType, @NotNull Rational[] rationals)
+    public void setRationalArray(K tagType, @NotNull Rational[] rationals)
     {
         setObjectArray(tagType, rationals);
     }
@@ -371,7 +371,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag identifier
      * @param bytes   the byte array to store
      */
-    public void setByteArray(T tagType, @NotNull byte[] bytes)
+    public void setByteArray(K tagType, @NotNull byte[] bytes)
     {
         setObjectArray(tagType, bytes);
     }
@@ -384,7 +384,7 @@ public abstract class Directory<T extends Key>
      * @throws NullPointerException if value is <code>null</code>
      */
     @java.lang.SuppressWarnings( { "ConstantConditions", "UnnecessaryBoxing" })
-    public void setObject(T tagType, @NotNull Object value)
+    public void setObject(K tagType, @NotNull Object value)
     {
         if (value == null)
             throw new NullPointerException("cannot set a null object");
@@ -406,7 +406,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag's value as an int
      * @param array   the array of values for the specified tag
      */
-    public void setObjectArray(T tagType, @NotNull Object array)
+    public void setObjectArray(K tagType, @NotNull Object array)
     {
         // for now, we don't do anything special -- this method might be a candidate for removal once the dust settles
         setObject(tagType, array);
@@ -429,7 +429,7 @@ public abstract class Directory<T extends Key>
      *
      * @throws MetadataException if no value exists for tagType or if it cannot be converted to an int.
      */
-    public int getInt(T tagType) throws MetadataException
+    public int getInt(K tagType) throws MetadataException
     {
         Integer integer = getInteger(tagType);
         if (integer!=null)
@@ -457,7 +457,7 @@ public abstract class Directory<T extends Key>
      * If the value is not found or cannot be converted to int, <code>null</code> is returned.
      */
     @Nullable
-    public Integer getInteger(T tagType)
+    public Integer getInteger(K tagType)
     {
         Object o = getObject(tagType);
 
@@ -508,7 +508,7 @@ public abstract class Directory<T extends Key>
      * @return the tag's value as an array of Strings. If the value is unset or cannot be converted, <code>null</code> is returned.
      */
     @Nullable
-    public String[] getStringArray(T tagType)
+    public String[] getStringArray(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -558,7 +558,7 @@ public abstract class Directory<T extends Key>
      * @return the tag's value as an array of StringValues. If the value is unset or cannot be converted, <code>null</code> is returned.
      */
     @Nullable
-    public StringValue[] getStringValueArray(T tagType)
+    public StringValue[] getStringValueArray(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -578,7 +578,7 @@ public abstract class Directory<T extends Key>
      * @return the tag's value as an int array
      */
     @Nullable
-    public int[] getIntArray(T tagType)
+    public int[] getIntArray(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -631,7 +631,7 @@ public abstract class Directory<T extends Key>
      * @return the tag's value as a byte array
      */
     @Nullable
-    public byte[] getByteArray(T tagType)
+    public byte[] getByteArray(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null) {
@@ -676,7 +676,7 @@ public abstract class Directory<T extends Key>
     }
 
     /** Returns the specified tag's value as a double, if possible. */
-    public double getDouble(T tagType) throws MetadataException
+    public double getDouble(K tagType) throws MetadataException
     {
         Double value = getDoubleObject(tagType);
         if (value!=null)
@@ -688,7 +688,7 @@ public abstract class Directory<T extends Key>
     }
     /** Returns the specified tag's value as a Double.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Double getDoubleObject(T tagType)
+    public Double getDoubleObject(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -707,7 +707,7 @@ public abstract class Directory<T extends Key>
     }
 
     /** Returns the specified tag's value as a float, if possible. */
-    public float getFloat(T tagType) throws MetadataException
+    public float getFloat(K tagType) throws MetadataException
     {
         Float value = getFloatObject(tagType);
         if (value!=null)
@@ -720,7 +720,7 @@ public abstract class Directory<T extends Key>
 
     /** Returns the specified tag's value as a float.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Float getFloatObject(T tagType)
+    public Float getFloatObject(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -738,7 +738,7 @@ public abstract class Directory<T extends Key>
     }
 
     /** Returns the specified tag's value as a long, if possible. */
-    public long getLong(T tagType) throws MetadataException
+    public long getLong(K tagType) throws MetadataException
     {
         Long value = getLongObject(tagType);
         if (value != null)
@@ -751,7 +751,7 @@ public abstract class Directory<T extends Key>
 
     /** Returns the specified tag's value as a long.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Long getLongObject(T tagType)
+    public Long getLongObject(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -769,7 +769,7 @@ public abstract class Directory<T extends Key>
     }
 
     /** Returns the specified tag's value as a boolean, if possible. */
-    public boolean getBoolean(T tagType) throws MetadataException
+    public boolean getBoolean(K tagType) throws MetadataException
     {
         Boolean value = getBooleanObject(tagType);
         if (value != null)
@@ -783,7 +783,7 @@ public abstract class Directory<T extends Key>
     /** Returns the specified tag's value as a boolean.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
     @Nullable
     @SuppressWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "keep API interface consistent")
-    public Boolean getBooleanObject(T tagType)
+    public Boolean getBooleanObject(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -809,7 +809,7 @@ public abstract class Directory<T extends Key>
      * the GMT {@link TimeZone}.  If the {@link TimeZone} is known, call the overload that accepts one as an argument.
      */
     @Nullable
-    public java.util.Date getDate(T tagType)
+    public java.util.Date getDate(K tagType)
     {
         return getDate(tagType, null, null);
     }
@@ -822,7 +822,7 @@ public abstract class Directory<T extends Key>
      * is only considered if the underlying value is a string and it has no time zone information, otherwise it has no effect.
      */
     @Nullable
-    public java.util.Date getDate(T tagType, @Nullable TimeZone timeZone)
+    public java.util.Date getDate(K tagType, @Nullable TimeZone timeZone)
     {
         return getDate(tagType, null, timeZone);
     }
@@ -843,7 +843,7 @@ public abstract class Directory<T extends Key>
      * @return a Date representing the time value
      */
     @Nullable
-    public java.util.Date getDate(T tagType, @Nullable String subsecond, @Nullable TimeZone timeZone)
+    public java.util.Date getDate(K tagType, @Nullable String subsecond, @Nullable TimeZone timeZone)
     {
         Object o = getObject(tagType);
 
@@ -862,8 +862,8 @@ public abstract class Directory<T extends Key>
                     "yyyy-MM-dd HH:mm",
                     "yyyy.MM.dd HH:mm:ss",
                     "yyyy.MM.dd HH:mm",
-                    "yyyy-MM-dd'T'HH:mm:ss",
-                    "yyyy-MM-dd'T'HH:mm",
+                    "yyyy-MM-dd'K'HH:mm:ss",
+                    "yyyy-MM-dd'K'HH:mm",
                     "yyyy-MM-dd",
                     "yyyy-MM",
                     "yyyyMMdd", // as used in IPTC data
@@ -925,7 +925,7 @@ public abstract class Directory<T extends Key>
 
     /** Returns the specified tag's value as a Rational.  If the value is unset or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Rational getRational(T tagType)
+    public Rational getRational(K tagType)
     {
         Object o = getObject(tagType);
 
@@ -946,7 +946,7 @@ public abstract class Directory<T extends Key>
 
     /** Returns the specified tag's value as an array of Rational.  If the value is unset or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Rational[] getRationalArray(T tagType)
+    public Rational[] getRationalArray(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -966,7 +966,7 @@ public abstract class Directory<T extends Key>
      *         <code>null</code> if the tag hasn't been defined.
      */
     @Nullable
-    public String getString(T tagType)
+    public String getString(K tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -1046,7 +1046,7 @@ public abstract class Directory<T extends Key>
     }
 
     @Nullable
-    public String getString(T tagType, String charset)
+    public String getString(K tagType, String charset)
     {
         byte[] bytes = getByteArray(tagType);
         if (bytes==null)
@@ -1059,7 +1059,7 @@ public abstract class Directory<T extends Key>
     }
 
     @Nullable
-    public StringValue getStringValue(T tagType)
+    public StringValue getStringValue(K tagType)
     {
         Object o = getObject(tagType);
         if (o instanceof StringValue)
@@ -1075,7 +1075,7 @@ public abstract class Directory<T extends Key>
      */
     @java.lang.SuppressWarnings({ "UnnecessaryBoxing" })
     @Nullable
-    public Object getObject(T tagType)
+    public Object getObject(K tagType)
     {
         return _tagMap.get(tagType);
     }
@@ -1089,9 +1089,9 @@ public abstract class Directory<T extends Key>
      * @return the tag's name as a String
      */
     @NotNull
-    public String getTagName(T tagType)
+    public String getTagName(K tagType)
     {
-        HashMap<T, String> nameMap = getTagNameMap();
+        HashMap<K, String> nameMap = getTagNameMap();
         if (!nameMap.containsKey(tagType)) {
             return "Unknown tag (" + tagType.toString() + ")";
         }
@@ -1104,7 +1104,7 @@ public abstract class Directory<T extends Key>
      * @param tagType the tag type identifier
      * @return whether this directory has a name for the specified tag
      */
-    public boolean hasTagName(T tagType)
+    public boolean hasTagName(K tagType)
     {
         return getTagNameMap().containsKey(tagType);
     }
@@ -1117,7 +1117,7 @@ public abstract class Directory<T extends Key>
      * @return the tag value's description as a String
      */
     @Nullable
-    public String getDescription(T tagType)
+    public String getDescription(K tagType)
     {
         assert(_descriptor != null);
         return _descriptor.getDescription(tagType);

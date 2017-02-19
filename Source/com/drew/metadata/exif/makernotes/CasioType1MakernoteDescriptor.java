@@ -41,7 +41,7 @@ public class CasioType1MakernoteDescriptor extends TagDescriptor<CasioType1Maker
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_RECORDING_MODE:

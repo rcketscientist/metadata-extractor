@@ -33,33 +33,33 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class LeicaMakernoteDirectory extends Directory
+public class LeicaMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_QUALITY = 0x0300;
-    public static final int TAG_USER_PROFILE = 0x0302;
-    public static final int TAG_SERIAL_NUMBER = 0x0303;
-    public static final int TAG_WHITE_BALANCE = 0x0304;
+    public static final IntegerKey TAG_QUALITY = new IntegerKey(0x0300);
+    public static final IntegerKey TAG_USER_PROFILE = new IntegerKey(0x0302);
+    public static final IntegerKey TAG_SERIAL_NUMBER = new IntegerKey(0x0303);
+    public static final IntegerKey TAG_WHITE_BALANCE = new IntegerKey(0x0304);
 
-    public static final int TAG_LENS_TYPE = 0x0310;
-    public static final int TAG_EXTERNAL_SENSOR_BRIGHTNESS_VALUE = 0x0311;
-    public static final int TAG_MEASURED_LV = 0x0312;
-    public static final int TAG_APPROXIMATE_F_NUMBER = 0x0313;
+    public static final IntegerKey TAG_LENS_TYPE = new IntegerKey(0x0310);
+    public static final IntegerKey TAG_EXTERNAL_SENSOR_BRIGHTNESS_VALUE = new IntegerKey(0x0311);
+    public static final IntegerKey TAG_MEASURED_LV = new IntegerKey(0x0312);
+    public static final IntegerKey TAG_APPROXIMATE_F_NUMBER = new IntegerKey(0x0313);
 
-    public static final int TAG_CAMERA_TEMPERATURE = 0x0320;
-    public static final int TAG_COLOR_TEMPERATURE = 0x0321;
-    public static final int TAG_WB_RED_LEVEL = 0x0322;
-    public static final int TAG_WB_GREEN_LEVEL = 0x0323;
-    public static final int TAG_WB_BLUE_LEVEL = 0x0324;
+    public static final IntegerKey TAG_CAMERA_TEMPERATURE = new IntegerKey(0x0320);
+    public static final IntegerKey TAG_COLOR_TEMPERATURE = new IntegerKey(0x0321);
+    public static final IntegerKey TAG_WB_RED_LEVEL = new IntegerKey(0x0322);
+    public static final IntegerKey TAG_WB_GREEN_LEVEL = new IntegerKey(0x0323);
+    public static final IntegerKey TAG_WB_BLUE_LEVEL = new IntegerKey(0x0324);
 
-    public static final int TAG_CCD_VERSION = 0x0330;
-    public static final int TAG_CCD_BOARD_VERSION = 0x0331;
-    public static final int TAG_CONTROLLER_BOARD_VERSION = 0x0332;
-    public static final int TAG_M16_C_VERSION = 0x0333;
+    public static final IntegerKey TAG_CCD_VERSION = new IntegerKey(0x0330);
+    public static final IntegerKey TAG_CCD_BOARD_VERSION = new IntegerKey(0x0331);
+    public static final IntegerKey TAG_CONTROLLER_BOARD_VERSION = new IntegerKey(0x0332);
+    public static final IntegerKey TAG_M16_C_VERSION = new IntegerKey(0x0333);
 
-    public static final int TAG_IMAGE_ID_NUMBER = 0x0340;
+    public static final IntegerKey TAG_IMAGE_ID_NUMBER = new IntegerKey(0x0340);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -101,7 +101,7 @@ public class LeicaMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

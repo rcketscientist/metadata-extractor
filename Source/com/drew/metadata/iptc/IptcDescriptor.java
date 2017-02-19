@@ -44,7 +44,7 @@ public class IptcDescriptor extends TagDescriptor<IptcDirectory>
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_DATE_CREATED:
@@ -79,7 +79,7 @@ public class IptcDescriptor extends TagDescriptor<IptcDirectory>
     }
 
     @Nullable
-    public String getDateDescription(int tagType)
+    public String getDateDescription(IntegerKey tagType)
     {
         String s = _directory.getString(tagType);
         if (s == null)
@@ -90,7 +90,7 @@ public class IptcDescriptor extends TagDescriptor<IptcDirectory>
     }
 
     @Nullable
-    public String getTimeDescription(int tagType)
+    public String getTimeDescription(IntegerKey tagType)
     {
         String s = _directory.getString(tagType);
         if (s == null)

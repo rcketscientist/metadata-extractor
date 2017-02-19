@@ -41,7 +41,7 @@ public class CasioType2MakernoteDescriptor extends TagDescriptor<CasioType2Maker
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_THUMBNAIL_DIMENSIONS:

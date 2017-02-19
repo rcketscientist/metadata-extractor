@@ -45,7 +45,7 @@ public class GpsDescriptor extends TagDescriptor<GpsDirectory>
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_VERSION_ID:
@@ -138,7 +138,7 @@ public class GpsDescriptor extends TagDescriptor<GpsDirectory>
     }
 
     @Nullable
-    public String getGpsDirectionDescription(int tagType)
+    public String getGpsDirectionDescription(IntegerKey tagType)
     {
         Rational angle = _directory.getRational(tagType);
         // provide a decimal version of rational numbers in the description, to avoid strings like "35334/199 degrees"
@@ -149,7 +149,7 @@ public class GpsDescriptor extends TagDescriptor<GpsDirectory>
     }
 
     @Nullable
-    public String getGpsDirectionReferenceDescription(int tagType)
+    public String getGpsDirectionReferenceDescription(IntegerKey tagType)
     {
         final String value = _directory.getString(tagType);
         if (value == null)

@@ -39,7 +39,7 @@ public class PcxDescriptor extends TagDescriptor<PcxDirectory>
     }
 
     @Override
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_VERSION:

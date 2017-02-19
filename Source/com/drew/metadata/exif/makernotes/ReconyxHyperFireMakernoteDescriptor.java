@@ -48,7 +48,7 @@ public class ReconyxHyperFireMakernoteDescriptor extends TagDescriptor<ReconyxHy
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_MAKERNOTE_VERSION:

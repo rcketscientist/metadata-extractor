@@ -47,7 +47,7 @@ public class OlympusFocusInfoMakernoteDescriptor extends TagDescriptor<OlympusFo
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TagFocusInfoVersion:

@@ -23,6 +23,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
+import com.drew.metadata.IntegerKey;
 import com.drew.metadata.TagDescriptor;
 
 import static com.drew.metadata.exif.makernotes.SonyType6MakernoteDirectory.*;
@@ -42,7 +43,7 @@ public class SonyType6MakernoteDescriptor extends TagDescriptor<SonyType6Makerno
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_MAKERNOTE_THUMB_VERSION:

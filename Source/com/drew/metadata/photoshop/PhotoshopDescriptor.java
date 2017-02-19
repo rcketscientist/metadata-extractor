@@ -44,7 +44,7 @@ public class PhotoshopDescriptor extends TagDescriptor<PhotoshopDirectory>
     }
 
     @Override
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_THUMBNAIL:
@@ -256,7 +256,7 @@ public class PhotoshopDescriptor extends TagDescriptor<PhotoshopDirectory>
     }
 
     @Nullable
-    public String getThumbnailDescription(int tagType)
+    public String getThumbnailDescription(IntegerKey tagType)
     {
         try {
             byte[] v = _directory.getByteArray(tagType);
@@ -303,7 +303,7 @@ public class PhotoshopDescriptor extends TagDescriptor<PhotoshopDirectory>
     }
 
     @Nullable
-    private String getSimpleString(int tagType)
+    private String getSimpleString(IntegerKey tagType)
     {
         final byte[] bytes = _directory.getByteArray(tagType);
         if (bytes == null)
@@ -312,7 +312,7 @@ public class PhotoshopDescriptor extends TagDescriptor<PhotoshopDirectory>
     }
 
     @Nullable
-    private String getBinaryDataString(int tagType)
+    private String getBinaryDataString(IntegerKey tagType)
     {
         final byte[] bytes = _directory.getByteArray(tagType);
         if (bytes == null)

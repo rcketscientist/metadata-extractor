@@ -22,6 +22,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -35,7 +36,7 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class CanonMakernoteDirectory extends Directory
+public class CanonMakernoteDirectory extends Directory<IntegerKey>
 {
     // These TAG_*_ARRAY Exif tags map to arrays of int16 values which are split out into separate 'fake' tags.
     // When an attempt is made to set one of these on the directory, it is split and the corresponding offset added to the tagType.
@@ -47,90 +48,90 @@ public class CanonMakernoteDirectory extends Directory
     private static final int TAG_SHOT_INFO_ARRAY                = 0x0004;
     private static final int TAG_PANORAMA_ARRAY                 = 0x0005;
 
-    public static final int TAG_CANON_IMAGE_TYPE                = 0x0006;
-    public static final int TAG_CANON_FIRMWARE_VERSION          = 0x0007;
-    public static final int TAG_CANON_IMAGE_NUMBER              = 0x0008;
-    public static final int TAG_CANON_OWNER_NAME                = 0x0009;
-    public static final int TAG_CANON_SERIAL_NUMBER             = 0x000C;
-    public static final int TAG_CAMERA_INFO_ARRAY               = 0x000D; // depends upon model, so leave for now
-    public static final int TAG_CANON_FILE_LENGTH               = 0x000E;
-    public static final int TAG_CANON_CUSTOM_FUNCTIONS_ARRAY    = 0x000F; // depends upon model, so leave for now
-    public static final int TAG_MODEL_ID                        = 0x0010;
-    public static final int TAG_MOVIE_INFO_ARRAY                = 0x0011; // not currently decoded as not sure we see it in still images
+    public static final IntegerKey TAG_CANON_IMAGE_TYPE                = new IntegerKey(0x0006);
+    public static final IntegerKey TAG_CANON_FIRMWARE_VERSION          = new IntegerKey(0x0007);
+    public static final IntegerKey TAG_CANON_IMAGE_NUMBER              = new IntegerKey(0x0008);
+    public static final IntegerKey TAG_CANON_OWNER_NAME                = new IntegerKey(0x0009);
+    public static final IntegerKey TAG_CANON_SERIAL_NUMBER             = new IntegerKey(0x000C);
+    public static final IntegerKey TAG_CAMERA_INFO_ARRAY               = new IntegerKey(0x000D); // depends upon model, so leave for now
+    public static final IntegerKey TAG_CANON_FILE_LENGTH               = new IntegerKey(0x000E);
+    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTIONS_ARRAY    = new IntegerKey(0x000F); // depends upon model, so leave for now
+    public static final IntegerKey TAG_MODEL_ID                        = new IntegerKey(0x0010);
+    public static final IntegerKey TAG_MOVIE_INFO_ARRAY                = new IntegerKey(0x0011); // not currently decoded as not sure we see it in still images
     private static final int TAG_AF_INFO_ARRAY                  = 0x0012; // not currently decoded
-    public static final int TAG_THUMBNAIL_IMAGE_VALID_AREA      = 0x0013;
-    public static final int TAG_SERIAL_NUMBER_FORMAT            = 0x0015;
-    public static final int TAG_SUPER_MACRO                     = 0x001A;
-    public static final int TAG_DATE_STAMP_MODE                 = 0x001C;
-    public static final int TAG_MY_COLORS                       = 0x001D;
-    public static final int TAG_FIRMWARE_REVISION               = 0x001E;
-    public static final int TAG_CATEGORIES                      = 0x0023;
-    public static final int TAG_FACE_DETECT_ARRAY_1             = 0x0024;
-    public static final int TAG_FACE_DETECT_ARRAY_2             = 0x0025;
-    public static final int TAG_AF_INFO_ARRAY_2                 = 0x0026;
-    public static final int TAG_IMAGE_UNIQUE_ID                 = 0x0028;
+    public static final IntegerKey TAG_THUMBNAIL_IMAGE_VALID_AREA      = new IntegerKey(0x0013);
+    public static final IntegerKey TAG_SERIAL_NUMBER_FORMAT            = new IntegerKey(0x0015);
+    public static final IntegerKey TAG_SUPER_MACRO                     = new IntegerKey(0x001A);
+    public static final IntegerKey TAG_DATE_STAMP_MODE                 = new IntegerKey(0x001C);
+    public static final IntegerKey TAG_MY_COLORS                       = new IntegerKey(0x001D);
+    public static final IntegerKey TAG_FIRMWARE_REVISION               = new IntegerKey(0x001E);
+    public static final IntegerKey TAG_CATEGORIES                      = new IntegerKey(0x0023);
+    public static final IntegerKey TAG_FACE_DETECT_ARRAY_1             = new IntegerKey(0x0024);
+    public static final IntegerKey TAG_FACE_DETECT_ARRAY_2             = new IntegerKey(0x0025);
+    public static final IntegerKey TAG_AF_INFO_ARRAY_2                 = new IntegerKey(0x0026);
+    public static final IntegerKey TAG_IMAGE_UNIQUE_ID                 = new IntegerKey(0x0028);
 
-    public static final int TAG_RAW_DATA_OFFSET                 = 0x0081;
-    public static final int TAG_ORIGINAL_DECISION_DATA_OFFSET   = 0x0083;
+    public static final IntegerKey TAG_RAW_DATA_OFFSET                 = new IntegerKey(0x0081);
+    public static final IntegerKey TAG_ORIGINAL_DECISION_DATA_OFFSET   = new IntegerKey(0x0083);
 
-    public static final int TAG_CUSTOM_FUNCTIONS_1D_ARRAY       = 0x0090; // not currently decoded
-    public static final int TAG_PERSONAL_FUNCTIONS_ARRAY        = 0x0091; // not currently decoded
-    public static final int TAG_PERSONAL_FUNCTION_VALUES_ARRAY  = 0x0092; // not currently decoded
-    public static final int TAG_FILE_INFO_ARRAY                 = 0x0093; // not currently decoded
-    public static final int TAG_AF_POINTS_IN_FOCUS_1D           = 0x0094;
-    public static final int TAG_LENS_MODEL                      = 0x0095;
-    public static final int TAG_SERIAL_INFO_ARRAY               = 0x0096; // not currently decoded
-    public static final int TAG_DUST_REMOVAL_DATA               = 0x0097;
-    public static final int TAG_CROP_INFO                       = 0x0098; // not currently decoded
-    public static final int TAG_CUSTOM_FUNCTIONS_ARRAY_2        = 0x0099; // not currently decoded
-    public static final int TAG_ASPECT_INFO_ARRAY               = 0x009A; // not currently decoded
-    public static final int TAG_PROCESSING_INFO_ARRAY           = 0x00A0; // not currently decoded
-    public static final int TAG_TONE_CURVE_TABLE                = 0x00A1;
-    public static final int TAG_SHARPNESS_TABLE                 = 0x00A2;
-    public static final int TAG_SHARPNESS_FREQ_TABLE            = 0x00A3;
-    public static final int TAG_WHITE_BALANCE_TABLE             = 0x00A4;
-    public static final int TAG_COLOR_BALANCE_ARRAY             = 0x00A9; // not currently decoded
-    public static final int TAG_MEASURED_COLOR_ARRAY            = 0x00AA; // not currently decoded
-    public static final int TAG_COLOR_TEMPERATURE               = 0x00AE;
-    public static final int TAG_CANON_FLAGS_ARRAY               = 0x00B0; // not currently decoded
-    public static final int TAG_MODIFIED_INFO_ARRAY             = 0x00B1; // not currently decoded
-    public static final int TAG_TONE_CURVE_MATCHING             = 0x00B2;
-    public static final int TAG_WHITE_BALANCE_MATCHING          = 0x00B3;
-    public static final int TAG_COLOR_SPACE                     = 0x00B4;
-    public static final int TAG_PREVIEW_IMAGE_INFO_ARRAY        = 0x00B6; // not currently decoded
-    public static final int TAG_VRD_OFFSET                      = 0x00D0;
-    public static final int TAG_SENSOR_INFO_ARRAY               = 0x00E0; // not currently decoded
+    public static final IntegerKey TAG_CUSTOM_FUNCTIONS_1D_ARRAY       = new IntegerKey(0x0090); // not currently decoded
+    public static final IntegerKey TAG_PERSONAL_FUNCTIONS_ARRAY        = new IntegerKey(0x0091); // not currently decoded
+    public static final IntegerKey TAG_PERSONAL_FUNCTION_VALUES_ARRAY  = new IntegerKey(0x0092); // not currently decoded
+    public static final IntegerKey TAG_FILE_INFO_ARRAY                 = new IntegerKey(0x0093); // not currently decoded
+    public static final IntegerKey TAG_AF_POINTS_IN_FOCUS_1D           = new IntegerKey(0x0094);
+    public static final IntegerKey TAG_LENS_MODEL                      = new IntegerKey(0x0095);
+    public static final IntegerKey TAG_SERIAL_INFO_ARRAY               = new IntegerKey(0x0096); // not currently decoded
+    public static final IntegerKey TAG_DUST_REMOVAL_DATA               = new IntegerKey(0x0097);
+    public static final IntegerKey TAG_CROP_INFO                       = new IntegerKey(0x0098); // not currently decoded
+    public static final IntegerKey TAG_CUSTOM_FUNCTIONS_ARRAY_2        = new IntegerKey(0x0099); // not currently decoded
+    public static final IntegerKey TAG_ASPECT_INFO_ARRAY               = new IntegerKey(0x009A); // not currently decoded
+    public static final IntegerKey TAG_PROCESSING_INFO_ARRAY           = new IntegerKey(0x00A0); // not currently decoded
+    public static final IntegerKey TAG_TONE_CURVE_TABLE                = new IntegerKey(0x00A1);
+    public static final IntegerKey TAG_SHARPNESS_TABLE                 = new IntegerKey(0x00A2);
+    public static final IntegerKey TAG_SHARPNESS_FREQ_TABLE            = new IntegerKey(0x00A3);
+    public static final IntegerKey TAG_WHITE_BALANCE_TABLE             = new IntegerKey(0x00A4);
+    public static final IntegerKey TAG_COLOR_BALANCE_ARRAY             = new IntegerKey(0x00A9); // not currently decoded
+    public static final IntegerKey TAG_MEASURED_COLOR_ARRAY            = new IntegerKey(0x00AA); // not currently decoded
+    public static final IntegerKey TAG_COLOR_TEMPERATURE               = new IntegerKey(0x00AE);
+    public static final IntegerKey TAG_CANON_FLAGS_ARRAY               = new IntegerKey(0x00B0); // not currently decoded
+    public static final IntegerKey TAG_MODIFIED_INFO_ARRAY             = new IntegerKey(0x00B1); // not currently decoded
+    public static final IntegerKey TAG_TONE_CURVE_MATCHING             = new IntegerKey(0x00B2);
+    public static final IntegerKey TAG_WHITE_BALANCE_MATCHING          = new IntegerKey(0x00B3);
+    public static final IntegerKey TAG_COLOR_SPACE                     = new IntegerKey(0x00B4);
+    public static final IntegerKey TAG_PREVIEW_IMAGE_INFO_ARRAY        = new IntegerKey(0x00B6); // not currently decoded
+    public static final IntegerKey TAG_VRD_OFFSET                      = new IntegerKey(0x00D0);
+    public static final IntegerKey TAG_SENSOR_INFO_ARRAY               = new IntegerKey(0x00E0); // not currently decoded
 
-    public static final int TAG_COLOR_DATA_ARRAY_2              = 0x4001; // depends upon camera model, not currently decoded
-    public static final int TAG_CRW_PARAM                       = 0x4002; // depends upon camera model, not currently decoded
-    public static final int TAG_COLOR_INFO_ARRAY_2              = 0x4003; // not currently decoded
-    public static final int TAG_BLACK_LEVEL                     = 0x4008; // not currently decoded
-    public static final int TAG_CUSTOM_PICTURE_STYLE_FILE_NAME  = 0x4010;
-    public static final int TAG_COLOR_INFO_ARRAY                = 0x4013; // not currently decoded
-    public static final int TAG_VIGNETTING_CORRECTION_ARRAY_1   = 0x4015; // not currently decoded
-    public static final int TAG_VIGNETTING_CORRECTION_ARRAY_2   = 0x4016; // not currently decoded
-    public static final int TAG_LIGHTING_OPTIMIZER_ARRAY        = 0x4018; // not currently decoded
-    public static final int TAG_LENS_INFO_ARRAY                 = 0x4019; // not currently decoded
-    public static final int TAG_AMBIANCE_INFO_ARRAY             = 0x4020; // not currently decoded
-    public static final int TAG_FILTER_INFO_ARRAY               = 0x4024; // not currently decoded
+    public static final IntegerKey TAG_COLOR_DATA_ARRAY_2              = new IntegerKey(0x4001); // depends upon camera model, not currently decoded
+    public static final IntegerKey TAG_CRW_PARAM                       = new IntegerKey(0x4002); // depends upon camera model, not currently decoded
+    public static final IntegerKey TAG_COLOR_INFO_ARRAY_2              = new IntegerKey(0x4003); // not currently decoded
+    public static final IntegerKey TAG_BLACK_LEVEL                     = new IntegerKey(0x4008); // not currently decoded
+    public static final IntegerKey TAG_CUSTOM_PICTURE_STYLE_FILE_NAME  = new IntegerKey(0x4010);
+    public static final IntegerKey TAG_COLOR_INFO_ARRAY                = new IntegerKey(0x4013); // not currently decoded
+    public static final IntegerKey TAG_VIGNETTING_CORRECTION_ARRAY_1   = new IntegerKey(0x4015); // not currently decoded
+    public static final IntegerKey TAG_VIGNETTING_CORRECTION_ARRAY_2   = new IntegerKey(0x4016); // not currently decoded
+    public static final IntegerKey TAG_LIGHTING_OPTIMIZER_ARRAY        = new IntegerKey(0x4018); // not currently decoded
+    public static final IntegerKey TAG_LENS_INFO_ARRAY                 = new IntegerKey(0x4019); // not currently decoded
+    public static final IntegerKey TAG_AMBIANCE_INFO_ARRAY             = new IntegerKey(0x4020); // not currently decoded
+    public static final IntegerKey TAG_FILTER_INFO_ARRAY               = new IntegerKey(0x4024); // not currently decoded
 
     public final static class CameraSettings
     {
         // These 'sub'-tag values have been created for consistency -- they don't exist within the exif segment
-        private static final int OFFSET = 0xC100;
+        private static final IntegerKey OFFSET = 0xC100;
 
         /**
          * 1 = Macro
          * 2 = Normal
          */
-        public static final int TAG_MACRO_MODE = OFFSET + 0x01;
-        public static final int TAG_SELF_TIMER_DELAY = OFFSET + 0x02;
+        public static final IntegerKey TAG_MACRO_MODE = OFFSET + 0x01;
+        public static final IntegerKey TAG_SELF_TIMER_DELAY = OFFSET + 0x02;
         /**
          * 2 = Normal
          * 3 = Fine
          * 5 = Superfine
          */
-        public static final int TAG_QUALITY = OFFSET + 0x03;
+        public static final IntegerKey TAG_QUALITY = OFFSET + 0x03;
         /**
          * 0 = Flash Not Fired
          * 1 = Auto
@@ -141,13 +142,13 @@ public class CanonMakernoteDirectory extends Directory
          * 6 = On + Red Eye Reduction
          * 16 = External Flash
          */
-        public static final int TAG_FLASH_MODE = OFFSET + 0x04;
+        public static final IntegerKey TAG_FLASH_MODE = OFFSET + 0x04;
         /**
          * 0 = Single Frame or Timer Mode
          * 1 = Continuous
          */
-        public static final int TAG_CONTINUOUS_DRIVE_MODE = OFFSET + 0x05;
-        public static final int TAG_UNKNOWN_2 = OFFSET + 0x06;
+        public static final IntegerKey TAG_CONTINUOUS_DRIVE_MODE = OFFSET + 0x05;
+        public static final IntegerKey TAG_UNKNOWN_2 = OFFSET + 0x06;
         /**
          * 0 = One-Shot
          * 1 = AI Servo
@@ -157,15 +158,15 @@ public class CanonMakernoteDirectory extends Directory
          * 5 = Continuous
          * 6 = Manual Focus
          */
-        public static final int TAG_FOCUS_MODE_1 = OFFSET + 0x07;
-        public static final int TAG_UNKNOWN_3 = OFFSET + 0x08;
-        public static final int TAG_RECORD_MODE = OFFSET + 0x09;
+        public static final IntegerKey TAG_FOCUS_MODE_1 = OFFSET + 0x07;
+        public static final IntegerKey TAG_UNKNOWN_3 = OFFSET + 0x08;
+        public static final IntegerKey TAG_RECORD_MODE = OFFSET + 0x09;
         /**
          * 0 = Large
          * 1 = Medium
          * 2 = Small
          */
-        public static final int TAG_IMAGE_SIZE = OFFSET + 0x0A;
+        public static final IntegerKey TAG_IMAGE_SIZE = OFFSET + 0x0A;
         /**
          * 0 = Full Auto
          * 1 = Manual
@@ -180,31 +181,31 @@ public class CanonMakernoteDirectory extends Directory
          * 10 = Macro / Close-Up
          * 11 = Pan Focus
          */
-        public static final int TAG_EASY_SHOOTING_MODE = OFFSET + 0x0B;
+        public static final IntegerKey TAG_EASY_SHOOTING_MODE = OFFSET + 0x0B;
         /**
          * 0 = No Digital Zoom
          * 1 = 2x
          * 2 = 4x
          */
-        public static final int TAG_DIGITAL_ZOOM = OFFSET + 0x0C;
+        public static final IntegerKey TAG_DIGITAL_ZOOM = OFFSET + 0x0C;
         /**
          * 0 = Normal
          * 1 = High
          * 65535 = Low
          */
-        public static final int TAG_CONTRAST = OFFSET + 0x0D;
+        public static final IntegerKey TAG_CONTRAST = OFFSET + 0x0D;
         /**
          * 0 = Normal
          * 1 = High
          * 65535 = Low
          */
-        public static final int TAG_SATURATION = OFFSET + 0x0E;
+        public static final IntegerKey TAG_SATURATION = OFFSET + 0x0E;
         /**
          * 0 = Normal
          * 1 = High
          * 65535 = Low
          */
-        public static final int TAG_SHARPNESS = OFFSET + 0x0F;
+        public static final IntegerKey TAG_SHARPNESS = OFFSET + 0x0F;
         /**
          * 0 = Check ISOSpeedRatings EXIF tag for ISO Speed
          * 15 = Auto ISO
@@ -213,20 +214,20 @@ public class CanonMakernoteDirectory extends Directory
          * 18 = ISO 200
          * 19 = ISO 400
          */
-        public static final int TAG_ISO = OFFSET + 0x10;
+        public static final IntegerKey TAG_ISO = OFFSET + 0x10;
         /**
          * 3 = Evaluative
          * 4 = Partial
          * 5 = Centre Weighted
          */
-        public static final int TAG_METERING_MODE = OFFSET + 0x11;
+        public static final IntegerKey TAG_METERING_MODE = OFFSET + 0x11;
         /**
          * 0 = Manual
          * 1 = Auto
          * 3 = Close-up (Macro)
          * 8 = Locked (Pan Mode)
          */
-        public static final int TAG_FOCUS_TYPE = OFFSET + 0x12;
+        public static final IntegerKey TAG_FOCUS_TYPE = OFFSET + 0x12;
         /**
          * 12288 = None (Manual Focus)
          * 12289 = Auto Selected
@@ -234,7 +235,7 @@ public class CanonMakernoteDirectory extends Directory
          * 12291 = Centre
          * 12292 = Left
          */
-        public static final int TAG_AF_POINT_SELECTED = OFFSET + 0x13;
+        public static final IntegerKey TAG_AF_POINT_SELECTED = OFFSET + 0x13;
         /**
          * 0 = Easy Shooting (See Easy Shooting Mode)
          * 1 = Program
@@ -243,38 +244,38 @@ public class CanonMakernoteDirectory extends Directory
          * 4 = Manual
          * 5 = A-DEP
          */
-        public static final int TAG_EXPOSURE_MODE = OFFSET + 0x14;
-        public static final int TAG_UNKNOWN_7 = OFFSET + 0x15;
-        public static final int TAG_LENS_TYPE = OFFSET + 0x16;
-        public static final int TAG_LONG_FOCAL_LENGTH = OFFSET + 0x17;
-        public static final int TAG_SHORT_FOCAL_LENGTH = OFFSET + 0x18;
-        public static final int TAG_FOCAL_UNITS_PER_MM = OFFSET + 0x19;
-        public static final int TAG_MAX_APERTURE = OFFSET + 0x1A;
-        public static final int TAG_MIN_APERTURE = OFFSET + 0x1B;
+        public static final IntegerKey TAG_EXPOSURE_MODE = OFFSET + 0x14;
+        public static final IntegerKey TAG_UNKNOWN_7 = OFFSET + 0x15;
+        public static final IntegerKey TAG_LENS_TYPE = OFFSET + 0x16;
+        public static final IntegerKey TAG_LONG_FOCAL_LENGTH = OFFSET + 0x17;
+        public static final IntegerKey TAG_SHORT_FOCAL_LENGTH = OFFSET + 0x18;
+        public static final IntegerKey TAG_FOCAL_UNITS_PER_MM = OFFSET + 0x19;
+        public static final IntegerKey TAG_MAX_APERTURE = OFFSET + 0x1A;
+        public static final IntegerKey TAG_MIN_APERTURE = OFFSET + 0x1B;
         /**
          * 0 = Flash Did Not Fire
          * 1 = Flash Fired
          */
-        public static final int TAG_FLASH_ACTIVITY = OFFSET + 0x1C;
-        public static final int TAG_FLASH_DETAILS = OFFSET + 0x1D;
-        public static final int TAG_FOCUS_CONTINUOUS = OFFSET + 0x1E;
-        public static final int TAG_AE_SETTING = OFFSET + 0x1F;
+        public static final IntegerKey TAG_FLASH_ACTIVITY = OFFSET + 0x1C;
+        public static final IntegerKey TAG_FLASH_DETAILS = OFFSET + 0x1D;
+        public static final IntegerKey TAG_FOCUS_CONTINUOUS = OFFSET + 0x1E;
+        public static final IntegerKey TAG_AE_SETTING = OFFSET + 0x1F;
         /**
          * 0 = Focus Mode: Single
          * 1 = Focus Mode: Continuous
          */
-        public static final int TAG_FOCUS_MODE_2 = OFFSET + 0x20;
+        public static final IntegerKey TAG_FOCUS_MODE_2 = OFFSET + 0x20;
 
-        public static final int TAG_DISPLAY_APERTURE = OFFSET + 0x21;
-        public static final int TAG_ZOOM_SOURCE_WIDTH = OFFSET + 0x22;
-        public static final int TAG_ZOOM_TARGET_WIDTH = OFFSET + 0x23;
+        public static final IntegerKey TAG_DISPLAY_APERTURE = OFFSET + 0x21;
+        public static final IntegerKey TAG_ZOOM_SOURCE_WIDTH = OFFSET + 0x22;
+        public static final IntegerKey TAG_ZOOM_TARGET_WIDTH = OFFSET + 0x23;
 
-        public static final int TAG_SPOT_METERING_MODE = OFFSET + 0x25;
-        public static final int TAG_PHOTO_EFFECT = OFFSET + 0x26;
-        public static final int TAG_MANUAL_FLASH_OUTPUT = OFFSET + 0x27;
+        public static final IntegerKey TAG_SPOT_METERING_MODE = OFFSET + 0x25;
+        public static final IntegerKey TAG_PHOTO_EFFECT = OFFSET + 0x26;
+        public static final IntegerKey TAG_MANUAL_FLASH_OUTPUT = OFFSET + 0x27;
 
-        public static final int TAG_COLOR_TONE = OFFSET + 0x29;
-        public static final int TAG_SRAW_QUALITY = OFFSET + 0x2D;
+        public static final IntegerKey TAG_COLOR_TONE = OFFSET + 0x29;
+        public static final IntegerKey TAG_SRAW_QUALITY = OFFSET + 0x2D;
     }
 
     public final static class FocalLength
@@ -292,9 +293,9 @@ public class CanonMakernoteDirectory extends Directory
          * 5 = Flash
          * 6 = Custom
          */
-        public static final int TAG_WHITE_BALANCE = OFFSET + 0x07;
-        public static final int TAG_SEQUENCE_NUMBER = OFFSET + 0x09;
-        public static final int TAG_AF_POINT_USED = OFFSET + 0x0E;
+        public static final IntegerKey TAG_WHITE_BALANCE = OFFSET + 0x07;
+        public static final IntegerKey TAG_SEQUENCE_NUMBER = OFFSET + 0x09;
+        public static final IntegerKey TAG_AF_POINT_USED = OFFSET + 0x0E;
         /**
          * The value of this tag may be translated into a flash bias value, in EV.
          *
@@ -316,10 +317,10 @@ public class CanonMakernoteDirectory extends Directory
          * 0x0034 = 1.67 EV
          * 0x0040 = 2 EV
          */
-        public static final int TAG_FLASH_BIAS = OFFSET + 0x0F;
-        public static final int TAG_AUTO_EXPOSURE_BRACKETING = OFFSET + 0x10;
-        public static final int TAG_AEB_BRACKET_VALUE = OFFSET + 0x11;
-        public static final int TAG_SUBJECT_DISTANCE = OFFSET + 0x13;
+        public static final IntegerKey TAG_FLASH_BIAS = OFFSET + 0x0F;
+        public static final IntegerKey TAG_AUTO_EXPOSURE_BRACKETING = OFFSET + 0x10;
+        public static final IntegerKey TAG_AEB_BRACKET_VALUE = OFFSET + 0x11;
+        public static final IntegerKey TAG_SUBJECT_DISTANCE = OFFSET + 0x13;
     }
 
     public final static class ShotInfo
@@ -328,34 +329,34 @@ public class CanonMakernoteDirectory extends Directory
 
         private static final int OFFSET = 0xC400;
 
-        public static final int TAG_AUTO_ISO = OFFSET + 1;
-        public static final int TAG_BASE_ISO = OFFSET + 2;
-        public static final int TAG_MEASURED_EV = OFFSET + 3;
-        public static final int TAG_TARGET_APERTURE = OFFSET + 4;
-        public static final int TAG_TARGET_EXPOSURE_TIME = OFFSET + 5;
-        public static final int TAG_EXPOSURE_COMPENSATION = OFFSET + 6;
-        public static final int TAG_WHITE_BALANCE = OFFSET + 7;
-        public static final int TAG_SLOW_SHUTTER = OFFSET + 8;
-        public static final int TAG_SEQUENCE_NUMBER = OFFSET + 9;
-        public static final int TAG_OPTICAL_ZOOM_CODE = OFFSET + 10;
-        public static final int TAG_CAMERA_TEMPERATURE = OFFSET + 12;
-        public static final int TAG_FLASH_GUIDE_NUMBER = OFFSET + 13;
-        public static final int TAG_AF_POINTS_IN_FOCUS = OFFSET + 14;
-        public static final int TAG_FLASH_EXPOSURE_BRACKETING = OFFSET + 15;
-        public static final int TAG_AUTO_EXPOSURE_BRACKETING = OFFSET + 16;
-        public static final int TAG_AEB_BRACKET_VALUE = OFFSET + 17;
-        public static final int TAG_CONTROL_MODE = OFFSET + 18;
-        public static final int TAG_FOCUS_DISTANCE_UPPER = OFFSET + 19;
-        public static final int TAG_FOCUS_DISTANCE_LOWER = OFFSET + 20;
-        public static final int TAG_F_NUMBER = OFFSET + 21;
-        public static final int TAG_EXPOSURE_TIME = OFFSET + 22;
-        public static final int TAG_MEASURED_EV_2 = OFFSET + 23;
-        public static final int TAG_BULB_DURATION = OFFSET + 24;
-        public static final int TAG_CAMERA_TYPE = OFFSET + 26;
-        public static final int TAG_AUTO_ROTATE = OFFSET + 27;
-        public static final int TAG_ND_FILTER = OFFSET + 28;
-        public static final int TAG_SELF_TIMER_2 = OFFSET + 29;
-        public static final int TAG_FLASH_OUTPUT = OFFSET + 33;
+        public static final IntegerKey TAG_AUTO_ISO = OFFSET + 1;
+        public static final IntegerKey TAG_BASE_ISO = OFFSET + 2;
+        public static final IntegerKey TAG_MEASURED_EV = OFFSET + 3;
+        public static final IntegerKey TAG_TARGET_APERTURE = OFFSET + 4;
+        public static final IntegerKey TAG_TARGET_EXPOSURE_TIME = OFFSET + 5;
+        public static final IntegerKey TAG_EXPOSURE_COMPENSATION = OFFSET + 6;
+        public static final IntegerKey TAG_WHITE_BALANCE = OFFSET + 7;
+        public static final IntegerKey TAG_SLOW_SHUTTER = OFFSET + 8;
+        public static final IntegerKey TAG_SEQUENCE_NUMBER = OFFSET + 9;
+        public static final IntegerKey TAG_OPTICAL_ZOOM_CODE = OFFSET + 10;
+        public static final IntegerKey TAG_CAMERA_TEMPERATURE = OFFSET + 12;
+        public static final IntegerKey TAG_FLASH_GUIDE_NUMBER = OFFSET + 13;
+        public static final IntegerKey TAG_AF_POINTS_IN_FOCUS = OFFSET + 14;
+        public static final IntegerKey TAG_FLASH_EXPOSURE_BRACKETING = OFFSET + 15;
+        public static final IntegerKey TAG_AUTO_EXPOSURE_BRACKETING = OFFSET + 16;
+        public static final IntegerKey TAG_AEB_BRACKET_VALUE = OFFSET + 17;
+        public static final IntegerKey TAG_CONTROL_MODE = OFFSET + 18;
+        public static final IntegerKey TAG_FOCUS_DISTANCE_UPPER = OFFSET + 19;
+        public static final IntegerKey TAG_FOCUS_DISTANCE_LOWER = OFFSET + 20;
+        public static final IntegerKey TAG_F_NUMBER = OFFSET + 21;
+        public static final IntegerKey TAG_EXPOSURE_TIME = OFFSET + 22;
+        public static final IntegerKey TAG_MEASURED_EV_2 = OFFSET + 23;
+        public static final IntegerKey TAG_BULB_DURATION = OFFSET + 24;
+        public static final IntegerKey TAG_CAMERA_TYPE = OFFSET + 26;
+        public static final IntegerKey TAG_AUTO_ROTATE = OFFSET + 27;
+        public static final IntegerKey TAG_ND_FILTER = OFFSET + 28;
+        public static final IntegerKey TAG_SELF_TIMER_2 = OFFSET + 29;
+        public static final IntegerKey TAG_FLASH_OUTPUT = OFFSET + 33;
     }
 
     public final static class Panorama
@@ -364,8 +365,8 @@ public class CanonMakernoteDirectory extends Directory
 
         private static final int OFFSET = 0xC500;
 
-        public static final int TAG_PANORAMA_FRAME_NUMBER = OFFSET + 2;
-        public static final int TAG_PANORAMA_DIRECTION = OFFSET + 5;
+        public static final IntegerKey TAG_PANORAMA_FRAME_NUMBER = OFFSET + 2;
+        public static final IntegerKey TAG_PANORAMA_DIRECTION = OFFSET + 5;
     }
 
     public final static class AFInfo
@@ -374,19 +375,19 @@ public class CanonMakernoteDirectory extends Directory
 
         private static final int OFFSET = 0xD200;
 
-        public static final int TAG_NUM_AF_POINTS = OFFSET;
-        public static final int TAG_VALID_AF_POINTS = OFFSET + 1;
-        public static final int TAG_IMAGE_WIDTH = OFFSET + 2;
-        public static final int TAG_IMAGE_HEIGHT = OFFSET + 3;
-        public static final int TAG_AF_IMAGE_WIDTH = OFFSET + 4;
-        public static final int TAG_AF_IMAGE_HEIGHT = OFFSET + 5;
-        public static final int TAG_AF_AREA_WIDTH = OFFSET + 6;
-        public static final int TAG_AF_AREA_HEIGHT = OFFSET + 7;
-        public static final int TAG_AF_AREA_X_POSITIONS = OFFSET + 8;
-        public static final int TAG_AF_AREA_Y_POSITIONS = OFFSET + 9;
-        public static final int TAG_AF_POINTS_IN_FOCUS = OFFSET + 10;
-        public static final int TAG_PRIMARY_AF_POINT_1 = OFFSET + 11;
-        public static final int TAG_PRIMARY_AF_POINT_2 = OFFSET + 12; // not sure why there are two of these
+        public static final IntegerKey TAG_NUM_AF_POINTS = OFFSET;
+        public static final IntegerKey TAG_VALID_AF_POINTS = OFFSET + 1;
+        public static final IntegerKey TAG_IMAGE_WIDTH = OFFSET + 2;
+        public static final IntegerKey TAG_IMAGE_HEIGHT = OFFSET + 3;
+        public static final IntegerKey TAG_AF_IMAGE_WIDTH = OFFSET + 4;
+        public static final IntegerKey TAG_AF_IMAGE_HEIGHT = OFFSET + 5;
+        public static final IntegerKey TAG_AF_AREA_WIDTH = OFFSET + 6;
+        public static final IntegerKey TAG_AF_AREA_HEIGHT = OFFSET + 7;
+        public static final IntegerKey TAG_AF_AREA_X_POSITIONS = OFFSET + 8;
+        public static final IntegerKey TAG_AF_AREA_Y_POSITIONS = OFFSET + 9;
+        public static final IntegerKey TAG_AF_POINTS_IN_FOCUS = OFFSET + 10;
+        public static final IntegerKey TAG_PRIMARY_AF_POINT_1 = OFFSET + 11;
+        public static final IntegerKey TAG_PRIMARY_AF_POINT_2 = OFFSET + 12; // not sure why there are two of these
     }
 
 //    /**
@@ -394,7 +395,7 @@ public class CanonMakernoteDirectory extends Directory
 //     * 0 = Off
 //     * 1 = On
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_LONG_EXPOSURE_NOISE_REDUCTION = 0xC301;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_LONG_EXPOSURE_NOISE_REDUCTION = new IntegerKey(0xC301);
 //
 //    /**
 //     * Shutter/Auto Exposure-lock buttons
@@ -403,35 +404,35 @@ public class CanonMakernoteDirectory extends Directory
 //     * 2 = AF/AF lock
 //     * 3 = AE+release/AE+AF
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_SHUTTER_AUTO_EXPOSURE_LOCK_BUTTONS = 0xC302;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_SHUTTER_AUTO_EXPOSURE_LOCK_BUTTONS = new IntegerKey(0xC302);
 //
 //    /**
 //     * Mirror lockup
 //     * 0 = Disable
 //     * 1 = Enable
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_MIRROR_LOCKUP = 0xC303;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_MIRROR_LOCKUP = new IntegerKey(0xC303);
 //
 //    /**
 //     * Tv/Av and exposure level
 //     * 0 = 1/2 stop
 //     * 1 = 1/3 stop
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_TV_AV_AND_EXPOSURE_LEVEL = 0xC304;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_TV_AV_AND_EXPOSURE_LEVEL = new IntegerKey(0xC304);
 //
 //    /**
 //     * AF-assist light
 //     * 0 = On (Auto)
 //     * 1 = Off
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_AF_ASSIST_LIGHT = 0xC305;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_AF_ASSIST_LIGHT = new IntegerKey(0xC305);
 //
 //    /**
 //     * Shutter speed in Av mode
 //     * 0 = Automatic
 //     * 1 = 1/200 (fixed)
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_SHUTTER_SPEED_IN_AV_MODE = 0xC306;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_SHUTTER_SPEED_IN_AV_MODE = new IntegerKey(0xC306);
 //
 //    /**
 //     * Auto-Exposure Bracketing sequence/auto cancellation
@@ -440,14 +441,14 @@ public class CanonMakernoteDirectory extends Directory
 //     * 2 = -,0,+ / Enabled
 //     * 3 = -,0,+ / Disabled
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_BRACKETING = 0xC307;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_BRACKETING = new IntegerKey(0xC307);
 //
 //    /**
 //     * Shutter Curtain Sync
 //     * 0 = 1st Curtain Sync
 //     * 1 = 2nd Curtain Sync
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_SHUTTER_CURTAIN_SYNC = 0xC308;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_SHUTTER_CURTAIN_SYNC = new IntegerKey(0xC308);
 //
 //    /**
 //     * Lens Auto-Focus stop button Function Switch
@@ -455,14 +456,14 @@ public class CanonMakernoteDirectory extends Directory
 //     * 1 = Operate AF
 //     * 2 = Lock AE and start timer
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_AF_STOP = 0xC309;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_AF_STOP = new IntegerKey(0xC309);
 //
 //    /**
 //     * Auto reduction of fill flash
 //     * 0 = Enable
 //     * 1 = Disable
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_FILL_FLASH_REDUCTION = 0xC30A;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_FILL_FLASH_REDUCTION = new IntegerKey(0xC30A);
 //
 //    /**
 //     * Menu button return position
@@ -470,7 +471,7 @@ public class CanonMakernoteDirectory extends Directory
 //     * 1 = Previous (volatile)
 //     * 2 = Previous
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_MENU_BUTTON_RETURN = 0xC30B;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_MENU_BUTTON_RETURN = new IntegerKey(0xC30B);
 //
 //    /**
 //     * SET button function when shooting
@@ -479,17 +480,17 @@ public class CanonMakernoteDirectory extends Directory
 //     * 2 = Change ISO Speed
 //     * 3 = Select Parameters
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_SET_BUTTON_FUNCTION = 0xC30C;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_SET_BUTTON_FUNCTION = new IntegerKey(0xC30C);
 //
 //    /**
 //     * Sensor cleaning
 //     * 0 = Disable
 //     * 1 = Enable
 //     */
-//    public static final int TAG_CANON_CUSTOM_FUNCTION_SENSOR_CLEANING = 0xC30D;
+//    public static final IntegerKey TAG_CANON_CUSTOM_FUNCTION_SENSOR_CLEANING = new IntegerKey(0xC30D);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -681,13 +682,13 @@ public class CanonMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }
 
     @Override
-    public void setObjectArray(int tagType, @NotNull Object array)
+    public void setObjectArray(IntegerKey tagType, @NotNull Object array)
     {
         // TODO is there some way to drop out 'null' or 'zero' values that are present in the array to reduce the noise?
 

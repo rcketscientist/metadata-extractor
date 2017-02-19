@@ -29,7 +29,7 @@ import java.util.*;
  * @author Drew Noakes https://drewnoakes.com
  */
 
-public final class ErrorDirectory extends Directory
+public final class ErrorDirectory extends Directory<IntegerKey>
 {
 
     public ErrorDirectory()
@@ -49,26 +49,26 @@ public final class ErrorDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
-        return new HashMap<Integer, String>();
+        return new HashMap<IntegerKey, String>();
     }
 
     @Override
     @NotNull
-    public String getTagName(int tagType)
+    public String getTagName(IntegerKey tagType)
     {
         return "";
     }
 
     @Override
-    public boolean hasTagName(int tagType)
+    public boolean hasTagName(IntegerKey tagType)
     {
         return false;
     }
 
     @Override
-    public void setObject(int tagType, @NotNull Object value)
+    public void setObject(IntegerKey tagType, @NotNull Object value)
     {
         throw new UnsupportedOperationException(String.format("Cannot add value to %s.", ErrorDirectory.class.getName()));
     }

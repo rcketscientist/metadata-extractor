@@ -33,14 +33,14 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class AppleMakernoteDirectory extends Directory
+public class AppleMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_RUN_TIME = 0x0003;
-    public static final int TAG_HDR_IMAGE_TYPE = 0x000a;
-    public static final int TAG_BURST_UUID = 0x000b;
+    public static final IntegerKey TAG_RUN_TIME = new IntegerKey(0x0003);
+    public static final IntegerKey TAG_HDR_IMAGE_TYPE = new IntegerKey(0x000a);
+    public static final IntegerKey TAG_BURST_UUID = new IntegerKey(0x000b);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -63,7 +63,7 @@ public class AppleMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

@@ -31,13 +31,13 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class KyoceraMakernoteDirectory extends Directory
+public class KyoceraMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_PROPRIETARY_THUMBNAIL = 0x0001;
-    public static final int TAG_PRINT_IMAGE_MATCHING_INFO = 0x0E00;
+    public static final IntegerKey TAG_PROPRIETARY_THUMBNAIL = new IntegerKey(0x0001);
+    public static final IntegerKey TAG_PRINT_IMAGE_MATCHING_INFO = new IntegerKey(0x0E00);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -59,7 +59,7 @@ public class KyoceraMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

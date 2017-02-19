@@ -39,7 +39,7 @@ public class IcoDescriptor extends TagDescriptor<IcoDirectory>
     }
 
     @Override
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_IMAGE_TYPE:

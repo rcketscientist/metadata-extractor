@@ -29,7 +29,7 @@ import java.util.HashMap;
  *
  * @author Drew Noakes https://drewnoakes.com
  */
-public class MockDirectory extends Directory
+public class MockDirectory extends Directory<IntegerKey>
 {
     private final HashMap<Integer, String> _tagNameMap;
 
@@ -47,7 +47,7 @@ public class MockDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

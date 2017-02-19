@@ -47,7 +47,7 @@ public class OlympusRawInfoMakernoteDescriptor extends TagDescriptor<OlympusRawI
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TagRawInfoVersion:
@@ -100,7 +100,7 @@ public class OlympusRawInfoMakernoteDescriptor extends TagDescriptor<OlympusRawI
         }
         return sb.length() == 0 ? null : sb.toString();
     }
-    
+
     @Nullable
     public String getOlympusLightSourceDescription()
     {

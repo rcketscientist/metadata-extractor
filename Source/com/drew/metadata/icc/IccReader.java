@@ -144,7 +144,7 @@ public class IccReader implements JpegSegmentMetadataReader, MetadataReader
 
             for (int i = 0; i < tagCount; i++) {
                 int pos = IccDirectory.TAG_TAG_COUNT + 4 + i * 12;
-                int tagType = reader.getInt32(pos);
+                IntegerKey tagType = reader.getInt32(pos);
                 int tagPtr = reader.getInt32(pos + 4);
                 int tagLen = reader.getInt32(pos + 8);
                 byte[] b = reader.getBytes(tagPtr, tagLen);
@@ -157,14 +157,14 @@ public class IccReader implements JpegSegmentMetadataReader, MetadataReader
         metadata.addDirectory(directory);
     }
 
-    private void set4ByteString(@NotNull Directory directory, int tagType, @NotNull RandomAccessReader reader) throws IOException
+    private void set4ByteString(@NotNull Directory directory, IntegerKey tagType, @NotNull RandomAccessReader reader) throws IOException
     {
         int i = reader.getInt32(tagType);
         if (i != 0)
             directory.setString(tagType, getStringFromInt32(i));
     }
 
-    private void setInt32(@NotNull Directory directory, int tagType, @NotNull RandomAccessReader reader) throws IOException
+    private void setInt32(@NotNull Directory directory, IntegerKey tagType, @NotNull RandomAccessReader reader) throws IOException
     {
         int i = reader.getInt32(tagType);
         if (i != 0)
@@ -172,7 +172,7 @@ public class IccReader implements JpegSegmentMetadataReader, MetadataReader
     }
 
     @SuppressWarnings({"SameParameterValue"})
-    private void setInt64(@NotNull Directory directory, int tagType, @NotNull RandomAccessReader reader) throws IOException
+    private void setInt64(@NotNull Directory directory, IntegerKey tagType, @NotNull RandomAccessReader reader) throws IOException
     {
         long l = reader.getInt64(tagType);
         if (l != 0)
@@ -180,7 +180,7 @@ public class IccReader implements JpegSegmentMetadataReader, MetadataReader
     }
 
     @SuppressWarnings({"SameParameterValue", "MagicConstant"})
-    private void setDate(@NotNull final IccDirectory directory, final int tagType, @NotNull RandomAccessReader reader) throws IOException
+    private void setDate(@NotNull final IccDirectory directory, final IntegerKey tagType, @NotNull RandomAccessReader reader) throws IOException
     {
         final int y = reader.getUInt16(tagType);
         final int m = reader.getUInt16(tagType + 2);

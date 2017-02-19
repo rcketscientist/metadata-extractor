@@ -29,22 +29,22 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class BmpHeaderDirectory extends Directory
+public class BmpHeaderDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_HEADER_SIZE = -1;
+    public static final IntegerKey TAG_HEADER_SIZE = -1;
 
-    public static final int TAG_IMAGE_HEIGHT = 1;
-    public static final int TAG_IMAGE_WIDTH = 2;
-    public static final int TAG_COLOUR_PLANES = 3;
-    public static final int TAG_BITS_PER_PIXEL = 4;
-    public static final int TAG_COMPRESSION = 5;
-    public static final int TAG_X_PIXELS_PER_METER = 6;
-    public static final int TAG_Y_PIXELS_PER_METER = 7;
-    public static final int TAG_PALETTE_COLOUR_COUNT = 8;
-    public static final int TAG_IMPORTANT_COLOUR_COUNT = 9;
+    public static final IntegerKey TAG_IMAGE_HEIGHT = new IntegerKey(1);
+    public static final IntegerKey TAG_IMAGE_WIDTH = new IntegerKey(2);
+    public static final IntegerKey TAG_COLOUR_PLANES = new IntegerKey(3);
+    public static final IntegerKey TAG_BITS_PER_PIXEL = new IntegerKey(4);
+    public static final IntegerKey TAG_COMPRESSION = new IntegerKey(5);
+    public static final IntegerKey TAG_X_PIXELS_PER_METER = new IntegerKey(6);
+    public static final IntegerKey TAG_Y_PIXELS_PER_METER = new IntegerKey(7);
+    public static final IntegerKey TAG_PALETTE_COLOUR_COUNT = new IntegerKey(8);
+    public static final IntegerKey TAG_IMPORTANT_COLOUR_COUNT = new IntegerKey(9);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_HEADER_SIZE, "Header Size");
@@ -74,7 +74,7 @@ public class BmpHeaderDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

@@ -48,7 +48,7 @@ public class KyoceraMakernoteDescriptor extends TagDescriptor<KyoceraMakernoteDi
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_PROPRIETARY_THUMBNAIL:

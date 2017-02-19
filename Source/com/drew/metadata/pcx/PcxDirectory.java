@@ -30,7 +30,7 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PcxDirectory extends Directory
+public class PcxDirectory extends Directory<IntegerKey>
 {
     public static final IntegerKey TAG_VERSION        = new IntegerKey(1);
     public static final IntegerKey TAG_BITS_PER_PIXEL = new IntegerKey(2);

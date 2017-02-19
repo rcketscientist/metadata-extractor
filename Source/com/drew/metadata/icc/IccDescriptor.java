@@ -46,7 +46,7 @@ public class IccDescriptor extends TagDescriptor<IccDirectory>
     }
 
     @Override
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_PROFILE_VERSION:
@@ -74,7 +74,7 @@ public class IccDescriptor extends TagDescriptor<IccDirectory>
     private static final int ICC_TAG_TYPE_CURV = 0x63757276;
 
     @Nullable
-    private String getTagDataString(int tagType)
+    private String getTagDataString(IntegerKey tagType)
     {
         try {
             byte[] bytes = _directory.getByteArray(tagType);

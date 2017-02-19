@@ -65,7 +65,7 @@ public class DirectoryTest
     public void testUnderlyingInt() throws Exception
     {
         int value = 123;
-        int tagType = 321;
+        IntegerKey tagType = 321;
         _directory.setInt(tagType, value);
 
         assertEquals(value, _directory.getInt(tagType));
@@ -82,7 +82,7 @@ public class DirectoryTest
     @Test public void testSetAndGetIntArray() throws Exception
     {
         int[] inputValues = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        int tagType = 123;
+        IntegerKey tagType = 123;
         _directory.setIntArray(tagType, inputValues);
         int[] outputValues = _directory.getIntArray(tagType);
         assertNotNull(outputValues);

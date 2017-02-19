@@ -42,7 +42,7 @@ public class SanyoMakernoteDescriptor extends TagDescriptor<SanyoMakernoteDirect
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_SANYO_QUALITY:

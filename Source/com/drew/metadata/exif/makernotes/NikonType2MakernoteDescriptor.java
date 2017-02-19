@@ -46,7 +46,7 @@ public class NikonType2MakernoteDescriptor extends TagDescriptor<NikonType2Maker
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType)
         {
@@ -303,7 +303,7 @@ public class NikonType2MakernoteDescriptor extends TagDescriptor<NikonType2Maker
     }
 
     @Nullable
-    private String getEVDescription(int tagType)
+    private String getEVDescription(IntegerKey tagType)
     {
         int[] values = _directory.getIntArray(tagType);
         if (values == null || values.length < 2)

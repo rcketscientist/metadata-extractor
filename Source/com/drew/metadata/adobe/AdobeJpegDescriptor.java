@@ -22,6 +22,7 @@
 package com.drew.metadata.adobe;
 
 import com.drew.lang.annotations.Nullable;
+import com.drew.metadata.IntegerKey;
 import com.drew.metadata.TagDescriptor;
 
 import static com.drew.metadata.adobe.AdobeJpegDirectory.*;
@@ -38,7 +39,7 @@ public class AdobeJpegDescriptor extends TagDescriptor<AdobeJpegDirectory>
     }
 
     @Override
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_COLOR_TRANSFORM:

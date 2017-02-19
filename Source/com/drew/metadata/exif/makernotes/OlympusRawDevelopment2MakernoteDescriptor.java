@@ -48,7 +48,7 @@ public class OlympusRawDevelopment2MakernoteDescriptor extends TagDescriptor<Oly
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TagRawDevVersion:

@@ -22,6 +22,7 @@ package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -33,25 +34,25 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class OlympusRawDevelopmentMakernoteDirectory extends Directory
+public class OlympusRawDevelopmentMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TagRawDevVersion = 0x0000;
-    public static final int TagRawDevExposureBiasValue = 0x0100;
-    public static final int TagRawDevWhiteBalanceValue = 0x0101;
-    public static final int TagRawDevWbFineAdjustment = 0x0102;
-    public static final int TagRawDevGrayPoint = 0x0103;
-    public static final int TagRawDevSaturationEmphasis = 0x0104;
-    public static final int TagRawDevMemoryColorEmphasis = 0x0105;
-    public static final int TagRawDevContrastValue = 0x0106;
-    public static final int TagRawDevSharpnessValue = 0x0107;
-    public static final int TagRawDevColorSpace = 0x0108;
-    public static final int TagRawDevEngine = 0x0109;
-    public static final int TagRawDevNoiseReduction = 0x010a;
-    public static final int TagRawDevEditStatus = 0x010b;
-    public static final int TagRawDevSettings = 0x010c;
+    public static final IntegerKey TagRawDevVersion = new IntegerKey(0x0000);
+    public static final IntegerKey TagRawDevExposureBiasValue = new IntegerKey(0x0100);
+    public static final IntegerKey TagRawDevWhiteBalanceValue = new IntegerKey(0x0101);
+    public static final IntegerKey TagRawDevWbFineAdjustment = new IntegerKey(0x0102);
+    public static final IntegerKey TagRawDevGrayPoint = new IntegerKey(0x0103);
+    public static final IntegerKey TagRawDevSaturationEmphasis = new IntegerKey(0x0104);
+    public static final IntegerKey TagRawDevMemoryColorEmphasis = new IntegerKey(0x0105);
+    public static final IntegerKey TagRawDevContrastValue = new IntegerKey(0x0106);
+    public static final IntegerKey TagRawDevSharpnessValue = new IntegerKey(0x0107);
+    public static final IntegerKey TagRawDevColorSpace = new IntegerKey(0x0108);
+    public static final IntegerKey TagRawDevEngine = new IntegerKey(0x0109);
+    public static final IntegerKey TagRawDevNoiseReduction = new IntegerKey(0x010a);
+    public static final IntegerKey TagRawDevEditStatus = new IntegerKey(0x010b);
+    public static final IntegerKey TagRawDevSettings = new IntegerKey(0x010c);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TagRawDevVersion, "Raw Dev Version");
@@ -84,7 +85,7 @@ public class OlympusRawDevelopmentMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

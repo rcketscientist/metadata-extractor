@@ -1,8 +1,8 @@
 package com.drew.metadata;
 
-public class IntegerKey implements Key
+public class IntegerKey implements Key<IntegerKey>
 {
-    Integer key;
+    public final Integer key;
     public IntegerKey(int  key)
     {
         this.key = key;

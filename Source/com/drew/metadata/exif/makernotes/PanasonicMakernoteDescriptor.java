@@ -56,7 +56,7 @@ public class PanasonicMakernoteDescriptor extends TagDescriptor<PanasonicMakerno
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_QUALITY_MODE:

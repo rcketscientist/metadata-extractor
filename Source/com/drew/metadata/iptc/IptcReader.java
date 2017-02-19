@@ -124,7 +124,7 @@ public class IptcReader implements JpegSegmentMetadataReader
             }
 
             int directoryType;
-            int tagType;
+            IntegerKey tagType;
             int tagByteCount;
             try {
                 directoryType = reader.getUInt8();
@@ -153,7 +153,7 @@ public class IptcReader implements JpegSegmentMetadataReader
         }
     }
 
-    private void processTag(@NotNull SequentialReader reader, @NotNull Directory directory, int directoryType, int tagType, int tagByteCount) throws IOException
+    private void processTag(@NotNull SequentialReader reader, @NotNull Directory directory, int directoryType, IntegerKey tagType, int tagByteCount) throws IOException
     {
         int tagIdentifier = tagType | (directoryType << 8);
 

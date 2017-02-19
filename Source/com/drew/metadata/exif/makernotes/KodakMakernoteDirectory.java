@@ -31,7 +31,7 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class KodakMakernoteDirectory extends Directory
+public class KodakMakernoteDirectory extends Directory<IntegerKey>
 {
     public final static int TAG_KODAK_MODEL = 0;
     public final static int TAG_QUALITY = 9;
@@ -61,7 +61,7 @@ public class KodakMakernoteDirectory extends Directory
     public final static int TAG_SHARPNESS = 107;
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -107,7 +107,7 @@ public class KodakMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

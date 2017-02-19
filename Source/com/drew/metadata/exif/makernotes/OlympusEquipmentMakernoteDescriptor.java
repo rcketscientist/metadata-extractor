@@ -49,7 +49,7 @@ public class OlympusEquipmentMakernoteDescriptor extends TagDescriptor<OlympusEq
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_EQUIPMENT_VERSION:

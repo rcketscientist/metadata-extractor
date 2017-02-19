@@ -42,7 +42,7 @@ public class RicohMakernoteDescriptor extends TagDescriptor<RicohMakernoteDirect
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
 //            case TAG_PROPRIETARY_THUMBNAIL:

@@ -35,7 +35,7 @@ public class GifHeaderDescriptor extends TagDescriptor<GifHeaderDirectory>
     }
 
 //    @Override
-//    public String getDescription(int tagType)
+//    public String getDescription(IntegerKey tagType)
 //    {
 //        switch (tagType) {
 //            case GifHeaderDirectory.TAG_COMPRESSION:

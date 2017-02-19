@@ -53,7 +53,7 @@ public class NikonType1MakernoteDescriptor extends TagDescriptor<NikonType1Maker
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_QUALITY:

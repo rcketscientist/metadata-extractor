@@ -33,44 +33,44 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class OlympusImageProcessingMakernoteDirectory extends Directory
+public class OlympusImageProcessingMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TagImageProcessingVersion = 0x0000;
-    public static final int TagWbRbLevels = 0x0100;
+    public static final IntegerKey TAGImageProcessingVersion = new IntegerKey(0x0000);
+    public static final IntegerKey TAGWbRbLevels = new IntegerKey(0x0100);
     // 0x0101 - in-camera AutoWB unless it is all 0's or all 256's (ref IB)
-    public static final int TagWbRbLevels3000K = 0x0102;
-    public static final int TagWbRbLevels3300K = 0x0103;
-    public static final int TagWbRbLevels3600K = 0x0104;
-    public static final int TagWbRbLevels3900K = 0x0105;
-    public static final int TagWbRbLevels4000K = 0x0106;
-    public static final int TagWbRbLevels4300K = 0x0107;
-    public static final int TagWbRbLevels4500K = 0x0108;
-    public static final int TagWbRbLevels4800K = 0x0109;
-    public static final int TagWbRbLevels5300K = 0x010a;
-    public static final int TagWbRbLevels6000K = 0x010b;
-    public static final int TagWbRbLevels6600K = 0x010c;
-    public static final int TagWbRbLevels7500K = 0x010d;
-    public static final int TagWbRbLevelsCwB1 = 0x010e;
-    public static final int TagWbRbLevelsCwB2 = 0x010f;
-    public static final int TagWbRbLevelsCwB3 = 0x0110;
-    public static final int TagWbRbLevelsCwB4 = 0x0111;
-    public static final int TagWbGLevel3000K = 0x0113;
-    public static final int TagWbGLevel3300K = 0x0114;
-    public static final int TagWbGLevel3600K = 0x0115;
-    public static final int TagWbGLevel3900K = 0x0116;
-    public static final int TagWbGLevel4000K = 0x0117;
-    public static final int TagWbGLevel4300K = 0x0118;
-    public static final int TagWbGLevel4500K = 0x0119;
-    public static final int TagWbGLevel4800K = 0x011a;
-    public static final int TagWbGLevel5300K = 0x011b;
-    public static final int TagWbGLevel6000K = 0x011c;
-    public static final int TagWbGLevel6600K = 0x011d;
-    public static final int TagWbGLevel7500K = 0x011e;
-    public static final int TagWbGLevel = 0x011f;
+    public static final IntegerKey TAGWbRbLevels3000K = new IntegerKey(0x0102);
+    public static final IntegerKey TAGWbRbLevels3300K = new IntegerKey(0x0103);
+    public static final IntegerKey TAGWbRbLevels3600K = new IntegerKey(0x0104);
+    public static final IntegerKey TAGWbRbLevels3900K = new IntegerKey(0x0105);
+    public static final IntegerKey TAGWbRbLevels4000K = new IntegerKey(0x0106);
+    public static final IntegerKey TAGWbRbLevels4300K = new IntegerKey(0x0107);
+    public static final IntegerKey TAGWbRbLevels4500K = new IntegerKey(0x0108);
+    public static final IntegerKey TAGWbRbLevels4800K = new IntegerKey(0x0109);
+    public static final IntegerKey TAGWbRbLevels5300K = new IntegerKey(0x010a);
+    public static final IntegerKey TAGWbRbLevels6000K = new IntegerKey(0x010b);
+    public static final IntegerKey TAGWbRbLevels6600K = new IntegerKey(0x010c);
+    public static final IntegerKey TAGWbRbLevels7500K = new IntegerKey(0x010d);
+    public static final IntegerKey TAGWbRbLevelsCwB1 = new IntegerKey(0x010e);
+    public static final IntegerKey TAGWbRbLevelsCwB2 = new IntegerKey(0x010f);
+    public static final IntegerKey TAGWbRbLevelsCwB3 = new IntegerKey(0x0110);
+    public static final IntegerKey TAGWbRbLevelsCwB4 = new IntegerKey(0x0111);
+    public static final IntegerKey TAGWbGLevel3000K = new IntegerKey(0x0113);
+    public static final IntegerKey TAGWbGLevel3300K = new IntegerKey(0x0114);
+    public static final IntegerKey TAGWbGLevel3600K = new IntegerKey(0x0115);
+    public static final IntegerKey TAGWbGLevel3900K = new IntegerKey(0x0116);
+    public static final IntegerKey TAGWbGLevel4000K = new IntegerKey(0x0117);
+    public static final IntegerKey TAGWbGLevel4300K = new IntegerKey(0x0118);
+    public static final IntegerKey TAGWbGLevel4500K = new IntegerKey(0x0119);
+    public static final IntegerKey TAGWbGLevel4800K = new IntegerKey(0x011a);
+    public static final IntegerKey TAGWbGLevel5300K = new IntegerKey(0x011b);
+    public static final IntegerKey TAGWbGLevel6000K = new IntegerKey(0x011c);
+    public static final IntegerKey TAGWbGLevel6600K = new IntegerKey(0x011d);
+    public static final IntegerKey TAGWbGLevel7500K = new IntegerKey(0x011e);
+    public static final IntegerKey TAGWbGLevel = new IntegerKey(0x011f);
     // 0x0121 = WB preset for flash (about 6000K) (ref IB)
     // 0x0125 = WB preset for underwater (ref IB)
 
-    public static final int TagColorMatrix = 0x0200;
+    public static final IntegerKey TAGColorMatrix = new IntegerKey(0x0200);
     // color matrices (ref 11):
     // 0x0201-0x020d are sRGB color matrices
     // 0x020e-0x021a are Adobe RGB color matrices
@@ -80,46 +80,46 @@ public class OlympusImageProcessingMakernoteDirectory extends Directory
     // 0x0253-0x0255 are Adobe RGB color matrices
     // 0x0256-0x0258 are ProPhoto RGB color matrices
 
-    public static final int TagEnhancer = 0x0300;
-    public static final int TagEnhancerValues = 0x0301;
-    public static final int TagCoringFilter = 0x0310;
-    public static final int TagCoringValues = 0x0311;
-    public static final int TagBlackLevel2 = 0x0600;
-    public static final int TagGainBase = 0x0610;
-    public static final int TagValidBits = 0x0611;
-    public static final int TagCropLeft = 0x0612;
-    public static final int TagCropTop = 0x0613;
-    public static final int TagCropWidth = 0x0614;
-    public static final int TagCropHeight = 0x0615;
-    public static final int TagUnknownBlock1 = 0x0635;
-    public static final int TagUnknownBlock2 = 0x0636;
+    public static final IntegerKey TAGEnhancer = new IntegerKey(0x0300);
+    public static final IntegerKey TAGEnhancerValues = new IntegerKey(0x0301);
+    public static final IntegerKey TAGCoringFilter = new IntegerKey(0x0310);
+    public static final IntegerKey TAGCoringValues = new IntegerKey(0x0311);
+    public static final IntegerKey TAGBlackLevel2 = new IntegerKey(0x0600);
+    public static final IntegerKey TAGGainBase = new IntegerKey(0x0610);
+    public static final IntegerKey TAGValidBits = new IntegerKey(0x0611);
+    public static final IntegerKey TAGCropLeft = new IntegerKey(0x0612);
+    public static final IntegerKey TAGCropTop = new IntegerKey(0x0613);
+    public static final IntegerKey TAGCropWidth = new IntegerKey(0x0614);
+    public static final IntegerKey TAGCropHeight = new IntegerKey(0x0615);
+    public static final IntegerKey TAGUnknownBlock1 = new IntegerKey(0x0635);
+    public static final IntegerKey TAGUnknownBlock2 = new IntegerKey(0x0636);
 
     // 0x0800 LensDistortionParams, float[9] (ref 11)
     // 0x0801 LensShadingParams, int16u[16] (ref 11)
-    public static final int TagSensorCalibration = 0x0805;
+    public static final IntegerKey TAGSensorCalibration = new IntegerKey(0x0805);
 
-    public static final int TagNoiseReduction2 = 0x1010;
-    public static final int TagDistortionCorrection2 = 0x1011;
-    public static final int TagShadingCompensation2 = 0x1012;
-    public static final int TagMultipleExposureMode = 0x101c;
-    public static final int TagUnknownBlock3 = 0x1103;
-    public static final int TagUnknownBlock4 = 0x1104;
-    public static final int TagAspectRatio = 0x1112;
-    public static final int TagAspectFrame = 0x1113;
-    public static final int TagFacesDetected = 0x1200;
-    public static final int TagFaceDetectArea = 0x1201;
-    public static final int TagMaxFaces = 0x1202;
-    public static final int TagFaceDetectFrameSize = 0x1203;
-    public static final int TagFaceDetectFrameCrop = 0x1207;
-    public static final int TagCameraTemperature = 0x1306;
+    public static final IntegerKey TAGNoiseReduction2 = new IntegerKey(0x1010);
+    public static final IntegerKey TAGDistortionCorrection2 = new IntegerKey(0x1011);
+    public static final IntegerKey TAGShadingCompensation2 = new IntegerKey(0x1012);
+    public static final IntegerKey TAGMultipleExposureMode = new IntegerKey(0x101c);
+    public static final IntegerKey TAGUnknownBlock3 = new IntegerKey(0x1103);
+    public static final IntegerKey TAGUnknownBlock4 = new IntegerKey(0x1104);
+    public static final IntegerKey TAGAspectRatio = new IntegerKey(0x1112);
+    public static final IntegerKey TAGAspectFrame = new IntegerKey(0x1113);
+    public static final IntegerKey TAGFacesDetected = new IntegerKey(0x1200);
+    public static final IntegerKey TAGFaceDetectArea = new IntegerKey(0x1201);
+    public static final IntegerKey TAGMaxFaces = new IntegerKey(0x1202);
+    public static final IntegerKey TAGFaceDetectFrameSize = new IntegerKey(0x1203);
+    public static final IntegerKey TAGFaceDetectFrameCrop = new IntegerKey(0x1207);
+    public static final IntegerKey TAGCameraTemperature = new IntegerKey(0x1306);
 
-    public static final int TagKeystoneCompensation = 0x1900;
-    public static final int TagKeystoneDirection = 0x1901;
+    public static final IntegerKey TAGKeystoneCompensation = new IntegerKey(0x1900);
+    public static final IntegerKey TAGKeystoneDirection = new IntegerKey(0x1901);
     // 0x1905 - focal length (PH, E-M1)
-    public static final int TagKeystoneValue = 0x1906;
+    public static final IntegerKey TAGKeystoneValue = new IntegerKey(0x1906);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TagImageProcessingVersion, "Image Processing Version");
@@ -205,7 +205,7 @@ public class OlympusImageProcessingMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

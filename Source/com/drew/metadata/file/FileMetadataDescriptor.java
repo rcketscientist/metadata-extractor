@@ -39,7 +39,7 @@ public class FileMetadataDescriptor extends TagDescriptor<FileMetadataDirectory>
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_FILE_SIZE:

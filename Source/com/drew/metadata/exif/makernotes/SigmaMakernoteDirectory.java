@@ -32,34 +32,34 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class SigmaMakernoteDirectory extends Directory
+public class SigmaMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_SERIAL_NUMBER = 0x2;
-    public static final int TAG_DRIVE_MODE = 0x3;
-    public static final int TAG_RESOLUTION_MODE = 0x4;
-    public static final int TAG_AUTO_FOCUS_MODE = 0x5;
-    public static final int TAG_FOCUS_SETTING = 0x6;
-    public static final int TAG_WHITE_BALANCE = 0x7;
-    public static final int TAG_EXPOSURE_MODE = 0x8;
-    public static final int TAG_METERING_MODE = 0x9;
-    public static final int TAG_LENS_RANGE = 0xa;
-    public static final int TAG_COLOR_SPACE = 0xb;
-    public static final int TAG_EXPOSURE = 0xc;
-    public static final int TAG_CONTRAST = 0xd;
-    public static final int TAG_SHADOW = 0xe;
-    public static final int TAG_HIGHLIGHT = 0xf;
-    public static final int TAG_SATURATION = 0x10;
-    public static final int TAG_SHARPNESS = 0x11;
-    public static final int TAG_FILL_LIGHT = 0x12;
-    public static final int TAG_COLOR_ADJUSTMENT = 0x14;
-    public static final int TAG_ADJUSTMENT_MODE = 0x15;
-    public static final int TAG_QUALITY = 0x16;
-    public static final int TAG_FIRMWARE = 0x17;
-    public static final int TAG_SOFTWARE = 0x18;
-    public static final int TAG_AUTO_BRACKET = 0x19;
+    public static final IntegerKey TAG_SERIAL_NUMBER = new IntegerKey(0x2;
+    public static final IntegerKey TAG_DRIVE_MODE = new IntegerKey(0x3;
+    public static final IntegerKey TAG_RESOLUTION_MODE = new IntegerKey(0x4;
+    public static final IntegerKey TAG_AUTO_FOCUS_MODE = new IntegerKey(0x5;
+    public static final IntegerKey TAG_FOCUS_SETTING = new IntegerKey(0x6;
+    public static final IntegerKey TAG_WHITE_BALANCE = new IntegerKey(0x7;
+    public static final IntegerKey TAG_EXPOSURE_MODE = new IntegerKey(0x8;
+    public static final IntegerKey TAG_METERING_MODE = new IntegerKey(0x9;
+    public static final IntegerKey TAG_LENS_RANGE = new IntegerKey(0xa;
+    public static final IntegerKey TAG_COLOR_SPACE = new IntegerKey(0xb;
+    public static final IntegerKey TAG_EXPOSURE = new IntegerKey(0xc;
+    public static final IntegerKey TAG_CONTRAST = new IntegerKey(0xd;
+    public static final IntegerKey TAG_SHADOW = new IntegerKey(0xe;
+    public static final IntegerKey TAG_HIGHLIGHT = new IntegerKey(0xf;
+    public static final IntegerKey TAG_SATURATION = new IntegerKey(0x10;
+    public static final IntegerKey TAG_SHARPNESS = new IntegerKey(0x11;
+    public static final IntegerKey TAG_FILL_LIGHT = new IntegerKey(0x12;
+    public static final IntegerKey TAG_COLOR_ADJUSTMENT = new IntegerKey(0x14;
+    public static final IntegerKey TAG_ADJUSTMENT_MODE = new IntegerKey(0x15;
+    public static final IntegerKey TAG_QUALITY = new IntegerKey(0x16;
+    public static final IntegerKey TAG_FIRMWARE = new IntegerKey(0x17;
+    public static final IntegerKey TAG_SOFTWARE = new IntegerKey(0x18;
+    public static final IntegerKey TAG_AUTO_BRACKET = new IntegerKey(0x19;
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -103,7 +103,7 @@ public class SigmaMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

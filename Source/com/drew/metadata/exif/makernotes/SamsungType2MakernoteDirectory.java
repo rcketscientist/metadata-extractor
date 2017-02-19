@@ -39,7 +39,7 @@ import java.util.HashMap;
 public class SamsungType2MakernoteDirectory extends Directory<IntegerKey>
 {
     // This list is incomplete
-    public static final IntegerKey TagMakerNoteVersion = new IntegerKey(0x001);
+    public static final IntegerKey TagMakerNoteVersion = new IntegerKey(0x001));
     public static final IntegerKey TagDeviceType = new IntegerKey(0x0002);
     public static final IntegerKey TagSamsungModelId = new IntegerKey(0x0003);
 

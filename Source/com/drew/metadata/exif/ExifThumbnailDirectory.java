@@ -47,7 +47,7 @@ public class ExifThumbnailDirectory extends ExifDirectoryBase
      * @deprecated use {@link com.drew.metadata.exif.ExifDirectoryBase#TAG_COMPRESSION} instead.
      */
     @Deprecated
-    public static final int TAG_THUMBNAIL_COMPRESSION = 0x0103;
+    public static final IntegerKey TAG_THUMBNAIL_COMPRESSION = new IntegerKey(0x0103);
 
     @NotNull
     protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();

@@ -93,7 +93,7 @@ public class PhotoshopReader implements JpegSegmentMetadataReader
                 pos += 4;
 
                 // 2 bytes for the resource identifier (tag type).
-                int tagType = reader.getUInt16(); // segment type
+                IntegerKey tagType = reader.getUInt16(); // segment type
                 pos += 2;
 
                 // A variable number of bytes holding a pascal string (two leading bytes for length).

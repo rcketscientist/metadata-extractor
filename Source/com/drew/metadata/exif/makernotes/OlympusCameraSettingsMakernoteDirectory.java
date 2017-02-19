@@ -33,80 +33,80 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class OlympusCameraSettingsMakernoteDirectory extends Directory
+public class OlympusCameraSettingsMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TagCameraSettingsVersion = 0x0000;
-    public static final int TagPreviewImageValid = 0x0100;
-    public static final int TagPreviewImageStart = 0x0101;
-    public static final int TagPreviewImageLength = 0x0102;
+    public static final IntegerKey TAGCameraSettingsVersion = new IntegerKey(0x0000);
+    public static final IntegerKey TAGPreviewImageValid = new IntegerKey(0x0100);
+    public static final IntegerKey TAGPreviewImageStart = new IntegerKey(0x0101);
+    public static final IntegerKey TAGPreviewImageLength = new IntegerKey(0x0102);
 
-    public static final int TagExposureMode = 0x0200;
-    public static final int TagAeLock = 0x0201;
-    public static final int TagMeteringMode = 0x0202;
-    public static final int TagExposureShift = 0x0203;
-    public static final int TagNdFilter = 0x0204;
+    public static final IntegerKey TAGExposureMode = new IntegerKey(0x0200);
+    public static final IntegerKey TAGAeLock = new IntegerKey(0x0201);
+    public static final IntegerKey TAGMeteringMode = new IntegerKey(0x0202);
+    public static final IntegerKey TAGExposureShift = new IntegerKey(0x0203);
+    public static final IntegerKey TAGNdFilter = new IntegerKey(0x0204);
 
-    public static final int TagMacroMode = 0x0300;
-    public static final int TagFocusMode = 0x0301;
-    public static final int TagFocusProcess = 0x0302;
-    public static final int TagAfSearch = 0x0303;
-    public static final int TagAfAreas = 0x0304;
-    public static final int TagAfPointSelected = 0x0305;
-    public static final int TagAfFineTune = 0x0306;
-    public static final int TagAfFineTuneAdj = 0x0307;
+    public static final IntegerKey TAGMacroMode = new IntegerKey(0x0300);
+    public static final IntegerKey TAGFocusMode = new IntegerKey(0x0301);
+    public static final IntegerKey TAGFocusProcess = new IntegerKey(0x0302);
+    public static final IntegerKey TAGAfSearch = new IntegerKey(0x0303);
+    public static final IntegerKey TAGAfAreas = new IntegerKey(0x0304);
+    public static final IntegerKey TAGAfPointSelected = new IntegerKey(0x0305);
+    public static final IntegerKey TAGAfFineTune = new IntegerKey(0x0306);
+    public static final IntegerKey TAGAfFineTuneAdj = new IntegerKey(0x0307);
 
-    public static final int TagFlashMode = 0x400;
-    public static final int TagFlashExposureComp = 0x401;
-    public static final int TagFlashRemoteControl = 0x403;
-    public static final int TagFlashControlMode = 0x404;
-    public static final int TagFlashIntensity = 0x405;
-    public static final int TagManualFlashStrength = 0x406;
+    public static final IntegerKey TAGFlashMode = new IntegerKey(0x400;
+    public static final IntegerKey TAGFlashExposureComp = new IntegerKey(0x401;
+    public static final IntegerKey TAGFlashRemoteControl = new IntegerKey(0x403;
+    public static final IntegerKey TAGFlashControlMode = new IntegerKey(0x404;
+    public static final IntegerKey TAGFlashIntensity = new IntegerKey(0x405;
+    public static final IntegerKey TAGManualFlashStrength = new IntegerKey(0x406;
 
-    public static final int TagWhiteBalance2 = 0x500;
-    public static final int TagWhiteBalanceTemperature = 0x501;
-    public static final int TagWhiteBalanceBracket = 0x502;
-    public static final int TagCustomSaturation = 0x503;
-    public static final int TagModifiedSaturation = 0x504;
-    public static final int TagContrastSetting = 0x505;
-    public static final int TagSharpnessSetting = 0x506;
-    public static final int TagColorSpace = 0x507;
-    public static final int TagSceneMode = 0x509;
-    public static final int TagNoiseReduction = 0x50a;
-    public static final int TagDistortionCorrection = 0x50b;
-    public static final int TagShadingCompensation = 0x50c;
-    public static final int TagCompressionFactor = 0x50d;
-    public static final int TagGradation = 0x50f;
-    public static final int TagPictureMode = 0x520;
-    public static final int TagPictureModeSaturation = 0x521;
-    public static final int TagPictureModeHue = 0x522;
-    public static final int TagPictureModeContrast = 0x523;
-    public static final int TagPictureModeSharpness = 0x524;
-    public static final int TagPictureModeBWFilter = 0x525;
-    public static final int TagPictureModeTone = 0x526;
-    public static final int TagNoiseFilter = 0x527;
-    public static final int TagArtFilter = 0x529;
-    public static final int TagMagicFilter = 0x52c;
-    public static final int TagPictureModeEffect = 0x52d;
-    public static final int TagToneLevel = 0x52e;
-    public static final int TagArtFilterEffect = 0x52f;
-    public static final int TagColorCreatorEffect = 0x532;
+    public static final IntegerKey TAGWhiteBalance2 = new IntegerKey(0x500;
+    public static final IntegerKey TAGWhiteBalanceTemperature = new IntegerKey(0x501;
+    public static final IntegerKey TAGWhiteBalanceBracket = new IntegerKey(0x502;
+    public static final IntegerKey TAGCustomSaturation = new IntegerKey(0x503;
+    public static final IntegerKey TAGModifiedSaturation = new IntegerKey(0x504;
+    public static final IntegerKey TAGContrastSetting = new IntegerKey(0x505;
+    public static final IntegerKey TAGSharpnessSetting = new IntegerKey(0x506;
+    public static final IntegerKey TAGColorSpace = new IntegerKey(0x507;
+    public static final IntegerKey TAGSceneMode = new IntegerKey(0x509;
+    public static final IntegerKey TAGNoiseReduction = new IntegerKey(0x50a;
+    public static final IntegerKey TAGDistortionCorrection = new IntegerKey(0x50b;
+    public static final IntegerKey TAGShadingCompensation = new IntegerKey(0x50c;
+    public static final IntegerKey TAGCompressionFactor = new IntegerKey(0x50d;
+    public static final IntegerKey TAGGradation = new IntegerKey(0x50f;
+    public static final IntegerKey TAGPictureMode = new IntegerKey(0x520;
+    public static final IntegerKey TAGPictureModeSaturation = new IntegerKey(0x521;
+    public static final IntegerKey TAGPictureModeHue = new IntegerKey(0x522;
+    public static final IntegerKey TAGPictureModeContrast = new IntegerKey(0x523;
+    public static final IntegerKey TAGPictureModeSharpness = new IntegerKey(0x524;
+    public static final IntegerKey TAGPictureModeBWFilter = new IntegerKey(0x525;
+    public static final IntegerKey TAGPictureModeTone = new IntegerKey(0x526;
+    public static final IntegerKey TAGNoiseFilter = new IntegerKey(0x527;
+    public static final IntegerKey TAGArtFilter = new IntegerKey(0x529;
+    public static final IntegerKey TAGMagicFilter = new IntegerKey(0x52c;
+    public static final IntegerKey TAGPictureModeEffect = new IntegerKey(0x52d;
+    public static final IntegerKey TAGToneLevel = new IntegerKey(0x52e;
+    public static final IntegerKey TAGArtFilterEffect = new IntegerKey(0x52f;
+    public static final IntegerKey TAGColorCreatorEffect = new IntegerKey(0x532;
 
-    public static final int TagDriveMode = 0x600;
-    public static final int TagPanoramaMode = 0x601;
-    public static final int TagImageQuality2 = 0x603;
-    public static final int TagImageStabilization = 0x604;
+    public static final IntegerKey TAGDriveMode = new IntegerKey(0x600;
+    public static final IntegerKey TAGPanoramaMode = new IntegerKey(0x601;
+    public static final IntegerKey TAGImageQuality2 = new IntegerKey(0x603;
+    public static final IntegerKey TAGImageStabilization = new IntegerKey(0x604;
 
-    public static final int TagStackedImage = 0x804;
+    public static final IntegerKey TAGStackedImage = new IntegerKey(0x804;
 
-    public static final int TagManometerPressure = 0x900;
-    public static final int TagManometerReading = 0x901;
-    public static final int TagExtendedWBDetect = 0x902;
-    public static final int TagRollAngle = 0x903;
-    public static final int TagPitchAngle = 0x904;
-    public static final int TagDateTimeUtc = 0x908;
+    public static final IntegerKey TAGManometerPressure = new IntegerKey(0x900;
+    public static final IntegerKey TAGManometerReading = new IntegerKey(0x901;
+    public static final IntegerKey TAGExtendedWBDetect = new IntegerKey(0x902;
+    public static final IntegerKey TAGRollAngle = new IntegerKey(0x903;
+    public static final IntegerKey TAGPitchAngle = new IntegerKey(0x904;
+    public static final IntegerKey TAGDateTimeUtc = new IntegerKey(0x908;
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TagCameraSettingsVersion, "Camera Settings Version");
@@ -194,7 +194,7 @@ public class OlympusCameraSettingsMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

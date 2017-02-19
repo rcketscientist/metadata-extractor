@@ -33,41 +33,41 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class OlympusEquipmentMakernoteDirectory extends Directory
+public class OlympusEquipmentMakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_EQUIPMENT_VERSION = 0x0000;
-    public static final int TAG_CAMERA_TYPE_2 = 0x0100;
-    public static final int TAG_SERIAL_NUMBER = 0x0101;
+    public static final IntegerKey TAG_EQUIPMENT_VERSION = new IntegerKey(0x0000);
+    public static final IntegerKey TAG_CAMERA_TYPE_2 = new IntegerKey(0x0100);
+    public static final IntegerKey TAG_SERIAL_NUMBER = new IntegerKey(0x0101);
 
-    public static final int TAG_INTERNAL_SERIAL_NUMBER = 0x0102;
-    public static final int TAG_FOCAL_PLANE_DIAGONAL = 0x0103;
-    public static final int TAG_BODY_FIRMWARE_VERSION = 0x0104;
+    public static final IntegerKey TAG_INTERNAL_SERIAL_NUMBER = new IntegerKey(0x0102);
+    public static final IntegerKey TAG_FOCAL_PLANE_DIAGONAL = new IntegerKey(0x0103);
+    public static final IntegerKey TAG_BODY_FIRMWARE_VERSION = new IntegerKey(0x0104);
 
-    public static final int TAG_LENS_TYPE = 0x0201;
-    public static final int TAG_LENS_SERIAL_NUMBER = 0x0202;
-    public static final int TAG_LENS_MODEL = 0x0203;
-    public static final int TAG_LENS_FIRMWARE_VERSION = 0x0204;
-    public static final int TAG_MAX_APERTURE_AT_MIN_FOCAL = 0x0205;
-    public static final int TAG_MAX_APERTURE_AT_MAX_FOCAL = 0x0206;
-    public static final int TAG_MIN_FOCAL_LENGTH = 0x0207;
-    public static final int TAG_MAX_FOCAL_LENGTH = 0x0208;
-    public static final int TAG_MAX_APERTURE = 0x020A;
-    public static final int TAG_LENS_PROPERTIES = 0x020B;
+    public static final IntegerKey TAG_LENS_TYPE = new IntegerKey(0x0201);
+    public static final IntegerKey TAG_LENS_SERIAL_NUMBER = new IntegerKey(0x0202);
+    public static final IntegerKey TAG_LENS_MODEL = new IntegerKey(0x0203);
+    public static final IntegerKey TAG_LENS_FIRMWARE_VERSION = new IntegerKey(0x0204);
+    public static final IntegerKey TAG_MAX_APERTURE_AT_MIN_FOCAL = new IntegerKey(0x0205);
+    public static final IntegerKey TAG_MAX_APERTURE_AT_MAX_FOCAL = new IntegerKey(0x0206);
+    public static final IntegerKey TAG_MIN_FOCAL_LENGTH = new IntegerKey(0x0207);
+    public static final IntegerKey TAG_MAX_FOCAL_LENGTH = new IntegerKey(0x0208);
+    public static final IntegerKey TAG_MAX_APERTURE = new IntegerKey(0x020A);
+    public static final IntegerKey TAG_LENS_PROPERTIES = new IntegerKey(0x020B);
 
-    public static final int TAG_EXTENDER = 0x0301;
-    public static final int TAG_EXTENDER_SERIAL_NUMBER = 0x0302;
-    public static final int TAG_EXTENDER_MODEL = 0x0303;
-    public static final int TAG_EXTENDER_FIRMWARE_VERSION = 0x0304;
+    public static final IntegerKey TAG_EXTENDER = new IntegerKey(0x0301);
+    public static final IntegerKey TAG_EXTENDER_SERIAL_NUMBER = new IntegerKey(0x0302);
+    public static final IntegerKey TAG_EXTENDER_MODEL = new IntegerKey(0x0303);
+    public static final IntegerKey TAG_EXTENDER_FIRMWARE_VERSION = new IntegerKey(0x0304);
 
-    public static final int TAG_CONVERSION_LENS = 0x0403;
+    public static final IntegerKey TAG_CONVERSION_LENS = new IntegerKey(0x0403);
 
-    public static final int TAG_FLASH_TYPE = 0x1000;
-    public static final int TAG_FLASH_MODEL = 0x1001;
-    public static final int TAG_FLASH_FIRMWARE_VERSION = 0x1002;
-    public static final int TAG_FLASH_SERIAL_NUMBER = 0x1003;
+    public static final IntegerKey TAG_FLASH_TYPE = new IntegerKey(0x1000);
+    public static final IntegerKey TAG_FLASH_MODEL = new IntegerKey(0x1001);
+    public static final IntegerKey TAG_FLASH_FIRMWARE_VERSION = new IntegerKey(0x1002);
+    public static final IntegerKey TAG_FLASH_SERIAL_NUMBER = new IntegerKey(0x1003);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_EQUIPMENT_VERSION, "Equipment Version");
@@ -111,7 +111,7 @@ public class OlympusEquipmentMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

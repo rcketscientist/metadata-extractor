@@ -40,22 +40,22 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class NikonType1MakernoteDirectory extends Directory
+public class NikonType1MakernoteDirectory extends Directory<IntegerKey>
 {
-    public static final int TAG_UNKNOWN_1 = 0x0002;
-    public static final int TAG_QUALITY = 0x0003;
-    public static final int TAG_COLOR_MODE = 0x0004;
-    public static final int TAG_IMAGE_ADJUSTMENT = 0x0005;
-    public static final int TAG_CCD_SENSITIVITY = 0x0006;
-    public static final int TAG_WHITE_BALANCE = 0x0007;
-    public static final int TAG_FOCUS = 0x0008;
-    public static final int TAG_UNKNOWN_2 = 0x0009;
-    public static final int TAG_DIGITAL_ZOOM = 0x000A;
-    public static final int TAG_CONVERTER = 0x000B;
-    public static final int TAG_UNKNOWN_3 = 0x0F00;
+    public static final IntegerKey TAG_UNKNOWN_1 = new IntegerKey(0x0002);
+    public static final IntegerKey TAG_QUALITY = new IntegerKey(0x0003);
+    public static final IntegerKey TAG_COLOR_MODE = new IntegerKey(0x0004);
+    public static final IntegerKey TAG_IMAGE_ADJUSTMENT = new IntegerKey(0x0005);
+    public static final IntegerKey TAG_CCD_SENSITIVITY = new IntegerKey(0x0006);
+    public static final IntegerKey TAG_WHITE_BALANCE = new IntegerKey(0x0007);
+    public static final IntegerKey TAG_FOCUS = new IntegerKey(0x0008);
+    public static final IntegerKey TAG_UNKNOWN_2 = new IntegerKey(0x0009);
+    public static final IntegerKey TAG_DIGITAL_ZOOM = new IntegerKey(0x000A);
+    public static final IntegerKey TAG_CONVERTER = new IntegerKey(0x000B);
+    public static final IntegerKey TAG_UNKNOWN_3 = new IntegerKey(0x0F00);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static
     {
@@ -86,7 +86,7 @@ public class NikonType1MakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

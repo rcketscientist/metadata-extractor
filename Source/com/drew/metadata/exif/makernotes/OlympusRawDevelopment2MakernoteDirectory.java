@@ -33,37 +33,37 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class OlympusRawDevelopment2MakernoteDirectory extends Directory
-{    
-    public static final int TagRawDevVersion = 0x0000;
-    public static final int TagRawDevExposureBiasValue = 0x0100;
-    public static final int TagRawDevWhiteBalance = 0x0101;
-    public static final int TagRawDevWhiteBalanceValue = 0x0102;
-    public static final int TagRawDevWbFineAdjustment = 0x0103;
-    public static final int TagRawDevGrayPoint = 0x0104;
-    public static final int TagRawDevContrastValue = 0x0105;
-    public static final int TagRawDevSharpnessValue = 0x0106;
-    public static final int TagRawDevSaturationEmphasis = 0x0107;
-    public static final int TagRawDevMemoryColorEmphasis = 0x0108;
-    public static final int TagRawDevColorSpace = 0x0109;
-    public static final int TagRawDevNoiseReduction = 0x010a;
-    public static final int TagRawDevEngine = 0x010b;
-    public static final int TagRawDevPictureMode = 0x010c;
-    public static final int TagRawDevPmSaturation = 0x010d;
-    public static final int TagRawDevPmContrast = 0x010e;
-    public static final int TagRawDevPmSharpness = 0x010f;
-    public static final int TagRawDevPmBwFilter = 0x0110;
-    public static final int TagRawDevPmPictureTone = 0x0111;
-    public static final int TagRawDevGradation = 0x0112;
-    public static final int TagRawDevSaturation3 = 0x0113;
-    public static final int TagRawDevAutoGradation = 0x0119;
-    public static final int TagRawDevPmNoiseFilter = 0x0120;
-    public static final int TagRawDevArtFilter = 0x0121;
+public class OlympusRawDevelopment2MakernoteDirectory extends Directory<IntegerKey>
+{
+    public static final IntegerKey TAGRawDevVersion = new IntegerKey(0x0000);
+    public static final IntegerKey TAGRawDevExposureBiasValue = new IntegerKey(0x0100);
+    public static final IntegerKey TAGRawDevWhiteBalance = new IntegerKey(0x0101);
+    public static final IntegerKey TAGRawDevWhiteBalanceValue = new IntegerKey(0x0102);
+    public static final IntegerKey TAGRawDevWbFineAdjustment = new IntegerKey(0x0103);
+    public static final IntegerKey TAGRawDevGrayPoint = new IntegerKey(0x0104);
+    public static final IntegerKey TAGRawDevContrastValue = new IntegerKey(0x0105);
+    public static final IntegerKey TAGRawDevSharpnessValue = new IntegerKey(0x0106);
+    public static final IntegerKey TAGRawDevSaturationEmphasis = new IntegerKey(0x0107);
+    public static final IntegerKey TAGRawDevMemoryColorEmphasis = new IntegerKey(0x0108);
+    public static final IntegerKey TAGRawDevColorSpace = new IntegerKey(0x0109);
+    public static final IntegerKey TAGRawDevNoiseReduction = new IntegerKey(0x010a);
+    public static final IntegerKey TAGRawDevEngine = new IntegerKey(0x010b);
+    public static final IntegerKey TAGRawDevPictureMode = new IntegerKey(0x010c);
+    public static final IntegerKey TAGRawDevPmSaturation = new IntegerKey(0x010d);
+    public static final IntegerKey TAGRawDevPmContrast = new IntegerKey(0x010e);
+    public static final IntegerKey TAGRawDevPmSharpness = new IntegerKey(0x010f);
+    public static final IntegerKey TAGRawDevPmBwFilter = new IntegerKey(0x0110);
+    public static final IntegerKey TAGRawDevPmPictureTone = new IntegerKey(0x0111);
+    public static final IntegerKey TAGRawDevGradation = new IntegerKey(0x0112);
+    public static final IntegerKey TAGRawDevSaturation3 = new IntegerKey(0x0113);
+    public static final IntegerKey TAGRawDevAutoGradation = new IntegerKey(0x0119);
+    public static final IntegerKey TAGRawDevPmNoiseFilter = new IntegerKey(0x0120);
+    public static final IntegerKey TAGRawDevArtFilter = new IntegerKey(0x0121);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
-    static {        
+    static {
         _tagNameMap.put(TagRawDevVersion, "Raw Dev Version");
         _tagNameMap.put(TagRawDevExposureBiasValue, "Raw Dev Exposure Bias Value");
         _tagNameMap.put(TagRawDevWhiteBalance, "Raw Dev White Balance");
@@ -104,7 +104,7 @@ public class OlympusRawDevelopment2MakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected HashMap<IntegerKey, String> getTagNameMap()
     {
         return _tagNameMap;
     }

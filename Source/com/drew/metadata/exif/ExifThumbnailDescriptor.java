@@ -41,7 +41,7 @@ public class ExifThumbnailDescriptor extends ExifDescriptorBase<ExifThumbnailDir
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_THUMBNAIL_OFFSET:

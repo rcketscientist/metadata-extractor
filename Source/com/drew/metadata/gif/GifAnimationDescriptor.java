@@ -40,7 +40,7 @@ public class GifAnimationDescriptor extends TagDescriptor<GifAnimationDirectory>
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_ITERATION_COUNT:

@@ -44,7 +44,7 @@ public class LeicaType5MakernoteDescriptor extends TagDescriptor<LeicaType5Maker
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TagExposureMode:

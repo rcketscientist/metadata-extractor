@@ -1,6 +1,6 @@
 package com.drew.metadata;
 
-public interface Key
+public interface Key<K>
 {
-    Object getKey();
+    K getKey();
 }

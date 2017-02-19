@@ -41,7 +41,7 @@ public class SigmaMakernoteDescriptor extends TagDescriptor<SigmaMakernoteDirect
     }
 
     @Override
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_EXPOSURE_MODE:

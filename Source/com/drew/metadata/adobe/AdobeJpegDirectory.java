@@ -23,6 +23,7 @@ package com.drew.metadata.adobe;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.IntegerKey;
 
 import java.util.HashMap;
 
@@ -32,23 +33,23 @@ import java.util.HashMap;
 @SuppressWarnings("WeakerAccess")
 public class AdobeJpegDirectory extends Directory {
 
-    public static final int TAG_DCT_ENCODE_VERSION = 0;
+    public static final IntegerKey TAG_DCT_ENCODE_VERSION = new IntegerKey(0);
     /**
      * The convention for TAG_APP14_FLAGS0 and TAG_APP14_FLAGS1 is that 0 bits are benign.
      * 1 bits in TAG_APP14_FLAGS0 pass information that is possibly useful but not essential for decoding.
      * <p>
      * 0x8000 bit: Encoder used Blend=1 downsampling
      */
-    public static final int TAG_APP14_FLAGS0 = 1;
+    public static final IntegerKey TAG_APP14_FLAGS0 = new IntegerKey(1);
     /**
      * The convention for TAG_APP14_FLAGS0 and TAG_APP14_FLAGS1 is that 0 bits are benign.
      * 1 bits in TAG_APP14_FLAGS1 pass information essential for decoding. DCTDecode could reject a compressed
      * image, if there are 1 bits in TAG_APP14_FLAGS1 or color transform codes that it cannot interpret.
      */
-    public static final int TAG_APP14_FLAGS1 = 2;
-    public static final int TAG_COLOR_TRANSFORM = 3;
+    public static final IntegerKey TAG_APP14_FLAGS1 = new IntegerKey(2);
+    public static final IntegerKey TAG_COLOR_TRANSFORM = new IntegerKey(3);
 
-    private static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    private static final HashMap<IntegerKey, String> _tagNameMap = new HashMap<IntegerKey, String>();
 
     static {
         _tagNameMap.put(TAG_DCT_ENCODE_VERSION, "DCT Encode Version");
@@ -69,7 +70,7 @@ public class AdobeJpegDirectory extends Directory {
 
     @NotNull
     @Override
-    protected HashMap<Integer, String> getTagNameMap() {
+    protected HashMap<IntegerKey, String> getTagNameMap() {
         return _tagNameMap;
     }
 }

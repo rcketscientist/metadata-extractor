@@ -46,7 +46,7 @@ public class PngDescriptor extends TagDescriptor<PngDirectory>
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(IntegerKey tagType)
     {
         switch (tagType) {
             case TAG_COLOR_TYPE:
