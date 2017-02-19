@@ -22,9 +22,12 @@
 package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
+import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
 
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Describes tags specific to Reconyx HyperFire cameras.
@@ -33,55 +36,83 @@ import java.util.HashMap;
  * @author Todd West http://cascadescarnivoreproject.blogspot.com
  */
 @SuppressWarnings("WeakerAccess")
-public class ReconyxHyperFireMakernoteDirectory extends Directory
+public class ReconyxHyperFireMakernoteDirectory extends Directory<Integer, ReconyxHyperFireMakernoteDirectory.Keys>
 {
-    /**
-     * Version number used for identifying makernotes from Reconyx HyperFire cameras.
-     */
-    public static final int MAKERNOTE_VERSION = 61697;
+    public enum Keys
+    {
+        /**
+         * Version number used for identifying makernotes from Reconyx HyperFire cameras.
+         */
+        MAKERNOTE_VERSION(61697),
+        TAG_MAKERNOTE_VERSION(0),
+        TAG_FIRMWARE_VERSION(2),
+        TAG_TRIGGER_MODE(12),
+        TAG_SEQUENCE(14),
+        TAG_EVENT_NUMBER(18),
+        TAG_DATE_TIME_ORIGINAL(22),
+        TAG_MOON_PHASE(36),
+        TAG_AMBIENT_TEMPERATURE_FAHRENHEIT(38),
+        TAG_AMBIENT_TEMPERATURE(40),
+        TAG_SERIAL_NUMBER(42),
+        TAG_CONTRAST(72),
+        TAG_BRIGHTNESS(74),
+        TAG_SHARPNESS(76),
+        TAG_SATURATION(78),
+        TAG_INFRARED_ILLUMINATOR(80),
+        TAG_MOTION_SENSITIVITY(82),
+        TAG_BATTERY_VOLTAGE(84),
+        TAG_USER_LABEL(86);
 
-    public static final int TAG_MAKERNOTE_VERSION = 0;
-    public static final int TAG_FIRMWARE_VERSION = 2;
-    public static final int TAG_TRIGGER_MODE = 12;
-    public static final int TAG_SEQUENCE = 14;
-    public static final int TAG_EVENT_NUMBER = 18;
-    public static final int TAG_DATE_TIME_ORIGINAL = 22;
-    public static final int TAG_MOON_PHASE = 36;
-    public static final int TAG_AMBIENT_TEMPERATURE_FAHRENHEIT = 38;
-    public static final int TAG_AMBIENT_TEMPERATURE = 40;
-    public static final int TAG_SERIAL_NUMBER = 42;
-    public static final int TAG_CONTRAST = 72;
-    public static final int TAG_BRIGHTNESS = 74;
-    public static final int TAG_SHARPNESS = 76;
-    public static final int TAG_SATURATION = 78;
-    public static final int TAG_INFRARED_ILLUMINATOR = 80;
-    public static final int TAG_MOTION_SENSITIVITY = 82;
-    public static final int TAG_BATTERY_VOLTAGE = 84;
-    public static final int TAG_USER_LABEL = 86;
+        //TODO: Use a sparse array trie, or FastUtil
+        private static final Map<Integer, Keys> lookup = new HashMap<Integer, Keys>();
+        static {
+            for (Keys type : values())
+                lookup.put(type.getValue(), type);
+        }
+
+        private final int key;
+        Keys(int key)
+        {
+            this.key = key;
+        }
+
+        public Integer getValue()
+        {
+            return key;
+        }
+
+        public static @Nullable
+        Keys fromValue(Integer value)
+        {
+            return lookup.get(value);
+        }
+    }
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final EnumMap<Keys, String> _tagNameMap = new EnumMap<Keys, String>(Keys.class);
+    @NotNull
+    protected static final EnumMap<Keys, Object> _tagMap = new EnumMap<Keys, Object>(Keys.class);
 
     static
     {
-        _tagNameMap.put(TAG_MAKERNOTE_VERSION, "Makernote Version");
-        _tagNameMap.put(TAG_FIRMWARE_VERSION, "Firmware Version");
-        _tagNameMap.put(TAG_TRIGGER_MODE, "Trigger Mode");
-        _tagNameMap.put(TAG_SEQUENCE, "Sequence");
-        _tagNameMap.put(TAG_EVENT_NUMBER, "Event Number");
-        _tagNameMap.put(TAG_DATE_TIME_ORIGINAL, "Date/Time Original");
-        _tagNameMap.put(TAG_MOON_PHASE, "Moon Phase");
-        _tagNameMap.put(TAG_AMBIENT_TEMPERATURE_FAHRENHEIT, "Ambient Temperature Fahrenheit");
-        _tagNameMap.put(TAG_AMBIENT_TEMPERATURE, "Ambient Temperature");
-        _tagNameMap.put(TAG_SERIAL_NUMBER, "Serial Number");
-        _tagNameMap.put(TAG_CONTRAST, "Contrast");
-        _tagNameMap.put(TAG_BRIGHTNESS, "Brightness");
-        _tagNameMap.put(TAG_SHARPNESS, "Sharpness");
-        _tagNameMap.put(TAG_SATURATION, "Saturation");
-        _tagNameMap.put(TAG_INFRARED_ILLUMINATOR, "Infrared Illuminator");
-        _tagNameMap.put(TAG_MOTION_SENSITIVITY, "Motion Sensitivity");
-        _tagNameMap.put(TAG_BATTERY_VOLTAGE, "Battery Voltage");
-        _tagNameMap.put(TAG_USER_LABEL, "User Label");
+        _tagNameMap.put(Keys.TAG_MAKERNOTE_VERSION, "Makernote Version");
+        _tagNameMap.put(Keys.TAG_FIRMWARE_VERSION, "Firmware Version");
+        _tagNameMap.put(Keys.TAG_TRIGGER_MODE, "Trigger Mode");
+        _tagNameMap.put(Keys.TAG_SEQUENCE, "Sequence");
+        _tagNameMap.put(Keys.TAG_EVENT_NUMBER, "Event Number");
+        _tagNameMap.put(Keys.TAG_DATE_TIME_ORIGINAL, "Date/Time Original");
+        _tagNameMap.put(Keys.TAG_MOON_PHASE, "Moon Phase");
+        _tagNameMap.put(Keys.TAG_AMBIENT_TEMPERATURE_FAHRENHEIT, "Ambient Temperature Fahrenheit");
+        _tagNameMap.put(Keys.TAG_AMBIENT_TEMPERATURE, "Ambient Temperature");
+        _tagNameMap.put(Keys.TAG_SERIAL_NUMBER, "Serial Number");
+        _tagNameMap.put(Keys.TAG_CONTRAST, "Contrast");
+        _tagNameMap.put(Keys.TAG_BRIGHTNESS, "Brightness");
+        _tagNameMap.put(Keys.TAG_SHARPNESS, "Sharpness");
+        _tagNameMap.put(Keys.TAG_SATURATION, "Saturation");
+        _tagNameMap.put(Keys.TAG_INFRARED_ILLUMINATOR, "Infrared Illuminator");
+        _tagNameMap.put(Keys.TAG_MOTION_SENSITIVITY, "Motion Sensitivity");
+        _tagNameMap.put(Keys.TAG_BATTERY_VOLTAGE, "Battery Voltage");
+        _tagNameMap.put(Keys.TAG_USER_LABEL, "User Label");
     }
 
     public ReconyxHyperFireMakernoteDirectory()
@@ -98,8 +129,20 @@ public class ReconyxHyperFireMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected EnumMap<Keys, String> getTagNameMap()
     {
         return _tagNameMap;
+    }
+
+    @Override
+    protected EnumMap<Keys, Object> getTagMap()
+    {
+        return _tagMap;
+    }
+
+    @Override
+    protected Keys getTagFromValue(Integer value)
+    {
+        return Keys.fromValue(value);
     }
 }

@@ -30,13 +30,13 @@ import com.drew.lang.annotations.Nullable;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("unused")
-public class Tag
+public class Tag<T, K extends Enum<K>>
 {
-    private final int _tagType;
+    private final K _tagType;
     @NotNull
-    private final Directory _directory;
+    private final Directory<T, K> _directory;
 
-    public Tag(int tagType, @NotNull Directory directory)
+    public Tag(K tagType, @NotNull Directory<T, K> directory)
     {
         _tagType = tagType;
         _directory = directory;
@@ -47,7 +47,7 @@ public class Tag
      *
      * @return the tag type as an int
      */
-    public int getTagType()
+    public K getTagType()
     {
         return _tagType;
     }

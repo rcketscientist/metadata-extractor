@@ -22,9 +22,12 @@
 package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
+import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
 
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * These tags can be found in Panasonic/Leica RAW, RW2 and RWL images. The index values are 'fake' but
@@ -34,35 +37,59 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PanasonicRawDistortionDirectory extends Directory
+public class PanasonicRawDistortionDirectory extends Directory<Integer, PanasonicRawDistortionDirectory.Keys>
 {
     // 0 and 1 are checksums
+    public enum Keys
+    {
+        TagDistortionParam02(2),
+        TagDistortionParam04(4),
+        TagDistortionScale(5),
+        TagDistortionCorrection(7),
+        TagDistortionParam08(8),
+        TagDistortionParam09(9),
+        TagDistortionParam11(11),
+        TagDistortionN(12);
 
-    public static final int TagDistortionParam02 = 2;
+        //TODO: Use a sparse array trie, or FastUtil
+        private static final Map<Integer, Keys> lookup = new HashMap<Integer, Keys>();
+        static {
+            for (Keys type : values())
+                lookup.put(type.getValue(), type);
+        }
 
-    public static final int TagDistortionParam04 = 4;
-    public static final int TagDistortionScale = 5;
+        private final int key;
+        Keys(int key)
+        {
+            this.key = key;
+        }
 
-    public static final int TagDistortionCorrection = 7;
-    public static final int TagDistortionParam08 = 8;
-    public static final int TagDistortionParam09 = 9;
+        public Integer getValue()
+        {
+            return key;
+        }
 
-    public static final int TagDistortionParam11 = 11;
-    public static final int TagDistortionN = 12;
+        public static @Nullable Keys fromValue(Integer value)
+        {
+            return lookup.get(value);
+        }
+    }
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final EnumMap<Keys, String> _tagNameMap = new EnumMap<Keys, String>(Keys.class);
+    @NotNull
+    protected static final EnumMap<Keys, Object> _tagMap = new EnumMap<Keys, Object>(Keys.class);
 
     static
     {
-        _tagNameMap.put(TagDistortionParam02, "Distortion Param 2");
-        _tagNameMap.put(TagDistortionParam04, "Distortion Param 4");
-        _tagNameMap.put(TagDistortionScale, "Distortion Scale");
-        _tagNameMap.put(TagDistortionCorrection, "Distortion Correction");
-        _tagNameMap.put(TagDistortionParam08, "Distortion Param 8");
-        _tagNameMap.put(TagDistortionParam09, "Distortion Param 9");
-        _tagNameMap.put(TagDistortionParam11, "Distortion Param 11");
-        _tagNameMap.put(TagDistortionN, "Distortion N");
+        _tagNameMap.put(Keys.TagDistortionParam02, "Distortion Param 2");
+        _tagNameMap.put(Keys.TagDistortionParam04, "Distortion Param 4");
+        _tagNameMap.put(Keys.TagDistortionScale, "Distortion Scale");
+        _tagNameMap.put(Keys.TagDistortionCorrection, "Distortion Correction");
+        _tagNameMap.put(Keys.TagDistortionParam08, "Distortion Param 8");
+        _tagNameMap.put(Keys.TagDistortionParam09, "Distortion Param 9");
+        _tagNameMap.put(Keys.TagDistortionParam11, "Distortion Param 11");
+        _tagNameMap.put(Keys.TagDistortionN, "Distortion N");
     }
 
     public PanasonicRawDistortionDirectory()
@@ -78,9 +105,20 @@ public class PanasonicRawDistortionDirectory extends Directory
     }
 
     @Override
-    @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected EnumMap<Keys, String> getTagNameMap()
     {
         return _tagNameMap;
+    }
+
+    @Override
+    protected EnumMap<Keys, Object> getTagMap()
+    {
+        return _tagMap;
+    }
+
+    @Override
+    protected Keys getTagFromValue(Integer value)
+    {
+        return Keys.fromValue(value);
     }
 }

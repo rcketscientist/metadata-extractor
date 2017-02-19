@@ -24,6 +24,7 @@ package com.drew.metadata.exif;
 import com.drew.lang.Rational;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
+import com.drew.metadata.Key;
 import com.drew.metadata.TagDescriptor;
 
 import static com.drew.metadata.exif.PanasonicRawDistortionDirectory.*;
@@ -35,7 +36,7 @@ import static com.drew.metadata.exif.PanasonicRawDistortionDirectory.*;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRawDistortionDirectory>
+public class PanasonicRawDistortionDescriptor extends TagDescriptor<Keys, Integer, PanasonicRawDistortionDirectory>
 {
     public PanasonicRawDistortionDescriptor(@NotNull PanasonicRawDistortionDirectory directory)
     {
@@ -44,7 +45,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
+    public String getDescription(Keys tagType)
     {
         switch (tagType) {
             case TagDistortionParam02:
@@ -67,7 +68,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
     }
 
     @Nullable
-    public String getWbTypeDescription(int tagType)
+    public String getWbTypeDescription(Keys tagType)
     {
         Integer wbtype = _directory.getInteger(tagType);
         if (wbtype == null)
@@ -79,7 +80,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
     @Nullable
     public String getDistortionParam02Description()
     {
-        Integer value = _directory.getInteger(TagDistortionParam02);
+        Integer value = _directory.getInteger(Keys.TagDistortionParam02);
         if (value == null)
             return null;
 
@@ -89,7 +90,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
     @Nullable
     public String getDistortionParam04Description()
     {
-        Integer value = _directory.getInteger(TagDistortionParam04);
+        Integer value = _directory.getInteger(Keys.TagDistortionParam04);
         if (value == null)
             return null;
 
@@ -99,7 +100,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
     @Nullable
     public String getDistortionScaleDescription()
     {
-        Integer value = _directory.getInteger(TagDistortionScale);
+        Integer value = _directory.getInteger(Keys.TagDistortionScale);
         if (value == null)
             return null;
 
@@ -110,7 +111,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
     @Nullable
     public String getDistortionCorrectionDescription()
     {
-        Integer value = _directory.getInteger(TagDistortionCorrection);
+        Integer value = _directory.getInteger(Keys.TagDistortionCorrection);
         if (value == null)
             return null;
 
@@ -130,7 +131,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
     @Nullable
     public String getDistortionParam08Description()
     {
-        Integer value = _directory.getInteger(TagDistortionParam08);
+        Integer value = _directory.getInteger(Keys.TagDistortionParam08);
         if (value == null)
             return null;
 
@@ -140,7 +141,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
     @Nullable
     public String getDistortionParam09Description()
     {
-        Integer value = _directory.getInteger(TagDistortionParam09);
+        Integer value = _directory.getInteger(Keys.TagDistortionParam09);
         if (value == null)
             return null;
 
@@ -150,7 +151,7 @@ public class PanasonicRawDistortionDescriptor extends TagDescriptor<PanasonicRaw
     @Nullable
     public String getDistortionParam11Description()
     {
-        Integer value = _directory.getInteger(TagDistortionParam11);
+        Integer value = _directory.getInteger(Keys.TagDistortionParam11);
         if (value == null)
             return null;
 

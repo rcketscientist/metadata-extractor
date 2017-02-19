@@ -31,6 +31,7 @@ import com.drew.lang.SequentialByteArrayReader;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
+import com.drew.metadata.Key;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.StringValue;
 import com.drew.metadata.exif.makernotes.*;
@@ -323,7 +324,7 @@ public class ExifTiffHandler extends DirectoryTiffHandler
         return false;
     }
 
-    private static void ProcessBinary(@NotNull final Directory directory, final int tagValueOffset, @NotNull final RandomAccessReader reader, final int byteCount, final Boolean issigned, final int arrayLength) throws IOException
+    private static void ProcessBinary(@NotNull final Directory<Integer, ?> directory, final int tagValueOffset, @NotNull final RandomAccessReader reader, final int byteCount, final Boolean issigned, final int arrayLength) throws IOException
     {
         // expects signed/unsigned int16 (for now)
         //int byteSize = issigned ? sizeof(short) : sizeof(ushort);
@@ -560,7 +561,7 @@ public class ExifTiffHandler extends DirectoryTiffHandler
             pushDirectory(AppleMakernoteDirectory.class);
             TiffReader.processIfd(this, reader, processedIfdOffsets, makernoteOffset + 14, makernoteOffset);
             reader.setMotorolaByteOrder(orderBefore);
-        } else if (reader.getUInt16(makernoteOffset) == ReconyxHyperFireMakernoteDirectory.MAKERNOTE_VERSION) {
+        } else if (reader.getUInt16(makernoteOffset) == ReconyxHyperFireMakernoteDirectory.Keys.MAKERNOTE_VERSION.getValue()) {
             ReconyxHyperFireMakernoteDirectory directory = new ReconyxHyperFireMakernoteDirectory();
             _metadata.addDirectory(directory);
             processReconyxHyperFireMakernote(directory, makernoteOffset, reader);
@@ -672,32 +673,32 @@ public class ExifTiffHandler extends DirectoryTiffHandler
         // Kodak's makernote is not in IFD format. It has values at fixed offsets.
         int dataOffset = tagValueOffset + 8;
         try {
-            directory.setStringValue(KodakMakernoteDirectory.TAG_KODAK_MODEL, reader.getStringValue(dataOffset, 8, Charsets.UTF_8));
-            directory.setInt(KodakMakernoteDirectory.TAG_QUALITY, reader.getUInt8(dataOffset + 9));
-            directory.setInt(KodakMakernoteDirectory.TAG_BURST_MODE, reader.getUInt8(dataOffset + 10));
-            directory.setInt(KodakMakernoteDirectory.TAG_IMAGE_WIDTH, reader.getUInt16(dataOffset + 12));
-            directory.setInt(KodakMakernoteDirectory.TAG_IMAGE_HEIGHT, reader.getUInt16(dataOffset + 14));
-            directory.setInt(KodakMakernoteDirectory.TAG_YEAR_CREATED, reader.getUInt16(dataOffset + 16));
-            directory.setByteArray(KodakMakernoteDirectory.TAG_MONTH_DAY_CREATED, reader.getBytes(dataOffset + 18, 2));
-            directory.setByteArray(KodakMakernoteDirectory.TAG_TIME_CREATED, reader.getBytes(dataOffset + 20, 4));
-            directory.setInt(KodakMakernoteDirectory.TAG_BURST_MODE_2, reader.getUInt16(dataOffset + 24));
-            directory.setInt(KodakMakernoteDirectory.TAG_SHUTTER_MODE, reader.getUInt8(dataOffset + 27));
-            directory.setInt(KodakMakernoteDirectory.TAG_METERING_MODE, reader.getUInt8(dataOffset + 28));
-            directory.setInt(KodakMakernoteDirectory.TAG_SEQUENCE_NUMBER, reader.getUInt8(dataOffset + 29));
-            directory.setInt(KodakMakernoteDirectory.TAG_F_NUMBER, reader.getUInt16(dataOffset + 30));
-            directory.setLong(KodakMakernoteDirectory.TAG_EXPOSURE_TIME, reader.getUInt32(dataOffset + 32));
-            directory.setInt(KodakMakernoteDirectory.TAG_EXPOSURE_COMPENSATION, reader.getInt16(dataOffset + 36));
-            directory.setInt(KodakMakernoteDirectory.TAG_FOCUS_MODE, reader.getUInt8(dataOffset + 56));
-            directory.setInt(KodakMakernoteDirectory.TAG_WHITE_BALANCE, reader.getUInt8(dataOffset + 64));
-            directory.setInt(KodakMakernoteDirectory.TAG_FLASH_MODE, reader.getUInt8(dataOffset + 92));
-            directory.setInt(KodakMakernoteDirectory.TAG_FLASH_FIRED, reader.getUInt8(dataOffset + 93));
-            directory.setInt(KodakMakernoteDirectory.TAG_ISO_SETTING, reader.getUInt16(dataOffset + 94));
-            directory.setInt(KodakMakernoteDirectory.TAG_ISO, reader.getUInt16(dataOffset + 96));
-            directory.setInt(KodakMakernoteDirectory.TAG_TOTAL_ZOOM, reader.getUInt16(dataOffset + 98));
-            directory.setInt(KodakMakernoteDirectory.TAG_DATE_TIME_STAMP, reader.getUInt16(dataOffset + 100));
-            directory.setInt(KodakMakernoteDirectory.TAG_COLOR_MODE, reader.getUInt16(dataOffset + 102));
-            directory.setInt(KodakMakernoteDirectory.TAG_DIGITAL_ZOOM, reader.getUInt16(dataOffset + 104));
-            directory.setInt(KodakMakernoteDirectory.TAG_SHARPNESS, reader.getInt8(dataOffset + 107));
+            directory.setStringValue(KodakMakernoteDirectory.Keys.TAG_KODAK_MODEL, reader.getStringValue(dataOffset, 8, Charsets.UTF_8));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_QUALITY, reader.getUInt8(dataOffset + 9));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_BURST_MODE, reader.getUInt8(dataOffset + 10));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_IMAGE_WIDTH, reader.getUInt16(dataOffset + 12));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_IMAGE_HEIGHT, reader.getUInt16(dataOffset + 14));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_YEAR_CREATED, reader.getUInt16(dataOffset + 16));
+            directory.setByteArray(KodakMakernoteDirectory.Keys.TAG_MONTH_DAY_CREATED, reader.getBytes(dataOffset + 18, 2));
+            directory.setByteArray(KodakMakernoteDirectory.Keys.TAG_TIME_CREATED, reader.getBytes(dataOffset + 20, 4));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_BURST_MODE_2, reader.getUInt16(dataOffset + 24));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_SHUTTER_MODE, reader.getUInt8(dataOffset + 27));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_METERING_MODE, reader.getUInt8(dataOffset + 28));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_SEQUENCE_NUMBER, reader.getUInt8(dataOffset + 29));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_F_NUMBER, reader.getUInt16(dataOffset + 30));
+            directory.setLong(KodakMakernoteDirectory.Keys.TAG_EXPOSURE_TIME, reader.getUInt32(dataOffset + 32));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_EXPOSURE_COMPENSATION, reader.getInt16(dataOffset + 36));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_FOCUS_MODE, reader.getUInt8(dataOffset + 56));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_WHITE_BALANCE, reader.getUInt8(dataOffset + 64));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_FLASH_MODE, reader.getUInt8(dataOffset + 92));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_FLASH_FIRED, reader.getUInt8(dataOffset + 93));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_ISO_SETTING, reader.getUInt16(dataOffset + 94));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_ISO, reader.getUInt16(dataOffset + 96));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_TOTAL_ZOOM, reader.getUInt16(dataOffset + 98));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_DATE_TIME_STAMP, reader.getUInt16(dataOffset + 100));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_COLOR_MODE, reader.getUInt16(dataOffset + 102));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_DIGITAL_ZOOM, reader.getUInt16(dataOffset + 104));
+            directory.setInt(KodakMakernoteDirectory.Keys.TAG_SHARPNESS, reader.getInt8(dataOffset + 107));
         } catch (IOException ex) {
             directory.addError("Error processing Kodak makernote data: " + ex.getMessage());
         }
@@ -705,13 +706,13 @@ public class ExifTiffHandler extends DirectoryTiffHandler
 
     private static void processReconyxHyperFireMakernote(@NotNull final ReconyxHyperFireMakernoteDirectory directory, final int makernoteOffset, @NotNull final RandomAccessReader reader) throws IOException
     {
-        directory.setObject(ReconyxHyperFireMakernoteDirectory.TAG_MAKERNOTE_VERSION, reader.getUInt16(makernoteOffset));
+        directory.setObject(ReconyxHyperFireMakernoteDirectory.Keys.TAG_MAKERNOTE_VERSION, reader.getUInt16(makernoteOffset));
 
-        int major = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_FIRMWARE_VERSION);
-        int minor = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_FIRMWARE_VERSION + 2);
-        int revision = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_FIRMWARE_VERSION + 4);
-        String buildYear = String.format("%04X", reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_FIRMWARE_VERSION + 6));
-        String buildDate = String.format("%04X", reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_FIRMWARE_VERSION + 8));
+        int major = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_FIRMWARE_VERSION.getValue());
+        int minor = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_FIRMWARE_VERSION.getValue() + 2);
+        int revision = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_FIRMWARE_VERSION.getValue() + 4);
+        String buildYear = String.format("%04X", reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_FIRMWARE_VERSION.getValue() + 6));
+        String buildDate = String.format("%04X", reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_FIRMWARE_VERSION.getValue() + 8));
         String buildYearAndDate = buildYear + buildDate;
         Integer build;
         try {
@@ -721,32 +722,32 @@ public class ExifTiffHandler extends DirectoryTiffHandler
         }
         if (build != null)
         {
-            directory.setString(ReconyxHyperFireMakernoteDirectory.TAG_FIRMWARE_VERSION, String.format("%d.%d.%d.%s", major, minor, revision, build));
+            directory.setString(ReconyxHyperFireMakernoteDirectory.Keys.TAG_FIRMWARE_VERSION, String.format("%d.%d.%d.%s", major, minor, revision, build));
         }
         else
         {
-            directory.setString(ReconyxHyperFireMakernoteDirectory.TAG_FIRMWARE_VERSION, String.format("%d.%d.%d", major, minor, revision));
+            directory.setString(ReconyxHyperFireMakernoteDirectory.Keys.TAG_FIRMWARE_VERSION, String.format("%d.%d.%d", major, minor, revision));
             directory.addError("Error processing Reconyx HyperFire makernote data: build '" + buildYearAndDate + "' is not in the expected format and will be omitted from Firmware Version.");
         }
 
-        directory.setString(ReconyxHyperFireMakernoteDirectory.TAG_TRIGGER_MODE, String.valueOf((char)reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_TRIGGER_MODE)));
-        directory.setIntArray(ReconyxHyperFireMakernoteDirectory.TAG_SEQUENCE,
+        directory.setString(ReconyxHyperFireMakernoteDirectory.Keys.TAG_TRIGGER_MODE, String.valueOf((char)reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_TRIGGER_MODE.getValue())));
+        directory.setIntArray(ReconyxHyperFireMakernoteDirectory.Keys.TAG_SEQUENCE,
                       new int[]
                       {
-                          reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_SEQUENCE),
-                          reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_SEQUENCE + 2)
+                          reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_SEQUENCE.getValue()),
+                          reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_SEQUENCE.getValue() + 2)
                       });
 
-        int eventNumberHigh = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_EVENT_NUMBER);
-        int eventNumberLow = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_EVENT_NUMBER + 2);
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_EVENT_NUMBER, (eventNumberHigh << 16) + eventNumberLow);
+        int eventNumberHigh = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_EVENT_NUMBER.getValue());
+        int eventNumberLow = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_EVENT_NUMBER.getValue() + 2);
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_EVENT_NUMBER, (eventNumberHigh << 16) + eventNumberLow);
 
-        int seconds = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL);
-        int minutes = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL + 2);
-        int hour = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL + 4);
-        int month = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL + 6);
-        int day = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL + 8);
-        int year = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL + 10);
+        int seconds = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue());
+        int minutes = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue() + 2);
+        int hour = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue() + 4);
+        int month = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue() + 6);
+        int day = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue() + 8);
+        int year = reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue() + 10);
 
         if ((seconds >= 0 && seconds < 60) &&
             (minutes >= 0 && minutes < 60) &&
@@ -755,7 +756,7 @@ public class ExifTiffHandler extends DirectoryTiffHandler
             (day >= 1 && day < 32) &&
             (year >= 1 && year <= 9999))
         {
-            directory.setString(ReconyxHyperFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL,
+            directory.setString(ReconyxHyperFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL,
                     String.format("%4d:%2d:%2d %2d:%2d:%2d", year, month, day, hour, minutes, seconds));
         }
         else
@@ -763,63 +764,63 @@ public class ExifTiffHandler extends DirectoryTiffHandler
             directory.addError("Error processing Reconyx HyperFire makernote data: Date/Time Original " + year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds + " is not a valid date/time.");
         }
 
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_MOON_PHASE, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_MOON_PHASE));
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_AMBIENT_TEMPERATURE_FAHRENHEIT, reader.getInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_AMBIENT_TEMPERATURE_FAHRENHEIT));
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_AMBIENT_TEMPERATURE, reader.getInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_AMBIENT_TEMPERATURE));
-        //directory.setByteArray(ReconyxHyperFireMakernoteDirectory.TAG_SERIAL_NUMBER, reader.getBytes(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_SERIAL_NUMBER, 28));
-        directory.setStringValue(ReconyxHyperFireMakernoteDirectory.TAG_SERIAL_NUMBER, new StringValue(reader.getBytes(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_SERIAL_NUMBER, 28), Charsets.UTF_16LE));
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_MOON_PHASE, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_MOON_PHASE.getValue()));
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_AMBIENT_TEMPERATURE_FAHRENHEIT, reader.getInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_AMBIENT_TEMPERATURE_FAHRENHEIT.getValue()));
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_AMBIENT_TEMPERATURE, reader.getInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_AMBIENT_TEMPERATURE.getValue()));
+        //directory.setByteArray(ReconyxHyperFireMakernoteDirectory.Keys.TAG_SERIAL_NUMBER, reader.getBytes(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_SERIAL_NUMBER, 28));
+        directory.setStringValue(ReconyxHyperFireMakernoteDirectory.Keys.TAG_SERIAL_NUMBER, new StringValue(reader.getBytes(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_SERIAL_NUMBER.getValue(), 28), Charsets.UTF_16LE));
         // two unread bytes: the serial number's terminating null
 
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_CONTRAST, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_CONTRAST));
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_BRIGHTNESS, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_BRIGHTNESS));
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_SHARPNESS, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_SHARPNESS));
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_SATURATION, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_SATURATION));
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_INFRARED_ILLUMINATOR, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_INFRARED_ILLUMINATOR));
-        directory.setInt(ReconyxHyperFireMakernoteDirectory.TAG_MOTION_SENSITIVITY, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_MOTION_SENSITIVITY));
-        directory.setDouble(ReconyxHyperFireMakernoteDirectory.TAG_BATTERY_VOLTAGE, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_BATTERY_VOLTAGE) / 1000.0);
-        directory.setString(ReconyxHyperFireMakernoteDirectory.TAG_USER_LABEL, reader.getNullTerminatedString(makernoteOffset + ReconyxHyperFireMakernoteDirectory.TAG_USER_LABEL, 44, Charsets.UTF_8));
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_CONTRAST, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_CONTRAST.getValue()));
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_BRIGHTNESS, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_BRIGHTNESS.getValue()));
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_SHARPNESS, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_SHARPNESS.getValue()));
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_SATURATION, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_SATURATION.getValue()));
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_INFRARED_ILLUMINATOR, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_INFRARED_ILLUMINATOR.getValue()));
+        directory.setInt(ReconyxHyperFireMakernoteDirectory.Keys.TAG_MOTION_SENSITIVITY, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_MOTION_SENSITIVITY.getValue()));
+        directory.setDouble(ReconyxHyperFireMakernoteDirectory.Keys.TAG_BATTERY_VOLTAGE, reader.getUInt16(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_BATTERY_VOLTAGE.getValue()) / 1000.0);
+        directory.setString(ReconyxHyperFireMakernoteDirectory.Keys.TAG_USER_LABEL, reader.getNullTerminatedString(makernoteOffset + ReconyxHyperFireMakernoteDirectory.Keys.TAG_USER_LABEL.getValue(), 44, Charsets.UTF_8));
     }
 
     private static void processReconyxUltraFireMakernote(@NotNull final ReconyxUltraFireMakernoteDirectory directory, final int makernoteOffset, @NotNull final RandomAccessReader reader) throws IOException
     {
-        directory.setString(ReconyxUltraFireMakernoteDirectory.TAG_LABEL, reader.getString(makernoteOffset, 9, Charsets.UTF_8));
-        /*uint makernoteID = ByteConvert.FromBigEndianToNative(reader.GetUInt32(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagMakernoteID));
-        directory.Set(ReconyxUltraFireMakernoteDirectory.TagMakernoteID, makernoteID);
-        if (makernoteID != ReconyxUltraFireMakernoteDirectory.MAKERNOTE_ID)
+        directory.setString(ReconyxUltraFireMakernoteDirectory.Keys.TAG_LABEL, reader.getString(makernoteOffset, 9, Charsets.UTF_8));
+        /*uint makernoteID = ByteConvert.FromBigEndianToNative(reader.GetUInt32(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagMakernoteID));
+        directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagMakernoteID, makernoteID);
+        if (makernoteID != ReconyxUltraFireMakernoteDirectory.Keys.MAKERNOTE_ID)
         {
             directory.addError("Error processing Reconyx UltraFire makernote data: unknown Makernote ID 0x" + makernoteID.ToString("x8"));
             return;
         }
-        directory.Set(ReconyxUltraFireMakernoteDirectory.TagMakernoteSize, ByteConvert.FromBigEndianToNative(reader.GetUInt32(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagMakernoteSize)));
-        uint makernotePublicID = ByteConvert.FromBigEndianToNative(reader.GetUInt32(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagMakernotePublicID));
-        directory.Set(ReconyxUltraFireMakernoteDirectory.TagMakernotePublicID, makernotePublicID);
-        if (makernotePublicID != ReconyxUltraFireMakernoteDirectory.MAKERNOTE_PUBLIC_ID)
+        directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagMakernoteSize, ByteConvert.FromBigEndianToNative(reader.GetUInt32(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagMakernoteSize)));
+        uint makernotePublicID = ByteConvert.FromBigEndianToNative(reader.GetUInt32(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagMakernotePublicID));
+        directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagMakernotePublicID, makernotePublicID);
+        if (makernotePublicID != ReconyxUltraFireMakernoteDirectory.Keys.MAKERNOTE_PUBLIC_ID)
         {
             directory.addError("Error processing Reconyx UltraFire makernote data: unknown Makernote Public ID 0x" + makernotePublicID.ToString("x8"));
             return;
         }*/
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagMakernotePublicSize, ByteConvert.FromBigEndianToNative(reader.GetUInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagMakernotePublicSize)));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagMakernotePublicSize, ByteConvert.FromBigEndianToNative(reader.GetUInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagMakernotePublicSize)));
 
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagCameraVersion, ProcessReconyxUltraFireVersion(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagCameraVersion, reader));
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagUibVersion, ProcessReconyxUltraFireVersion(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagUibVersion, reader));
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagBtlVersion, ProcessReconyxUltraFireVersion(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagBtlVersion, reader));
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagPexVersion, ProcessReconyxUltraFireVersion(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagPexVersion, reader));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagCameraVersion, ProcessReconyxUltraFireVersion(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagCameraVersion, reader));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagUibVersion, ProcessReconyxUltraFireVersion(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagUibVersion, reader));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagBtlVersion, ProcessReconyxUltraFireVersion(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagBtlVersion, reader));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagPexVersion, ProcessReconyxUltraFireVersion(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagPexVersion, reader));
 
-        directory.setString(ReconyxUltraFireMakernoteDirectory.TAG_EVENT_TYPE, reader.getString(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_EVENT_TYPE, 1, Charsets.UTF_8));
-        directory.setIntArray(ReconyxUltraFireMakernoteDirectory.TAG_SEQUENCE,
+        directory.setString(ReconyxUltraFireMakernoteDirectory.Keys.TAG_EVENT_TYPE, reader.getString(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_EVENT_TYPE.getValue(), 1, Charsets.UTF_8));
+        directory.setIntArray(ReconyxUltraFireMakernoteDirectory.Keys.TAG_SEQUENCE,
                       new int[]
                       {
-                          reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_SEQUENCE),
-                          reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_SEQUENCE + 1)
+                          reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_SEQUENCE.getValue()),
+                          reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_SEQUENCE.getValue() + 1)
                       });
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagEventNumber, ByteConvert.FromBigEndianToNative(reader.GetUInt32(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagEventNumber)));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagEventNumber, ByteConvert.FromBigEndianToNative(reader.GetUInt32(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagEventNumber)));
 
-        byte seconds = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL);
-        byte minutes = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL + 1);
-        byte hour = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL + 2);
-        byte day = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL + 3);
-        byte month = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL + 4);
-        /*ushort year = ByteConvert.FromBigEndianToNative(reader.GetUInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagDateTimeOriginal + 5));
+        byte seconds = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue());
+        byte minutes = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue() + 1);
+        byte hour = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue() + 2);
+        byte day = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue() + 3);
+        byte month = reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL.getValue() + 4);
+        /*ushort year = ByteConvert.FromBigEndianToNative(reader.GetUInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagDateTimeOriginal + 5));
         if ((seconds >= 0 && seconds < 60) &&
             (minutes >= 0 && minutes < 60) &&
             (hour >= 0 && hour < 24) &&
@@ -827,23 +828,23 @@ public class ExifTiffHandler extends DirectoryTiffHandler
             (day >= 1 && day < 32) &&
             (year >= 1 && year <= 9999))
         {
-            directory.Set(ReconyxUltraFireMakernoteDirectory.TAG_DATE_TIME_ORIGINAL, new DateTime(year, month, day, hour, minutes, seconds, DateTimeKind.Unspecified));
+            directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TAG_DATE_TIME_ORIGINAL, new DateTime(year, month, day, hour, minutes, seconds, DateTimeKind.Unspecified));
         }
         else
         {
             directory.addError("Error processing Reconyx UltraFire makernote data: Date/Time Original " + year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds + " is not a valid date/time.");
         }*/
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagDayOfWeek, reader.GetByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagDayOfWeek));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagDayOfWeek, reader.GetByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagDayOfWeek));
 
-        directory.setInt(ReconyxUltraFireMakernoteDirectory.TAG_MOON_PHASE, reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_MOON_PHASE));
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagAmbientTemperatureFahrenheit, ByteConvert.FromBigEndianToNative(reader.GetInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagAmbientTemperatureFahrenheit)));
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagAmbientTemperature, ByteConvert.FromBigEndianToNative(reader.GetInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagAmbientTemperature)));
+        directory.setInt(ReconyxUltraFireMakernoteDirectory.Keys.TAG_MOON_PHASE, reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_MOON_PHASE.getValue()));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagAmbientTemperatureFahrenheit, ByteConvert.FromBigEndianToNative(reader.GetInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagAmbientTemperatureFahrenheit)));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagAmbientTemperature, ByteConvert.FromBigEndianToNative(reader.GetInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagAmbientTemperature)));
 
-        directory.setInt(ReconyxUltraFireMakernoteDirectory.TAG_FLASH, reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_FLASH));
-        //directory.Set(ReconyxUltraFireMakernoteDirectory.TagBatteryVoltage, ByteConvert.FromBigEndianToNative(reader.GetUInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TagBatteryVoltage)) / 1000.0);
-        directory.setStringValue(ReconyxUltraFireMakernoteDirectory.TAG_SERIAL_NUMBER, new StringValue(reader.getBytes(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_SERIAL_NUMBER, 14), Charsets.UTF_8));
+        directory.setInt(ReconyxUltraFireMakernoteDirectory.Keys.TAG_FLASH, reader.getByte(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_FLASH.getValue()));
+        //directory.Set(ReconyxUltraFireMakernoteDirectory.Keys.TagBatteryVoltage, ByteConvert.FromBigEndianToNative(reader.GetUInt16(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TagBatteryVoltage)) / 1000.0);
+        directory.setStringValue(ReconyxUltraFireMakernoteDirectory.Keys.TAG_SERIAL_NUMBER, new StringValue(reader.getBytes(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_SERIAL_NUMBER.getValue(), 14), Charsets.UTF_8));
         // unread byte: the serial number's terminating null
-        directory.setString(ReconyxUltraFireMakernoteDirectory.TAG_USER_LABEL, reader.getNullTerminatedString(makernoteOffset + ReconyxUltraFireMakernoteDirectory.TAG_USER_LABEL, 20, Charsets.UTF_8));
+        directory.setString(ReconyxUltraFireMakernoteDirectory.Keys.TAG_USER_LABEL, reader.getNullTerminatedString(makernoteOffset + ReconyxUltraFireMakernoteDirectory.Keys.TAG_USER_LABEL.getValue(), 20, Charsets.UTF_8));
     }
 }
 

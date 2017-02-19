@@ -22,9 +22,12 @@
 package com.drew.metadata.exif.makernotes;
 
 import com.drew.lang.annotations.NotNull;
+import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
 
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Describes tags specific to Reconyx UltraFire cameras.
@@ -33,66 +36,95 @@ import java.util.HashMap;
  * @author Todd West http://cascadescarnivoreproject.blogspot.com
  */
 @SuppressWarnings("WeakerAccess")
-public class ReconyxUltraFireMakernoteDirectory extends Directory
+public class ReconyxUltraFireMakernoteDirectory extends Directory<Integer, ReconyxUltraFireMakernoteDirectory.Keys>
 {
-    /**
-     * Version number used for identifying makernotes from Reconyx UltraFire cameras.
-     */
-    public static final int MAKERNOTE_ID = 0x00010000;
+    public enum Keys
+    {
+        /**
+         * Version number used for identifying makernotes from Reconyx UltraFire cameras.
+         */
+        MAKERNOTE_ID(0x00010000),
 
-    /**
-     * Version number used for identifying the public portion of makernotes from Reconyx UltraFire cameras.
-     */
-    public static final int MAKERNOTE_PUBLIC_ID = 0x07f10001;
+        /**
+         * Version number used for identifying the public portion of makernotes from Reconyx UltraFire cameras.
+         */
+        MAKERNOTE_PUBLIC_ID(0x07f10001),
 
-    public static final int TAG_LABEL = 0;
-    public static final int TAG_MAKERNOTE_ID = 10;
-    public static final int TAG_MAKERNOTE_SIZE = 14;
-    public static final int TAG_MAKERNOTE_PUBLIC_ID = 18;
-    public static final int TAG_MAKERNOTE_PUBLIC_SIZE = 22;
-    public static final int TAG_CAMERA_VERSION = 24;
-    public static final int TAG_UIB_VERSION = 31;
-    public static final int TAG_BTL_VERSION = 38;
-    public static final int TAG_PEX_VERSION = 45;
-    public static final int TAG_EVENT_TYPE = 52;
-    public static final int TAG_SEQUENCE = 53;
-    public static final int TAG_EVENT_NUMBER = 55;
-    public static final int TAG_DATE_TIME_ORIGINAL = 59;
-    public static final int TAG_DAY_OF_WEEK = 66;
-    public static final int TAG_MOON_PHASE = 67;
-    public static final int TAG_AMBIENT_TEMPERATURE_FAHRENHEIT = 68;
-    public static final int TAG_AMBIENT_TEMPERATURE = 70;
-    public static final int TAG_FLASH = 72;
-    public static final int TAG_BATTERY_VOLTAGE = 73;
-    public static final int TAG_SERIAL_NUMBER = 75;
-    public static final int TAG_USER_LABEL = 80;
+        TAG_LABEL(0),
+        TAG_MAKERNOTE_ID(10),
+        TAG_MAKERNOTE_SIZE(14),
+        TAG_MAKERNOTE_PUBLIC_ID(18),
+        TAG_MAKERNOTE_PUBLIC_SIZE(22),
+        TAG_CAMERA_VERSION(24),
+        TAG_UIB_VERSION(31),
+        TAG_BTL_VERSION(38),
+        TAG_PEX_VERSION(45),
+        TAG_EVENT_TYPE(52),
+        TAG_SEQUENCE(53),
+        TAG_EVENT_NUMBER(55),
+        TAG_DATE_TIME_ORIGINAL(59),
+        TAG_DAY_OF_WEEK(66),
+        TAG_MOON_PHASE(67),
+        TAG_AMBIENT_TEMPERATURE_FAHRENHEIT(68),
+        TAG_AMBIENT_TEMPERATURE(70),
+        TAG_FLASH(72),
+        TAG_BATTERY_VOLTAGE(73),
+        TAG_SERIAL_NUMBER(75),
+        TAG_USER_LABEL(80);
+
+        //TODO: Use a sparse array trie, or FastUtil
+        private static final Map<Integer, Keys> lookup = new HashMap<Integer, Keys>();
+        static {
+            for (Keys type : values())
+                lookup.put(type.getValue(), type);
+        }
+
+        private final int key;
+        Keys(int key)
+        {
+            this.key = key;
+        }
+
+        public Integer getValue()
+        {
+            return key;
+        }
+
+        public static @Nullable
+        Keys fromValue(Integer value)
+        {
+            return lookup.get(value);
+        }
+    }
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    protected static final EnumMap<Keys, String> _tagNameMap = new EnumMap<Keys, String>(Keys.class);
+    @NotNull
+    protected static final EnumMap<Keys, Object> _tagMap = new EnumMap<Keys, Object>(Keys.class);
 
     static
     {
-        _tagNameMap.put(TAG_LABEL, "Makernote Label");
-        _tagNameMap.put(TAG_MAKERNOTE_ID, "Makernote ID");
-        _tagNameMap.put(TAG_MAKERNOTE_SIZE, "Makernote Size");
-        _tagNameMap.put(TAG_MAKERNOTE_PUBLIC_ID, "Makernote Public ID");
-        _tagNameMap.put(TAG_MAKERNOTE_PUBLIC_SIZE, "Makernote Public Size");
-        _tagNameMap.put(TAG_CAMERA_VERSION, "Camera Version");
-        _tagNameMap.put(TAG_UIB_VERSION, "Uib Version");
-        _tagNameMap.put(TAG_BTL_VERSION, "Btl Version");
-        _tagNameMap.put(TAG_PEX_VERSION, "Pex Version");
-        _tagNameMap.put(TAG_EVENT_TYPE, "Event Type");
-        _tagNameMap.put(TAG_SEQUENCE, "Sequence");
-        _tagNameMap.put(TAG_EVENT_NUMBER, "Event Number");
-        _tagNameMap.put(TAG_DATE_TIME_ORIGINAL, "Date/Time Original");
-        _tagNameMap.put(TAG_DAY_OF_WEEK, "Day of Week");
-        _tagNameMap.put(TAG_MOON_PHASE, "Moon Phase");
-        _tagNameMap.put(TAG_AMBIENT_TEMPERATURE_FAHRENHEIT, "Ambient Temperature Fahrenheit");
-        _tagNameMap.put(TAG_AMBIENT_TEMPERATURE, "Ambient Temperature");
-        _tagNameMap.put(TAG_FLASH, "Flash");
-        _tagNameMap.put(TAG_BATTERY_VOLTAGE, "Battery Voltage");
-        _tagNameMap.put(TAG_SERIAL_NUMBER, "Serial Number");
-        _tagNameMap.put(TAG_USER_LABEL, "User Label");
+        _tagNameMap.put(Keys.TAG_LABEL, "Makernote Label");
+        _tagNameMap.put(Keys.TAG_MAKERNOTE_ID, "Makernote ID");
+        _tagNameMap.put(Keys.TAG_MAKERNOTE_SIZE, "Makernote Size");
+        _tagNameMap.put(Keys.TAG_MAKERNOTE_PUBLIC_ID, "Makernote Public ID");
+        _tagNameMap.put(Keys.TAG_MAKERNOTE_PUBLIC_SIZE, "Makernote Public Size");
+        _tagNameMap.put(Keys.TAG_CAMERA_VERSION, "Camera Version");
+        _tagNameMap.put(Keys.TAG_UIB_VERSION, "Uib Version");
+        _tagNameMap.put(Keys.TAG_BTL_VERSION, "Btl Version");
+        _tagNameMap.put(Keys.TAG_PEX_VERSION, "Pex Version");
+        _tagNameMap.put(Keys.TAG_EVENT_TYPE, "Event Type");
+        _tagNameMap.put(Keys.TAG_SEQUENCE, "Sequence");
+        _tagNameMap.put(Keys.TAG_EVENT_NUMBER, "Event Number");
+        _tagNameMap.put(Keys.TAG_DATE_TIME_ORIGINAL, "Date/Time Original");
+        _tagNameMap.put(Keys.TAG_DAY_OF_WEEK, "Day of Week");
+        _tagNameMap.put(Keys.TAG_MOON_PHASE, "Moon Phase");
+        _tagNameMap.put(Keys.TAG_AMBIENT_TEMPERATURE_FAHRENHEIT, "Ambient Temperature Fahrenheit");
+        _tagNameMap.put(Keys.TAG_AMBIENT_TEMPERATURE, "Ambient Temperature");
+        _tagNameMap.put(Keys.TAG_FLASH, "Flash");
+        _tagNameMap.put(Keys.TAG_BATTERY_VOLTAGE, "Battery Voltage");
+        _tagNameMap.put(Keys.TAG_SERIAL_NUMBER, "Serial Number");
+        _tagNameMap.put(Keys.TAG_USER_LABEL, "User Label");
     }
 
     public ReconyxUltraFireMakernoteDirectory()
@@ -109,8 +141,20 @@ public class ReconyxUltraFireMakernoteDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected EnumMap<Keys, String> getTagNameMap()
     {
         return _tagNameMap;
+    }
+
+    @Override
+    protected EnumMap<Keys, Object> getTagMap()
+    {
+        return _tagMap;
+    }
+
+    @Override
+    protected Keys getTagFromValue(Integer value)
+    {
+        return Keys.fromValue(value);
     }
 }
