@@ -24,8 +24,12 @@ package com.drew.metadata.exif;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
+import com.drew.metadata.DirectoryBase;
+import com.drew.metadata.IntegerKey;
+import com.drew.metadata.Key;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,19 +41,19 @@ import java.util.Map;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class PanasonicRawDistortionDirectory extends Directory<Integer, PanasonicRawDistortionDirectory.Keys>
+public class PanasonicRawDistortionDirectory extends DirectoryBase<Integer, PanasonicRawDistortionDirectory.Keys>
 {
     // 0 and 1 are checksums
-    public enum Keys
+    public enum Keys implements IntegerKey
     {
-        TagDistortionParam02(2),
-        TagDistortionParam04(4),
-        TagDistortionScale(5),
-        TagDistortionCorrection(7),
-        TagDistortionParam08(8),
-        TagDistortionParam09(9),
-        TagDistortionParam11(11),
-        TagDistortionN(12);
+        TagDistortionParam02(   2,  "Distortion Param 2"),
+        TagDistortionParam04(   4,  "Distortion Param 4"),
+        TagDistortionScale(     5,  "Distortion Scale"),
+        TagDistortionCorrection(7,  "Distortion Correction"),
+        TagDistortionParam08(   8,  "Distortion Param 8"),
+        TagDistortionParam09(   9,  "Distortion Param 9"),
+        TagDistortionParam11(   11, "Distortion Param 11"),
+        TagDistortionN(         12, "Distortion N");
 
         //TODO: Use a sparse array trie, or FastUtil
         private static final Map<Integer, Keys> lookup = new HashMap<Integer, Keys>();
@@ -59,9 +63,11 @@ public class PanasonicRawDistortionDirectory extends Directory<Integer, Panasoni
         }
 
         private final int key;
-        Keys(int key)
+        private final String description;
+        Keys(int key, String description)
         {
             this.key = key;
+            this.description = description;
         }
 
         public Integer getValue()
@@ -73,23 +79,24 @@ public class PanasonicRawDistortionDirectory extends Directory<Integer, Panasoni
         {
             return lookup.get(value);
         }
-    }
 
-    @NotNull
-    protected static final EnumMap<Keys, String> _tagNameMap = new EnumMap<Keys, String>(Keys.class);
-    @NotNull
-    protected static final EnumMap<Keys, Object> _tagMap = new EnumMap<Keys, Object>(Keys.class);
+        @Override
+        public String getTagName()
+        {
+            return name();
+        }
 
-    static
-    {
-        _tagNameMap.put(Keys.TagDistortionParam02, "Distortion Param 2");
-        _tagNameMap.put(Keys.TagDistortionParam04, "Distortion Param 4");
-        _tagNameMap.put(Keys.TagDistortionScale, "Distortion Scale");
-        _tagNameMap.put(Keys.TagDistortionCorrection, "Distortion Correction");
-        _tagNameMap.put(Keys.TagDistortionParam08, "Distortion Param 8");
-        _tagNameMap.put(Keys.TagDistortionParam09, "Distortion Param 9");
-        _tagNameMap.put(Keys.TagDistortionParam11, "Distortion Param 11");
-        _tagNameMap.put(Keys.TagDistortionN, "Distortion N");
+        @Override
+        public String getTagType()
+        {
+            return Integer.toString(key);
+        }
+
+        @Override
+        public String getDescription()
+        {
+            return description;
+        }
     }
 
     public PanasonicRawDistortionDirectory()
@@ -105,9 +112,9 @@ public class PanasonicRawDistortionDirectory extends Directory<Integer, Panasoni
     }
 
     @Override
-    protected EnumMap<Keys, String> getTagNameMap()
+    protected EnumSet<Keys> getTagSet()
     {
-        return _tagNameMap;
+        return EnumSet.allOf(Keys.class);
     }
 
     @Override

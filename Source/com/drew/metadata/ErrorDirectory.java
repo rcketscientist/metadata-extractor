@@ -28,8 +28,8 @@ import java.util.*;
  *
  * @author Drew Noakes https://drewnoakes.com
  */
-
-public final class ErrorDirectory extends Directory
+// TODO: Why does this even exist if directory has _errorList
+public final class ErrorDirectory extends DirectoryBase
 {
 
     public ErrorDirectory()
@@ -37,7 +37,7 @@ public final class ErrorDirectory extends Directory
 
     public ErrorDirectory(String error)
     {
-        super.addError(error);
+        addError(error);
     }
 
     @Override
@@ -49,27 +49,39 @@ public final class ErrorDirectory extends Directory
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    protected EnumMap getTagSet()
     {
-        return new HashMap<Integer, String>();
+        return null;
     }
 
     @Override
-    @NotNull
-    public String getTagName(int tagType)
+    protected EnumMap getTagMap()
+    {
+        return null;
+    }
+
+    @Override
+    protected Enum getTagFromValue(Object value)
+    {
+        return null;
+    }
+
+    @Override
+    public void setObject(Enum tagType, @NotNull Object value)
+    {
+        throw new UnsupportedOperationException(String.format("Cannot add value to %s.", ErrorDirectory.class.getName()));
+    }
+
+    @deprecated
+    @Override
+    public String getTagName(Enum tagType)
     {
         return "";
     }
 
     @Override
-    public boolean hasTagName(int tagType)
+    public boolean hasTagName(Enum tagType)
     {
         return false;
-    }
-
-    @Override
-    public void setObject(int tagType, @NotNull Object value)
-    {
-        throw new UnsupportedOperationException(String.format("Cannot add value to %s.", ErrorDirectory.class.getName()));
     }
 }

@@ -12,6 +12,10 @@ jar {
 sourceSets {
     main {
         java.srcDirs = ['Source']
+        resources.srcDirs = ['Resources']
+    }
+    test {
+        java.srcDirs = ["Test"]
     }
 }
 

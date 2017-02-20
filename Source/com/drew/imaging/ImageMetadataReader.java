@@ -33,11 +33,11 @@ import com.drew.imaging.webp.WebpMetadataReader;
 import com.drew.lang.StringUtil;
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.Key;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifIFD0Directory;
-import com.drew.metadata.exif.ExifThumbnailDirectory;
 import com.drew.metadata.file.FileMetadataReader;
 
 import java.io.BufferedInputStream;
@@ -267,7 +267,7 @@ public class ImageMetadataReader
             // iterate over the metadata and print to System.out
             for (Directory directory : metadata.getDirectories()) {
                 String directoryName = directory.getName();
-                for (Tag tag : directory.getTags()) {
+                for (Key tag : directory.getTags()) {
                     String tagName = tag.getTagName();
                     String description = tag.getDescription();
 
@@ -279,13 +279,15 @@ public class ImageMetadataReader
                     if (markdownFormat) {
                         System.out.printf("%s|0x%s|%s|%s%n",
                             directoryName,
-                            Integer.toHexString(tag.getTagType()),
+                            tag.getTagType(),
                             tagName,
                             description);
                     } else {
                         // simple formatting
                         if (showHex) {
-                            System.out.printf("[%s - %s] %s = %s%n", directoryName, tag.getTagTypeHex(), tagName, description);
+                            //TODO: AJM How important is hex?  This would have to be handled with a Util.  Just use string for now...
+//                            System.out.printf("[%s - %s] %s = %s%n", directoryName, tag.getTagTypeHex(), tagName, description);
+                            System.out.printf("[%s - %s] %s = %s%n", directoryName, tag.getTagType(), tagName, description);
                         } else {
                             System.out.printf("[%s] %s = %s%n", directoryName, tagName, description);
                         }

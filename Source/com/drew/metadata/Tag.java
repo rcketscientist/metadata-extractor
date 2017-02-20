@@ -43,9 +43,9 @@ public class Tag<T, K extends Enum<K>>
     }
 
     /**
-     * Gets the tag type as an int
+     * Gets the tag type as an enum
      *
-     * @return the tag type as an int
+     * @return the tag type as an enum
      */
     public K getTagType()
     {
