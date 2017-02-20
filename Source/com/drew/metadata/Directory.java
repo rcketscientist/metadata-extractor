@@ -225,6 +225,10 @@ public abstract class Directory<T, K extends Enum<K>>
     {
         setObject(tagType, value);
     }
+    public void setInt(T tagValue, int value)
+    {
+        setInt(getTagFromValue(tagValue), value);
+    }
 
     /**
      * Sets an <code>int[]</code> (array) for the specified tag.
@@ -235,6 +239,10 @@ public abstract class Directory<T, K extends Enum<K>>
     public void setIntArray(K tagType, @NotNull int[] ints)
     {
         setObjectArray(tagType, ints);
+    }
+    public void setIntArray(T tagValue, @NotNull int[] ints)
+    {
+        setIntArray(getTagFromValue(tagValue), ints);
     }
 
     /**
@@ -247,6 +255,11 @@ public abstract class Directory<T, K extends Enum<K>>
     {
         setObject(tagType, value);
     }
+    public void setFloat(T tagValue, float value)
+    {
+        setFloat(getTagFromValue(tagValue), value);
+    }
+
 
     /**
      * Sets a <code>float[]</code> (array) for the specified tag.
@@ -257,6 +270,10 @@ public abstract class Directory<T, K extends Enum<K>>
     public void setFloatArray(K tagType, @NotNull float[] floats)
     {
         setObjectArray(tagType, floats);
+    }
+    public void setFloatArray(T tagValue, @NotNull float[] floats)
+    {
+        setFloatArray(getTagFromValue(tagValue), floats);
     }
 
     /**
@@ -269,6 +286,11 @@ public abstract class Directory<T, K extends Enum<K>>
     {
         setObject(tagType, value);
     }
+    public void setDouble(T tagValue, double value)
+    {
+        setDouble(getTagFromValue(tagValue), value);
+    }
+
 
     /**
      * Sets a <code>double[]</code> (array) for the specified tag.
@@ -279,6 +301,11 @@ public abstract class Directory<T, K extends Enum<K>>
     public void setDoubleArray(K tagType, @NotNull double[] doubles)
     {
         setObjectArray(tagType, doubles);
+    }
+
+    public void setDoubleArray(T tagValue, @NotNull double[] doubles)
+    {
+        setDoubleArray(getTagFromValue(tagValue), doubles);
     }
 
     /**
@@ -295,6 +322,11 @@ public abstract class Directory<T, K extends Enum<K>>
         setObject(tagType, value);
     }
 
+    public void setStringValue(T tagValue, @NotNull StringValue value)
+    {
+        setStringValue(getTagFromValue(tagValue), value);
+    }
+
     /**
      * Sets a <code>String</code> value for the specified tag.
      *
@@ -309,6 +341,11 @@ public abstract class Directory<T, K extends Enum<K>>
         setObject(tagType, value);
     }
 
+    public void setString(T tagValue, @NotNull String value)
+    {
+        setString(getTagFromValue(tagValue), value);
+    }
+
     /**
      * Sets a <code>String[]</code> (array) for the specified tag.
      *
@@ -318,6 +355,11 @@ public abstract class Directory<T, K extends Enum<K>>
     public void setStringArray(K tagType, @NotNull String[] strings)
     {
         setObjectArray(tagType, strings);
+    }
+
+    public void setStringArray(T tagValue, @NotNull String[] strings)
+    {
+        setStringArray(getTagFromValue(tagValue), strings);
     }
 
     /**
@@ -331,6 +373,11 @@ public abstract class Directory<T, K extends Enum<K>>
         setObjectArray(tagType, strings);
     }
 
+    public void setStringValueArray(T tagValue, @NotNull StringValue[] strings)
+    {
+        setStringValueArray(getTagFromValue(tagValue), strings);
+    }
+
     /**
      * Sets a <code>boolean</code> value for the specified tag.
      *
@@ -340,6 +387,10 @@ public abstract class Directory<T, K extends Enum<K>>
     public void setBoolean(K tagType, boolean value)
     {
         setObject(tagType, value);
+    }
+    public void setBoolean(T tagValue, boolean value)
+    {
+        setBoolean(getTagFromValue(tagValue), value);
     }
 
     /**
@@ -353,6 +404,12 @@ public abstract class Directory<T, K extends Enum<K>>
         setObject(tagType, value);
     }
 
+    public void setLong(T tagValue, long value)
+    {
+        setLong(getTagFromValue(tagValue), value);
+    }
+
+
     /**
      * Sets a <code>java.util.Date</code> value for the specified tag.
      *
@@ -362,6 +419,11 @@ public abstract class Directory<T, K extends Enum<K>>
     public void setDate(K tagType, @NotNull java.util.Date value)
     {
         setObject(tagType, value);
+    }
+
+    public void setDate(T tagValue, @NotNull java.util.Date value)
+    {
+        setDate(getTagFromValue(tagValue), value);
     }
 
     /**
@@ -375,6 +437,11 @@ public abstract class Directory<T, K extends Enum<K>>
         setObject(tagType, rational);
     }
 
+    public void setRational(T tagValue, @NotNull Rational rational)
+    {
+        setRational(getTagFromValue(tagValue), rational);
+    }
+
     /**
      * Sets a <code>Rational[]</code> (array) for the specified tag.
      *
@@ -386,6 +453,11 @@ public abstract class Directory<T, K extends Enum<K>>
         setObjectArray(tagType, rationals);
     }
 
+    public void setRationalArray(T tagValue, @NotNull Rational[] rationals)
+    {
+        setRationalArray(getTagFromValue(tagValue), rationals);
+    }
+
     /**
      * Sets a <code>byte[]</code> (array) for the specified tag.
      *
@@ -395,6 +467,14 @@ public abstract class Directory<T, K extends Enum<K>>
     public void setByteArray(K tagType, @NotNull byte[] bytes)
     {
         setObjectArray(tagType, bytes);
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #setByteArray(Enum, byte[])}.</em><p>
+     */
+    public void setByteArray(T tagValue, @NotNull byte[] bytes)
+    {
+        setByteArray(getTagFromValue(tagValue), bytes);
     }
 
     /**
@@ -417,11 +497,7 @@ public abstract class Directory<T, K extends Enum<K>>
     }
 
     /**
-     * Sets a <code>Object</code> for the specified tag.
-     *
-     * @param tagValue the tag's value as an int
-     * @param value   the value for the specified tag
-     * @throws NullPointerException if value is <code>null</code>
+     * <em>For backwards compatibility.  If possible use {@link #setObject(Enum, Object)}.</em><p>
      */
     public void setObject(T tagValue, @NotNull Object value)
     {
@@ -441,10 +517,7 @@ public abstract class Directory<T, K extends Enum<K>>
     }
 
     /**
-     * Sets an array <code>Object</code> for the specified tag.
-     *
-     * @param tagValue the tag's value as an int
-     * @param array   the array of values for the specified tag
+     * <em>For backwards compatibility.  If possible use {@link #setObjectArray(Enum, Object)}.</em><p>
      */
     public void setObjectArray(T tagValue, @NotNull Object array)
     {
@@ -479,6 +552,14 @@ public abstract class Directory<T, K extends Enum<K>>
         if (o == null)
             throw new MetadataException("Tag '" + getTagName(tagType) + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to int.  It is of type '" + o.getClass() + "'.");
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getInt(Enum)}.</em><p>
+     */
+    public int getInt(T tagValue) throws MetadataException
+    {
+        return getInt(getTagFromValue(tagValue));
     }
 
     /**
@@ -541,6 +622,15 @@ public abstract class Directory<T, K extends Enum<K>>
     }
 
     /**
+     * <em>For backwards compatibility.  If possible use {@link #getInteger(Enum)}.</em><p>
+     */
+    @Nullable
+    public Integer getInteger(T tagValue)
+    {
+        return getInteger(getTagFromValue(tagValue));
+    }
+
+    /**
      * Gets the specified tag's value as a String array, if possible.  Only supported
      * where the tag is set as StringValue[], String[], StringValue, String, int[], byte[] or Rational[].
      *
@@ -591,6 +681,15 @@ public abstract class Directory<T, K extends Enum<K>>
     }
 
     /**
+     * <em>For backwards compatibility.  If possible use {@link #getStringArray(Enum)}.</em><p>
+     */
+    @Nullable
+    public String[] getStringArray(T tagValue)
+    {
+        return getStringArray(getTagFromValue(tagValue));
+    }
+
+    /**
      * Gets the specified tag's value as a StringValue array, if possible.
      * Only succeeds if the tag is set as StringValue[], or StringValue.
      *
@@ -608,6 +707,15 @@ public abstract class Directory<T, K extends Enum<K>>
         if (o instanceof StringValue)
             return new StringValue[] {(StringValue) o};
         return null;
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getStringValueArray(Enum)}.</em><p>
+     */
+    @Nullable
+    public StringValue[] getStringValueArray(T tagValue)
+    {
+        return getStringValueArray(getTagFromValue(tagValue));
     }
 
     /**
@@ -664,6 +772,15 @@ public abstract class Directory<T, K extends Enum<K>>
     }
 
     /**
+     * <em>For backwards compatibility.  If possible use {@link #getIntArray(Enum)}.</em><p>
+     */
+    @Nullable
+    public int[] getIntArray(T tagValue)
+    {
+        return getIntArray(getTagFromValue(tagValue));
+    }
+
+    /**
      * Gets the specified tag's value as an byte array, if possible.  Only supported
      * where the tag is set as String, Integer, int[], byte[] or Rational[].
      *
@@ -715,6 +832,15 @@ public abstract class Directory<T, K extends Enum<K>>
         return null;
     }
 
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getByteArray(Enum)}.</em><p>
+     */
+    @Nullable
+    public byte[] getByteArray(T tagValue)
+    {
+        return getByteArray(getTagFromValue(tagValue));
+    }
+
     /** Returns the specified tag's value as a double, if possible. */
     public double getDouble(K tagType) throws MetadataException
     {
@@ -726,6 +852,15 @@ public abstract class Directory<T, K extends Enum<K>>
             throw new MetadataException("Tag '" + getTagName(tagType) + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a double.  It is of type '" + o.getClass() + "'.");
     }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getDouble(Enum)}.</em><p>
+     */
+    public double getDouble(T tagValue) throws MetadataException
+    {
+        return getDouble(getTagFromValue(tagValue));
+    }
+
     /** Returns the specified tag's value as a Double.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
     @Nullable
     public Double getDoubleObject(K tagType)
@@ -746,6 +881,15 @@ public abstract class Directory<T, K extends Enum<K>>
         return null;
     }
 
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getDoubleObject(Enum)}.</em><p>
+     */
+    @Nullable
+    public Double getDoubleObject(T tagValue)
+    {
+        return getDoubleObject(getTagFromValue(tagValue));
+    }
+
     /** Returns the specified tag's value as a float, if possible. */
     public float getFloat(K tagType) throws MetadataException
     {
@@ -756,6 +900,14 @@ public abstract class Directory<T, K extends Enum<K>>
         if (o == null)
             throw new MetadataException("Tag '" + getTagName(tagType) + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a float.  It is of type '" + o.getClass() + "'.");
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getFloat(Enum)}.</em><p>
+     */
+    public float getFloat(T tagValue) throws MetadataException
+    {
+        return getFloat(getTagFromValue(tagValue));
     }
 
     /** Returns the specified tag's value as a float.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
@@ -777,6 +929,15 @@ public abstract class Directory<T, K extends Enum<K>>
         return null;
     }
 
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getFloatObject(Enum)}.</em><p>
+     */
+    @Nullable
+    public Float getFloatObject(T tagValue)
+    {
+        return getFloatObject(getTagFromValue(tagValue));
+    }
+
     /** Returns the specified tag's value as a long, if possible. */
     public long getLong(K tagType) throws MetadataException
     {
@@ -787,6 +948,14 @@ public abstract class Directory<T, K extends Enum<K>>
         if (o == null)
             throw new MetadataException("Tag '" + getTagName(tagType) + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a long.  It is of type '" + o.getClass() + "'.");
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getLong(Enum)}.</em><p>
+     */
+    public long getLong(T tagValue) throws MetadataException
+    {
+        return getLong(getTagFromValue(tagValue));
     }
 
     /** Returns the specified tag's value as a long.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
@@ -808,6 +977,15 @@ public abstract class Directory<T, K extends Enum<K>>
         return null;
     }
 
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getLongObject(Enum)}.</em><p>
+     */
+    @Nullable
+    public Long getLongObject(T tagValue)
+    {
+        return getLongObject(getTagFromValue(tagValue));
+    }
+
     /** Returns the specified tag's value as a boolean, if possible. */
     public boolean getBoolean(K tagType) throws MetadataException
     {
@@ -818,6 +996,14 @@ public abstract class Directory<T, K extends Enum<K>>
         if (o == null)
             throw new MetadataException("Tag '" + getTagName(tagType) + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a boolean.  It is of type '" + o.getClass() + "'.");
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getBoolean(Enum)}.</em><p>
+     */
+    public boolean getBoolean(T tagValue) throws MetadataException
+    {
+        return getBoolean(getTagFromValue(tagValue));
     }
 
     /** Returns the specified tag's value as a boolean.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
@@ -843,6 +1029,16 @@ public abstract class Directory<T, K extends Enum<K>>
     }
 
     /**
+     * <em>For backwards compatibility.  If possible use {@link #getBooleanObject(Enum)}.</em><p>
+     */
+    @Nullable
+    @SuppressWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "keep API interface consistent")
+    public Boolean getBooleanObject(T tagValue)
+    {
+        return getBooleanObject(getTagFromValue(tagValue));
+    }
+
+    /**
      * Returns the specified tag's value as a java.util.Date.  If the value is unset or cannot be converted, <code>null</code> is returned.
      * <p>
      * If the underlying value is a {@link String}, then attempts will be made to parse the string as though it is in
@@ -852,6 +1048,15 @@ public abstract class Directory<T, K extends Enum<K>>
     public java.util.Date getDate(K tagType)
     {
         return getDate(tagType, null, null);
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getDate(Enum)}.</em><p>
+     */
+    @Nullable
+    public java.util.Date getDate(T tagValue)
+    {
+        return getDate(getTagFromValue(tagValue));
     }
 
     /**
@@ -865,6 +1070,15 @@ public abstract class Directory<T, K extends Enum<K>>
     public java.util.Date getDate(K tagType, @Nullable TimeZone timeZone)
     {
         return getDate(tagType, null, timeZone);
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getDate(Enum,TimeZone)}.</em><p>
+     */
+    @Nullable
+    public java.util.Date getDate(T tagValue, @Nullable TimeZone timeZone)
+    {
+        return getDate(getTagFromValue(tagValue), timeZone);
     }
 
     /**
@@ -963,6 +1177,15 @@ public abstract class Directory<T, K extends Enum<K>>
         }
     }
 
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getDate(Enum,String,TimeZone)}.</em><p>
+     */
+    @Nullable
+    public java.util.Date getDate(T tagValue, @Nullable String subsecond, @Nullable TimeZone timeZone)
+    {
+        return getDate(getTagFromValue(tagValue));
+    }
+
     /** Returns the specified tag's value as a Rational.  If the value is unset or cannot be converted, <code>null</code> is returned. */
     @Nullable
     public Rational getRational(K tagType)
@@ -984,6 +1207,15 @@ public abstract class Directory<T, K extends Enum<K>>
         return null;
     }
 
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getRational(Enum)}.</em><p>
+     */
+    @Nullable
+    public Rational getRational(T tagValue)
+    {
+        return getRational(getTagFromValue(tagValue));
+    }
+
     /** Returns the specified tag's value as an array of Rational.  If the value is unset or cannot be converted, <code>null</code> is returned. */
     @Nullable
     public Rational[] getRationalArray(K tagType)
@@ -996,6 +1228,15 @@ public abstract class Directory<T, K extends Enum<K>>
             return (Rational[])o;
 
         return null;
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getRationalArray(Enum)}.</em><p>
+     */
+    @Nullable
+    public Rational[] getRationalArray(T tagValue)
+    {
+        return getRationalArray(getTagFromValue(tagValue));
     }
 
     /**
@@ -1085,6 +1326,13 @@ public abstract class Directory<T, K extends Enum<K>>
         return o.toString();
     }
 
+    /**
+     * Returns the specified tag's value as a String.  This value is the 'raw' value.  A more presentable decoding
+     * of this value may be obtained from the corresponding Descriptor.
+     *
+     * @return the String representation of the tag's value, or
+     *         <code>null</code> if the tag hasn't been defined.
+     */
     @Nullable
     public String getString(K tagType, String charset)
     {
@@ -1108,11 +1356,7 @@ public abstract class Directory<T, K extends Enum<K>>
     }
 
     /**
-     * Returns the specified tag's value as a String.  This value is the 'raw' value.  A more presentable decoding
-     * of this value may be obtained from the corresponding Descriptor.
-     *
-     * @return the String representation of the tag's value, or
-     *         <code>null</code> if the tag hasn't been defined.
+     * <em>For backwards compatibility.  If possible use {@link #getString(Enum)}.</em><p>
      */
     @Nullable
     public String getString(T tagValue)
@@ -1120,12 +1364,18 @@ public abstract class Directory<T, K extends Enum<K>>
         return getString(getTagFromValue(tagValue));
     }
 
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getString(Enum, String)}.</em><p>
+     */
     @Nullable
     public String getString(T tagValue, String charset)
     {
         return getString(getTagFromValue(tagValue), charset);
     }
 
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getStringValue(Enum)}.</em><p>
+     */
     @Nullable
     public StringValue getStringValue(T tagValue)
     {
@@ -1163,6 +1413,15 @@ public abstract class Directory<T, K extends Enum<K>>
     }
 
     /**
+     * <em>For backwards compatibility.  If possible use {@link #getTagName(Enum)}.</em><p>
+     */
+    @NotNull
+    public String getTagName(T tagValue)
+    {
+        return getTagName(getTagFromValue(tagValue));
+    }
+
+    /**
      * Gets whether the specified tag is known by the directory and has a name.
      *
      * @param tagType the tag type identifier
@@ -1174,10 +1433,7 @@ public abstract class Directory<T, K extends Enum<K>>
     }
 
     /**
-     * Gets whether the specified tag is known by the directory and has a name.
-     *
-     * @param value the tag value
-     * @return whether this directory has a name for the specified tag
+     * <em>For backwards compatibility.  If possible use {@link #hasTagName(Enum)}.</em><p>
      */
     public boolean hasTagName(T value)
     {
@@ -1196,6 +1452,15 @@ public abstract class Directory<T, K extends Enum<K>>
     {
         assert(_descriptor != null);
         return _descriptor.getDescription(tagType);
+    }
+
+    /**
+     * <em>For backwards compatibility.  If possible use {@link #getDescription(Enum)}.</em><p>
+     */
+    @Nullable
+    public String getDescription(T tagValue)
+    {
+        return getDescription(getTagFromValue(tagValue));
     }
 
     @Override
