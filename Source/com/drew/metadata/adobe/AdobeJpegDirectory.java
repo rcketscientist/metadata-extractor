@@ -22,39 +22,73 @@
 package com.drew.metadata.adobe;
 
 import com.drew.lang.annotations.NotNull;
+import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.Directory;
+import com.drew.metadata.exif.makernotes.KodakMakernoteDirectory;
 
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Contains image encoding information for DCT filters, as stored by Adobe.
  */
 @SuppressWarnings("WeakerAccess")
-public class AdobeJpegDirectory extends Directory {
+public class AdobeJpegDirectory extends Directory<Integer, AdobeJpegDirectory.Keys> {
 
-    public static final int TAG_DCT_ENCODE_VERSION = 0;
-    /**
-     * The convention for TAG_APP14_FLAGS0 and TAG_APP14_FLAGS1 is that 0 bits are benign.
-     * 1 bits in TAG_APP14_FLAGS0 pass information that is possibly useful but not essential for decoding.
-     * <p>
-     * 0x8000 bit: Encoder used Blend=1 downsampling
-     */
-    public static final int TAG_APP14_FLAGS0 = 1;
-    /**
-     * The convention for TAG_APP14_FLAGS0 and TAG_APP14_FLAGS1 is that 0 bits are benign.
-     * 1 bits in TAG_APP14_FLAGS1 pass information essential for decoding. DCTDecode could reject a compressed
-     * image, if there are 1 bits in TAG_APP14_FLAGS1 or color transform codes that it cannot interpret.
-     */
-    public static final int TAG_APP14_FLAGS1 = 2;
-    public static final int TAG_COLOR_TRANSFORM = 3;
+    public enum Keys
+    {
+        TAG_DCT_ENCODE_VERSION(0),
+        /**
+         * The convention for TAG_APP14_FLAGS0 and TAG_APP14_FLAGS1 is that 0 bits are benign.
+         * 1 bits in TAG_APP14_FLAGS0 pass information that is possibly useful but not essential for decoding.
+         * <p>
+         * 0x8000 bit: Encoder used Blend=1 downsampling
+         */
+        TAG_APP14_FLAGS0(1),
+        /**
+         * The convention for TAG_APP14_FLAGS0 and TAG_APP14_FLAGS1 is that 0 bits are benign.
+         * 1 bits in TAG_APP14_FLAGS1 pass information essential for decoding. DCTDecode could reject a compressed
+         * image, if there are 1 bits in TAG_APP14_FLAGS1 or color transform codes that it cannot interpret.
+         */
+        TAG_APP14_FLAGS1(2),
+        TAG_COLOR_TRANSFORM(3);
 
-    private static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+        //TODO: Use a sparse array trie, or FastUtil
+        private static final Map<Integer, Keys> lookup = new HashMap<Integer, Keys>();
+        static {
+            for (Keys type : values())
+                lookup.put(type.getValue(), type);
+        }
+
+        private final int key;
+        Keys(int key)
+        {
+            this.key = key;
+        }
+
+        public Integer getValue()
+        {
+            return key;
+        }
+
+        public static @Nullable
+        Keys fromValue(Integer value)
+        {
+            return lookup.get(value);
+        }
+    }
+
+    @NotNull
+    protected static final EnumMap<Keys, String> _tagNameMap = new EnumMap<Keys, String>(Keys.class);
+    @NotNull
+    protected static final EnumMap<Keys, Object> _tagMap = new EnumMap<Keys, Object>(Keys.class);
 
     static {
-        _tagNameMap.put(TAG_DCT_ENCODE_VERSION, "DCT Encode Version");
-        _tagNameMap.put(TAG_APP14_FLAGS0, "Flags 0");
-        _tagNameMap.put(TAG_APP14_FLAGS1, "Flags 1");
-        _tagNameMap.put(TAG_COLOR_TRANSFORM, "Color Transform");
+        _tagNameMap.put(Keys.TAG_DCT_ENCODE_VERSION, "DCT Encode Version");
+        _tagNameMap.put(Keys.TAG_APP14_FLAGS0, "Flags 0");
+        _tagNameMap.put(Keys.TAG_APP14_FLAGS1, "Flags 1");
+        _tagNameMap.put(Keys.TAG_COLOR_TRANSFORM, "Color Transform");
     }
 
     public AdobeJpegDirectory() {
@@ -67,9 +101,21 @@ public class AdobeJpegDirectory extends Directory {
         return "Adobe JPEG";
     }
 
-    @NotNull
     @Override
-    protected HashMap<Integer, String> getTagNameMap() {
+    protected EnumMap<Keys, String> getTagNameMap()
+    {
         return _tagNameMap;
+    }
+
+    @Override
+    protected EnumMap<Keys, Object> getTagMap()
+    {
+        return _tagMap;
+    }
+
+    @Override
+    protected Keys getTagFromValue(Integer value)
+    {
+        return Keys.fromValue(value);
     }
 }

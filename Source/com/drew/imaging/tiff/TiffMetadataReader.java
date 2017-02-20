@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2016 Drew Noakes
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@ import com.drew.metadata.exif.ExifTiffHandler;
 import com.drew.metadata.file.FileMetadataReader;
 
 import java.io.*;
+
+import static com.drew.lang.RandomAccessStreamReader.DEFAULT_CHUNK_LENGTH;
 
 /**
  * Obtains all available metadata from TIFF formatted files.  Note that TIFF files include many digital camera RAW
@@ -65,6 +67,16 @@ public class TiffMetadataReader
         // buffers data from the stream as we seek forward.
 
         return readMetadata(new RandomAccessStreamReader(inputStream));
+    }
+
+    @NotNull
+    public static Metadata readMetadata(@NotNull InputStream inputStream, long streamLength) throws IOException, TiffProcessingException
+    {
+        // TIFF processing requires random access, as directories can be scattered throughout the byte sequence.
+        // InputStream does not support seeking backwards, so we wrap it with RandomAccessStreamReader, which
+        // buffers data from the stream as we seek forward.
+
+        return readMetadata(new RandomAccessStreamReader(inputStream, DEFAULT_CHUNK_LENGTH, streamLength));
     }
 
     @NotNull

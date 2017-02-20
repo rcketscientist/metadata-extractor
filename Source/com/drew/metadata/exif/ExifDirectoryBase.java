@@ -31,7 +31,7 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public abstract class ExifDirectoryBase extends Directory
+public abstract class ExifDirectoryBase extends Directory<Integer>
 {
     public static final int TAG_INTEROP_INDEX = 0x0001;
     public static final int TAG_INTEROP_VERSION = 0x0002;
