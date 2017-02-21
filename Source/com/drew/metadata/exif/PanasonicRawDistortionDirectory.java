@@ -101,6 +101,7 @@ public class PanasonicRawDistortionDirectory extends DirectoryBase<Integer, Pana
 
     public PanasonicRawDistortionDirectory()
     {
+        super(Keys.class);
         this.setDescriptor(new PanasonicRawDistortionDescriptor(this));
     }
 
@@ -115,12 +116,6 @@ public class PanasonicRawDistortionDirectory extends DirectoryBase<Integer, Pana
     protected EnumSet<Keys> getTagSet()
     {
         return EnumSet.allOf(Keys.class);
-    }
-
-    @Override
-    protected EnumMap<Keys, Object> getTagMap()
-    {
-        return _tagMap;
     }
 
     @Override

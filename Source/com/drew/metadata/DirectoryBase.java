@@ -110,7 +110,6 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
 
     protected DirectoryBase(Class<K> keyClass)
     {
-        // TODO: This saves some subclass code, but dislike passing classes
         _tagMap = new EnumMap<K, Object>(keyClass);
     }
 

@@ -248,8 +248,8 @@ public class ImageMetadataReader
                 String fileName = file.getName();
                 String urlName = StringUtil.urlEncode(filePath);
                 ExifIFD0Directory exifIFD0Directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-                String make = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifIFD0Directory.TAG_MAKE);
-                String model = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifIFD0Directory.TAG_MODEL);
+                String make = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifIFD0Directory.Keys.TAG_MAKE);
+                String model = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifIFD0Directory.Keys.TAG_MODEL);
                 System.out.println();
                 System.out.println("---");
                 System.out.println();

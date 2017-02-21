@@ -44,11 +44,9 @@ public class ExifIFD0Directory extends ExifDirectoryBase
         this.setDescriptor(new ExifIFD0Descriptor(this));
     }
 
-    @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
 
     static
-    {
+    {   // TODO: Can't extend Enum, can't add differing Enum to tagMap...what to do...
         addExifTagNames(_tagNameMap);
     }
 
