@@ -35,13 +35,13 @@ public class GifHeaderDescriptor extends TagDescriptor<GifHeaderDirectory>
     }
 
 //    @Override
-//    public String getDescription(int tagType)
+//    public String getSummary(int tagType)
 //    {
 //        switch (tagType) {
 //            case GifHeaderDirectory.TAG_COMPRESSION:
 //                return getCompressionDescription();
 //            default:
-//                return super.getDescription(tagType);
+//                return super.getSummary(tagType);
 //        }
 //    }
 }

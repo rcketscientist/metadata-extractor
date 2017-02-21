@@ -4,6 +4,7 @@ public interface Key
 {
     String getTagName();
     String getTagType();
-    String getDescription();
+    String getSummary();
+    String getDescription(DirectoryBase directory);
     Object getValue();
 }

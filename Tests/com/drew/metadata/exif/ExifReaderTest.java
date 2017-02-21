@@ -79,7 +79,7 @@ public class ExifReaderTest
         assertNotNull(description);
         assertEquals("80", description);
         // TODO decide if this should still be returned -- it was being calculated upon setting of a related tag
-//      assertEquals("F9", directory.getDescription(ExifSubIFDDirectory.TAG_APERTURE));
+//      assertEquals("F9", directory.getSummary(ExifSubIFDDirectory.TAG_APERTURE));
     }
 
     @Test

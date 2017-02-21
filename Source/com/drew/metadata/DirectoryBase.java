@@ -69,9 +69,6 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     @NotNull
     private final Collection<String> _errorList = new ArrayList<String>(4);
 
-    /** The descriptor used to interpret tag values. */
-    protected TagDescriptor _descriptor;
-
     @Nullable
     private Directory _parent;
 
@@ -164,19 +161,6 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     public int getTagCount()
     {
         return _definedTagList.size();
-    }
-
-    /**
-     * Sets the descriptor used to interpret tag values.
-     *
-     * @param descriptor the descriptor used to interpret tag values
-     */
-    @java.lang.SuppressWarnings({ "ConstantConditions" })
-    public void setDescriptor(@NotNull TagDescriptor descriptor)
-    {
-        if (descriptor == null)
-            throw new NullPointerException("cannot set a null descriptor");
-        _descriptor = descriptor;
     }
 
     /**
@@ -1455,8 +1439,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * Provides a description of a tag's value using the descriptor set by
-     * <code>setDescriptor(Descriptor)</code>.
+     * Provides a formatted description of a tag's value.
      *
      * @param tagType the tag type identifier
      * @return the tag value's description as a String
@@ -1464,8 +1447,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     @Nullable
     public String getDescription(K tagType)
     {
-        assert(_descriptor != null);
-        return _descriptor.getDescription(tagType);
+        return tagType.getDescription(getObject(tagType));
     }
 
     /**
@@ -1486,5 +1468,18 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
             _tagMap.size() == 1
                 ? "tag"
                 : "tags");
+    }
+
+    // Descriptor methods
+    @Nullable
+    protected static String getIndexedDescription(int index, final int baseIndex, @NotNull String... descriptions)
+    {
+        final int arrayIndex = index - baseIndex;
+        if (arrayIndex >= 0 && arrayIndex < descriptions.length) {
+            String description = descriptions[arrayIndex];
+            if (description != null)
+                return description;
+        }
+        return "Unknown (" + index + ")";
     }
 }

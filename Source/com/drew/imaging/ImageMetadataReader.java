@@ -36,7 +36,6 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Key;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
-import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.file.FileMetadataReader;
 
@@ -269,7 +268,7 @@ public class ImageMetadataReader
                 String directoryName = directory.getName();
                 for (Key tag : directory.getTags()) {
                     String tagName = tag.getTagName();
-                    String description = tag.getDescription();
+                    String description = tag.getSummary();
 
                     // truncate the description if it's too long
                     if (description != null && description.length() > 1024) {

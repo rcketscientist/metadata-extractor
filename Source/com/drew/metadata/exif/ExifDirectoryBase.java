@@ -21,10 +21,10 @@
 
 package com.drew.metadata.exif;
 
+import com.drew.lang.Rational;
 import com.drew.lang.annotations.Nullable;
-import com.drew.metadata.Directory;
 import com.drew.metadata.DirectoryBase;
-import com.drew.metadata.IntegerKey;
+import com.drew.metadata.Key;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,31 +38,69 @@ import java.util.Map;
 public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirectoryBase.Keys>
 {
     private ExifDirectoryBase(){ super(Keys.class);}
-    public enum Keys implements IntegerKey
+    public enum Keys implements Key
     {
-        TAG_INTEROP_INDEX(      0x0001, "Interoperability Index"),
-        TAG_INTEROP_VERSION(    0x0002, "Interoperability Version"),
+        TAG_INTEROP_INDEX(      0x0001, "Interoperability Index")
+            {
+                @Override
+                public String getDescription(Object storedValue)
+                {
 
-        /**
-         * The new subfile type tag.
-         * 0 = Full-resolution Image
-         * 1 = Reduced-resolution image
-         * 2 = Single page of multi-page image
-         * 3 = Single page of multi-page reduced-resolution image
-         * 4 = Transparency mask
-         * 5 = Transparency mask of reduced-resolution image
-         * 6 = Transparency mask of multi-page image
-         * 7 = Transparency mask of reduced-resolution multi-page image
-         */
-        TAG_NEW_SUBFILE_TYPE(   0x00FE, "New Subfile Type"),
-        /**
-         * The old subfile type tag.
-         * 1 = Full-resolution image (Main image)
-         * 2 = Reduced-resolution image (Thumbnail)
-         * 3 = Single page of multi-page image
-         */
-        TAG_SUBFILE_TYPE(0x00FF, "Subfile Type"),
+                    if (!(storedValue instanceof String))
+                        return null;
 
+                    String value = (String) storedValue;
+                    return "R98".equalsIgnoreCase(value.trim())
+                        ? "Recommended Exif Interoperability Rules (ExifR98)"
+                        : "Unknown (" + value + ")";
+                }
+            },
+        TAG_INTEROP_VERSION(    0x0002, "Interoperability Version")
+            {
+                @Override
+                public String getDescription(Object storedValue)
+                {
+                    if (!(storedValue instanceof int[]))
+                        return null;
+
+                    return convertBytesToVersionString((int[])storedValue, 2);
+                }
+            },
+        TAG_NEW_SUBFILE_TYPE(   0x00FE, "New Subfile Type")
+            {
+                @Override
+                public String getDescription(Object storedValue)
+                {
+                    if (!(storedValue instanceof Integer))
+                        return null;
+
+                    return getIndexedDescription((Integer)storedValue, 0,
+                        "Full-resolution image",
+                        "Reduced-resolution image",
+                        "Single page of multi-page image",
+                        "Single page of multi-page reduced-resolution image",
+                        "Transparency mask",
+                        "Transparency mask of reduced-resolution image",
+                        "Transparency mask of multi-page image",
+                        "Transparency mask of reduced-resolution multi-page image"
+                    );
+                }
+            },
+        TAG_SUBFILE_TYPE(0x00FF, "Subfile Type")
+            {
+                @Override
+                public String getDescription(Object storedValue)
+                {
+                    if (!(storedValue instanceof Integer))
+                        return null;
+
+                    return getIndexedDescription((Integer)storedValue, 1,
+                        "Full-resolution image",    /*Main image*/
+                        "Reduced-resolution image", /*Thumbnail*/
+                        "Single page of multi-page image"
+                    );
+                }
+            },
         TAG_IMAGE_WIDTH(0x0100, "Image Width"),
         TAG_IMAGE_HEIGHT(0x0101, "Image Height"),
 
@@ -615,11 +653,11 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
         }
 
         private final int key;
-        private final String description;
-        Keys(int key, String description)
+        private final String summary;
+        Keys(int key, String summary)
         {
             this.key = key;
-            this.description = description;
+            this.summary = summary;
         }
 
         public Integer getValue()
@@ -646,9 +684,9 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
         }
 
         @Override
-        public String getDescription()
+        public String getSummary()
         {
-            return description;
+            return summary;
         }
     }
 
@@ -656,4 +694,37 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 //    protected static void addExifTagNames(HashMap<Integer, String> map)
 //    {
 //    }
+
+    /**
+     * Takes a series of 4 bytes from the specified offset, and converts these to a
+     * well-known version number, where possible.
+     * <p>
+     * Two different formats are processed:
+     * <ul>
+     * <li>[30 32 31 30] -&gt; 2.10</li>
+     * <li>[0 1 0 0] -&gt; 1.00</li>
+     * </ul>
+     *
+     * @param components  the four version values
+     * @param majorDigits the number of components to be
+     * @return the version as a string of form "2.10" or null if the argument cannot be converted
+     */
+    @Nullable
+    public static String convertBytesToVersionString(@Nullable int[] components, final int majorDigits)
+    {
+        if (components == null)
+            return null;
+        StringBuilder version = new StringBuilder();
+        for (int i = 0; i < 4 && i < components.length; i++) {
+            if (i == majorDigits)
+                version.append('.');
+            char c = (char)components[i];
+            if (c < '0')
+                c += '0';
+            if (i == 0 && c == '0')
+                continue;
+            version.append(c);
+        }
+        return version.toString();
+    }
 }

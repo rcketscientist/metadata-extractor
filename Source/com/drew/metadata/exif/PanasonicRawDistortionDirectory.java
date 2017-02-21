@@ -21,14 +21,12 @@
 
 package com.drew.metadata.exif;
 
+import com.drew.lang.Rational;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
-import com.drew.metadata.Directory;
 import com.drew.metadata.DirectoryBase;
-import com.drew.metadata.IntegerKey;
 import com.drew.metadata.Key;
 
-import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,16 +42,104 @@ import java.util.Map;
 public class PanasonicRawDistortionDirectory extends DirectoryBase<Integer, PanasonicRawDistortionDirectory.Keys>
 {
     // 0 and 1 are checksums
-    public enum Keys implements IntegerKey
+    public enum Keys implements Key
     {
-        TagDistortionParam02(   2,  "Distortion Param 2"),
-        TagDistortionParam04(   4,  "Distortion Param 4"),
-        TagDistortionScale(     5,  "Distortion Scale"),
-        TagDistortionCorrection(7,  "Distortion Correction"),
-        TagDistortionParam08(   8,  "Distortion Param 8"),
-        TagDistortionParam09(   9,  "Distortion Param 9"),
-        TagDistortionParam11(   11, "Distortion Param 11"),
-        TagDistortionN(         12, "Distortion N");
+        TagDistortionParam02(   2,  "Distortion Param 2")
+            {
+                @Override
+                public String getDescription(DirectoryBase directory)
+                {
+                    if (!(storedValue instanceof Integer))
+                        return null;
+
+                    return new Rational((Integer)storedValue, 32678).toString();
+                }
+            },
+        TagDistortionParam04(   4,  "Distortion Param 4")
+            {
+                @Override
+                public String getDescription(DirectoryBase directory))
+                {
+                    if (!(storedValue instanceof Integer))
+                        return null;
+
+                    return new Rational((Integer)storedValue, 32678).toString();
+                }
+            },
+        TagDistortionScale(     5,  "Distortion Scale")
+            {
+                @Override
+                public String getDescription(DirectoryBase directory))
+                {
+                    if (!(storedValue instanceof Integer))
+                        return null;
+
+                    //return (1 / (1 + value / 32768)).toString();
+                    return Integer.toString(1 / (1 + (Integer)storedValue / 32768));
+                }
+            },
+        TagDistortionCorrection(7,  "Distortion Correction")
+            {
+                @Override
+                public String getDescription(DirectoryBase directory))
+                {
+                    if (!(storedValue instanceof Integer))
+                        return null;
+
+                    // (have seen the upper 4 bits set for GF5 and GX1, giving a value of -4095 - PH)
+                    int mask = 0x000f;
+                    switch ((Integer)storedValue & mask)
+                    {
+                        case 0:
+                            return "Off";
+                        case 1:
+                            return "On";
+                        default:
+                            return "Unknown (" + storedValue + ")";
+                    }
+                }
+            },
+        TagDistortionParam08(   8,  "Distortion Param 8")
+            {
+                @Override
+                public String getDescription(DirectoryBase directory))
+                {
+                    if (!(storedValue instanceof Integer))
+                        return null;
+
+                    return new Rational((Integer)storedValue, 32678).toString();
+                }
+            },
+        TagDistortionParam09(   9,  "Distortion Param 9")
+            {
+                @Override
+                public String getDescription(DirectoryBase directory))
+                {
+                    if (!(storedValue instanceof Integer))
+                        return null;
+
+                    return new Rational((Integer)storedValue, 32678).toString();
+                }
+            },
+        TagDistortionParam11(   11, "Distortion Param 11")
+            {
+                @Override
+                public String getDescription(DirectoryBase directory))
+                {
+                    if (!(storedValue instanceof Integer))
+                        return null;
+
+                    return new Rational((Integer)storedValue, 32678).toString();
+                }
+            },
+        TagDistortionN(         12, "Distortion N")
+            {
+                @Override
+                public String getDescription(DirectoryBase directory))
+                {
+                    return null;
+                }
+            };
 
         //TODO: Use a sparse array trie, or FastUtil
         private static final Map<Integer, Keys> lookup = new HashMap<Integer, Keys>();
@@ -63,11 +149,11 @@ public class PanasonicRawDistortionDirectory extends DirectoryBase<Integer, Pana
         }
 
         private final int key;
-        private final String description;
-        Keys(int key, String description)
+        private final String summary;
+        Keys(int key, String summary)
         {
             this.key = key;
-            this.description = description;
+            this.summary = summary;
         }
 
         public Integer getValue()
@@ -93,16 +179,15 @@ public class PanasonicRawDistortionDirectory extends DirectoryBase<Integer, Pana
         }
 
         @Override
-        public String getDescription()
+        public String getSummary()
         {
-            return description;
+            return summary;
         }
     }
 
     public PanasonicRawDistortionDirectory()
     {
         super(Keys.class);
-        this.setDescriptor(new PanasonicRawDistortionDescriptor(this));
     }
 
     @Override

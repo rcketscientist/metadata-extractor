@@ -463,6 +463,6 @@ public class TagDescriptor<K extends Enum<K>, T, U extends Directory<T, K>>
         }
 
         // TODO: AJM: Does this even make sense?  This method shouldn't even be here...
-//        return getDescription(wbtype);
+//        return getSummary(wbtype);
     }
 }
