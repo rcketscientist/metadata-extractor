@@ -20,13 +20,16 @@
  */
 package com.drew.metadata;
 
+import com.drew.lang.ByteArrayReader;
 import com.drew.lang.Rational;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import com.drew.lang.annotations.SuppressWarnings;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -35,8 +38,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,12 +64,6 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     @NotNull
     protected final Collection<Key> _definedTagList = new ArrayList<Key>();
 
-    /**
-     * Map of keys and values that have been set.
-     */
-    @NotNull
-    protected final EnumMap<K, Object> _tagMap;
-
     @NotNull
     private final Collection<String> _errorList = new ArrayList<String>(4);
 
@@ -83,13 +80,45 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     @NotNull
     public abstract String getName();
 
+//    /**
+//     * Provides the full set of tags
+//     *
+//     * @return the set of tags
+//     */
+    //TODO: If we want this method it must be a list of Key; inherited directories can't mix their keys in EnumMap
+//    @NotNull
+//    protected abstract EnumSet<K> getTagSet();
+
+//    /**
+//     * Maps tag to populated value
+//     * @return mapping of all populated tags
+//     */
+    //TODO: If we want this method it must be a map of (Key, Object); inherited directories can't mix their keys in EnumMap
+//    @NotNull
+//    protected abstract EnumMap<K,Object> getTagMap();
+
     /**
-     * Provides the full set of tags
-     *
-     * @return the set of tags
+     * see {@link EnumMap#put(Enum, Object)}
      */
-    @NotNull
-    protected abstract EnumSet<K> getTagSet();
+    protected abstract Object put(Key tag, Object value);   //TODO: There's typesafe concerns here, also how do we force every sub to implement?
+
+    /**
+     * Checks if the given key has been populated.
+     * @param tag tag to check
+     */
+    protected abstract boolean isKeyPopulated(Key tag);
+
+    /**
+     * Checks whether a tag is known to this directory.
+     * To see if the tag is populated see {@link #isKeyPopulated(Key)}.
+     * @param tag
+     * @return
+     */
+    protected abstract boolean hasKey(Key tag);
+
+    protected abstract int size();
+
+    protected abstract Object get(Key tagType);
 
 //    /**
 //     * Provides the map of tag names, hashed by tag type identifier.
@@ -106,10 +135,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      */
     protected abstract K getTagFromValue(T value);
 
-    protected DirectoryBase(Class<K> keyClass)
-    {
-        _tagMap = new EnumMap<K, Object>(keyClass);
-    }
+    protected DirectoryBase() {}
 
 // VARIOUS METHODS
 
@@ -129,7 +155,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      */
     public boolean containsTag(K tagType)
     {
-        return _tagMap.containsKey(tagType);
+        return isKeyPopulated(tagType);
     }
 
     /**
@@ -489,10 +515,10 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
         if (value == null)
             throw new NullPointerException("cannot set a null object");
 
-        if (!_tagMap.containsKey(tagType)) {
+        if (!isKeyPopulated(tagType)) {
             _definedTagList.add(tagType);
         }
-        _tagMap.put(tagType, value);
+        put(tagType, value);
     }
 
     /**
@@ -549,7 +575,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
 
         Object o = getObject(tagType);
         if (o == null)
-            throw new MetadataException("Tag '" + tagType.getTagName() + "' has not been set -- check using containsTag() first");
+            throw new MetadataException("Tag '" + tagType.getName() + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to int.  It is of type '" + o.getClass() + "'.");
     }
 
@@ -848,7 +874,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
             return value;
         Object o = getObject(tagType);
         if (o == null)
-            throw new MetadataException("Tag '" + tagType.getTagName() + "' has not been set -- check using containsTag() first");
+            throw new MetadataException("Tag '" + tagType.getName() + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a double.  It is of type '" + o.getClass() + "'.");
     }
 
@@ -897,7 +923,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
             return value;
         Object o = getObject(tagType);
         if (o == null)
-            throw new MetadataException("Tag '" + tagType.getTagName() + "' has not been set -- check using containsTag() first");
+            throw new MetadataException("Tag '" + tagType.getName() + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a float.  It is of type '" + o.getClass() + "'.");
     }
 
@@ -945,7 +971,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
             return value;
         Object o = getObject(tagType);
         if (o == null)
-            throw new MetadataException("Tag '" + tagType.getTagName() + "' has not been set -- check using containsTag() first");
+            throw new MetadataException("Tag '" + tagType.getName() + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a long.  It is of type '" + o.getClass() + "'.");
     }
 
@@ -993,7 +1019,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
             return value;
         Object o = getObject(tagType);
         if (o == null)
-            throw new MetadataException("Tag '" + tagType.getTagName() + "' has not been set -- check using containsTag() first");
+            throw new MetadataException("Tag '" + tagType.getName() + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a boolean.  It is of type '" + o.getClass() + "'.");
     }
 
@@ -1391,14 +1417,14 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     @Nullable
     public Object getObject(Key tagType)
     {
-        return _tagMap.get(tagType);
+        return get(tagType);
     }
 
 // OTHER METHODS
 
     /**
      * Deprecated.
-     * See {@link Key#getTagName()}
+     * See {@link Key#getName()}
      *
      * @param tagType the tag type identifier
      * @return the tag's name as a String
@@ -1407,7 +1433,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     @NotNull
     public String getTagName(Key tagType)
     {
-        return tagType.getTagName();
+        return tagType.getName();
     }
 
     /**
@@ -1428,7 +1454,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      */
     public boolean hasTagName(Key tagType)
     {
-        return getTagSet().contains(tagType);
+        return hasKey(tagType);
     }
 
     /**
@@ -1440,15 +1466,41 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * Provides a formatted description of a tag's value.
+     * Returns a descriptive value of the specified tag for this image.
+     * Where possible, known values will be substituted here in place of the raw
+     * tokens actually kept in the metadata segment.  If no substitution is
+     * available, the value provided by <code>getString(tagType)</code> will be returned.
      *
-     * @param tagType the tag type identifier
-     * @return the tag value's description as a String
+     * @param tagType the tag to find a description for
+     * @return a description of the image's value for the specified tag, or
+     *         <code>null</code> if the tag hasn't been defined.
      */
     @Nullable
     public String getDescription(Key tagType)
     {
-        return tagType.getDescription(this);
+        Object object = getObject(tagType);
+
+        if (object == null)
+            return null;
+
+        // special presentation for long arrays
+        if (object.getClass().isArray()) {
+            final int length = Array.getLength(object);
+            if (length > 16) {
+                return String.format("[%d values]", length);
+            }
+        }
+
+        if (object instanceof Date)
+        {
+            // Produce a date string having a format that includes the offset in form "+00:00"
+            return new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy")
+                .format((Date) object)
+                .replaceAll("([0-9]{2} [^ ]+)$", ":$1");
+        }
+
+        // no special handling required, so use default conversion to a string
+        return getString(tagType);
     }
 
     /**
@@ -1465,16 +1517,19 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     {
         return String.format("%s Directory (%d %s)",
             getName(),
-            _tagMap.size(),
-            _tagMap.size() == 1
+            size(),
+            size() == 1
                 ? "tag"
                 : "tags");
     }
 
-    // Descriptor methods
+    // Descriptor methods TODO: Many of these can be relocated
     @Nullable
-    protected static String getIndexedDescription(int index, final int baseIndex, @NotNull String... descriptions)
+    public String getIndexedDescription(Key tagType, final int baseIndex, @NotNull String... descriptions)
     {
+        final Integer index = getInteger(tagType);
+        if (index == null)
+            return null;
         final int arrayIndex = index - baseIndex;
         if (arrayIndex >= 0 && arrayIndex < descriptions.length) {
             String description = descriptions[arrayIndex];
@@ -1485,9 +1540,9 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     @Nullable
-    protected static String getOrientationDescription(int index)
+    public String getOrientationDescription(Key tagType)
     {
-        return getIndexedDescription(index, 1,
+        return getIndexedDescription(tagType, 1,
             "Top, left side (Horizontal / normal)",
             "Top, right side (Mirror horizontal)",
             "Bottom, right side (Rotate 180)",
@@ -1496,5 +1551,225 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
             "Right side, top (Rotate 90 CW)",
             "Right side, bottom (Mirror horizontal and rotate 90 CW)",
             "Left side, bottom (Rotate 270 CW)");
+    }
+
+    @Nullable
+    public String getVersionBytesDescription(final Key tagType, int majorDigits)
+    {
+        int[] values = getIntArray(tagType);
+        return values == null ? null : convertBytesToVersionString(values, majorDigits);
+    }
+
+    /**
+     * Takes a series of 4 bytes from the specified offset, and converts these to a
+     * well-known version number, where possible.
+     * <p>
+     * Two different formats are processed:
+     * <ul>
+     * <li>[30 32 31 30] -&gt; 2.10</li>
+     * <li>[0 1 0 0] -&gt; 1.00</li>
+     * </ul>
+     *
+     * @param components  the four version values
+     * @param majorDigits the number of components to be
+     * @return the version as a string of form "2.10" or null if the argument cannot be converted
+     */
+    @Nullable
+    public static String convertBytesToVersionString(@Nullable int[] components, final int majorDigits)
+    {
+        if (components == null)
+            return null;
+        StringBuilder version = new StringBuilder();
+        for (int i = 0; i < 4 && i < components.length; i++) {
+            if (i == majorDigits)
+                version.append('.');
+            char c = (char)components[i];
+            if (c < '0')
+                c += '0';
+            if (i == 0 && c == '0')
+                continue;
+            version.append(c);
+        }
+        return version.toString();
+    }
+
+    @Nullable
+    public String getShutterSpeedDescription(Key tag)
+    {
+        // I believe this method to now be stable, but am leaving some alternative snippets of
+        // code in here, to assist anyone who's looking into this (given that I don't have a public CVS).
+
+//        float apexValue = _directory.getFloat(ExifSubIFDDirectory.TAG_SHUTTER_SPEED);
+//        int apexPower = (int)Math.pow(2.0, apexValue);
+//        return "1/" + apexPower + " sec";
+        // TODO test this method
+        // thanks to Mark Edwards for spotting and patching a bug in the calculation of this
+        // description (spotted bug using a Canon EOS 300D)
+        // thanks also to Gli Blr for spotting this bug
+        Float apexValue = getFloatObject(tag);
+        if (apexValue == null)
+            return null;
+        if (apexValue <= 1) {
+            float apexPower = (float)(1 / (Math.exp(apexValue * Math.log(2))));
+            long apexPower10 = Math.round((double)apexPower * 10.0);
+            float fApexPower = (float)apexPower10 / 10.0f;
+            DecimalFormat format = new DecimalFormat("0.##");
+            format.setRoundingMode(RoundingMode.HALF_UP);
+            return format.format(fApexPower) + " sec";
+        } else {
+            int apexPower = (int)((Math.exp(apexValue * Math.log(2))));
+            return "1/" + apexPower + " sec";
+        }
+
+/*
+        // This alternative implementation offered by Bill Richards
+        // TODO determine which is the correct / more-correct implementation
+        double apexValue = _directory.getDouble(ExifSubIFDDirectory.TAG_SHUTTER_SPEED);
+        double apexPower = Math.pow(2.0, apexValue);
+
+        StringBuffer sb = new StringBuffer();
+        if (apexPower > 1)
+            apexPower = Math.floor(apexPower);
+
+        if (apexPower < 1) {
+            sb.append((int)Math.round(1/apexPower));
+        } else {
+            sb.append("1/");
+            sb.append((int)apexPower);
+        }
+        sb.append(" sec");
+        return sb.toString();
+*/
+    }
+
+    //TODO: Util
+    @Nullable
+    protected static String getFocalLengthDescription(double mm)
+    {
+        DecimalFormat format = new DecimalFormat("0.#");
+        format.setRoundingMode(RoundingMode.HALF_UP);
+        return format.format(mm) + " mm";
+    }
+
+    //TODO: Util
+    @Nullable
+    protected static String getFStopDescription(double fStop)
+    {
+        DecimalFormat format = new DecimalFormat("0.0");
+        format.setRoundingMode(RoundingMode.HALF_UP);
+        return "f/" + format.format(fStop);
+    }
+
+    /** The Windows specific tags uses plain Unicode. */
+    @Nullable
+    public String getUnicodeDescription(Key tagType)
+    {
+        byte[] bytes = getByteArray(tagType);
+        if (bytes == null)
+            return null;
+        try {
+            // Decode the unicode string and trim the unicode zero "\0" from the end.
+            return new String(bytes, "UTF-16LE").trim();
+        } catch (UnsupportedEncodingException ex) {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Decode raw CFAPattern value
+    /// </summary>
+    /// <remarks>
+    /// Converted from Exiftool version 10.33 created by Phil Harvey
+    /// http://www.sno.phy.queensu.ca/~phil/exiftool/
+    /// lib\Image\ExifTool\Exif.pm
+    ///
+    /// The value consists of:
+    /// - Two short, being the grid width and height of the repeated pattern.
+    /// - Next, for every pixel in that pattern, an identification code.
+    /// </remarks>
+    @Nullable
+    public int[] decodeCfaPattern(Key tagType)
+    {
+        int[] ret;
+
+        byte[] values = getByteArray(tagType);
+        if (values == null)
+            return null;
+
+        if (values.length < 4)
+        {
+            ret = new int[values.length];
+            for (int i = 0; i < values.length; i++)
+                ret[i] = values[i];
+            return ret;
+        }
+
+        ret = new int[values.length - 2];
+
+        try {
+            ByteArrayReader reader = new ByteArrayReader(values);
+
+            // first two values should be read as 16-bits (2 bytes)
+            short item0 = reader.getInt16(0);
+            short item1 = reader.getInt16(2);
+
+            Boolean copyArray = false;
+            int end = 2 + item0 * item1;
+            if (end > values.length) // sanity check in case of byte order problems; calculated 'end' should be <= length of the values
+            {
+                // try swapping byte order (I have seen this order different than in EXIF)
+                reader.setMotorolaByteOrder(!reader.isMotorolaByteOrder());
+                item0 = reader.getInt16(0);
+                item1 = reader.getInt16(2);
+
+                if (values.length >= (2 + item0 * item1))
+                    copyArray = true;
+            }
+            else
+                copyArray = true;
+
+            if(copyArray)
+            {
+                ret[0] = item0;
+                ret[1] = item1;
+
+                for (int i = 4; i < values.length; i++)
+                    ret[i - 2] = reader.getInt8(i);
+            }
+        } catch (IOException ex) {
+            addError("IO exception processing data: " + ex.getMessage());
+        }
+
+        return ret;
+    }
+
+    @Nullable
+    public String getLensSpecificationDescription(Key tag)
+    {
+        Rational[] values = getRationalArray(tag);
+
+        if (values == null || values.length != 4 || (values[0].isZero() && values[2].isZero()))
+            return null;
+
+        StringBuilder sb = new StringBuilder();
+
+        if (values[0].equals(values[1]))
+            sb.append(values[0].toSimpleString(true)).append("mm");
+        else
+            sb.append(values[0].toSimpleString(true)).append('-').append(values[1].toSimpleString(true)).append("mm");
+
+        if (!values[2].isZero()) {
+            sb.append(' ');
+
+            DecimalFormat format = new DecimalFormat("0.0");
+            format.setRoundingMode(RoundingMode.HALF_UP);
+
+            if (values[2].equals(values[3]))
+                sb.append(getFStopDescription(values[2].doubleValue()));
+            else
+                sb.append("f/").append(format.format(values[2].doubleValue())).append('-').append(format.format(values[3].doubleValue()));
+        }
+
+        return sb.toString();
     }
 }

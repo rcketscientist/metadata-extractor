@@ -21,34 +21,95 @@
 
 package com.drew.metadata.exif;
 
+import com.drew.imaging.PhotographicConversions;
 import com.drew.lang.Rational;
+import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.DirectoryBase;
 import com.drew.metadata.Key;
 
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.drew.metadata.exif.ExifDirectoryBase.Keys.TAG_RESOLUTION_UNIT;
 
 /**
  * Base class for several Exif format tag directories.
  *
  * @author Drew Noakes https://drewnoakes.com
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings("WeakerAccess")   //TODO: What if we chain in the sub key class?  We might be able to handle all logic in the abstract.
 public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirectoryBase.Keys>
 {
+    public ExifDirectoryBase() {}
     /**
      * Dictates whether rational values will be represented in decimal format in instances
      * where decimal notation is elegant (such as 1/2 -> 0.5, but not 1/3).
      */
     private static final boolean _allowDecimalRepresentationOfRationals = true;
 
-    private ExifDirectoryBase(){ super(Keys.class);}
+    // Note for the potential addition of brightness presentation in eV:
+    // Brightness of taken subject. To calculate Exposure(Ev) from BrightnessValue(Bv),
+    // you must add SensitivityValue(Sv).
+    // Ev=BV+Sv   Sv=log2(ISOSpeedRating/3.125)
+    // ISO100:Sv=5, ISO200:Sv=6, ISO400:Sv=7, ISO125:Sv=5.32.
+
+    @NotNull
+    private final EnumMap<Keys, Object> _populatedProperties = new EnumMap<Keys, Object>(Keys.class);
+
+    @Override
+    protected Object put(Key tag, Object value)
+    {
+        if (tag instanceof Keys)
+            return _populatedProperties.put((Keys)tag, value);
+        return null;
+    }
+
+    @Override
+    protected boolean isKeyPopulated(Key tag)
+    {
+        // typesafe, returns false if wrong type
+        return _populatedProperties.containsKey(tag);
+    }
+
+    @Override
+    protected int size()
+    {
+        return _populatedProperties.size();
+    }
+
+    @Override
+    protected Object get(Key tagType)
+    {
+        // typesafe, returns null if wrong type
+        return _populatedProperties.get(tagType);
+    }
+
+    @Override
+    protected boolean hasKey(Key tag)
+    {
+        return tag instanceof Keys && getTagSet().contains(tag);
+    }
+
+    private EnumSet<Keys> getTagSet()
+    {
+        return EnumSet.allOf(Keys.class);
+    }
+
+//    @Override
+//    protected EnumMap<Keys, Object> getTagMap()
+//    {
+//        return null;
+//    }
+
+    @Override
+    protected Keys getTagFromValue(Integer value)
+    {
+        return Keys.fromValue(value);
+    }
+
     public enum Keys implements Key
     {
         TAG_INTEROP_INDEX(      0x0001, "Interoperability Index")
@@ -80,11 +141,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
                 @Override
                 public String getDescription(DirectoryBase directory)
                 {
-                    final Integer index = directory.getInteger(TAG_NEW_SUBFILE_TYPE);
-                    if (index == null)
-                        return null;
-
-                    return getIndexedDescription(index, 0,
+                     return directory.getIndexedDescription(this, 0,
                         "Full-resolution image",
                         "Reduced-resolution image",
                         "Single page of multi-page image",
@@ -101,11 +158,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
                 @Override
                 public String getDescription(DirectoryBase directory)
                 {
-                    final Integer index = directory.getInteger(TAG_NEW_SUBFILE_TYPE);
-                    if (index == null)
-                        return null;
-
-                    return getIndexedDescription(index, 1,
+                    return directory.getIndexedDescription(this, 1,
                         "Full-resolution image",    /*Main image*/
                         "Reduced-resolution image", /*Thumbnail*/
                         "Single page of multi-page image"
@@ -239,10 +292,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-                    final Integer index = directory.getInteger(TAG_THRESHOLDING);
-                    if (index == null)
-                        return null;
-                    return getIndexedDescription(index, 1,
+                    return directory.getIndexedDescription(this, 1,
                         "No dithering or halftoning",
                         "Ordered dither or halftone",
                         "Randomized dither"
@@ -255,10 +305,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-                    final Integer index = directory.getInteger(this);
-                    if (index == null)
-                        return null;
-                    return getIndexedDescription(index, 1,
+                    return directory.getIndexedDescription(this, 1,
                         "Normal",
                         "Reversed"
                     );
@@ -312,10 +359,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-                    final Integer index = directory.getInteger(this);
-                    if (index == null)
-                        return null;
-                    return getOrientationDescription(index);
+                    return directory.getOrientationDescription(this);
 				}
 			},
         /** Each pixel is composed of this many samples. */
@@ -407,11 +451,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
                     // data. If value is '1', Y/Cb/Cr value is chunky format, contiguous for each subsampling
                     // pixel. If value is '2', Y/Cb/Cr value is separated and stored to Y plane/Cb plane/Cr
                     // plane format.
-                    final Integer index = directory.getInteger(this);
-                    if (index == null)
-                        return null;
-
-                    return getIndexedDescription(index,
+                    return directory.getIndexedDescription(this,
                         1,
                         "Chunky (contiguous for each subsampling pixel)",
                         "Separate (Y-plane/Cb-plane/Cr-plane format)"
@@ -426,8 +466,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				public String getDescription(DirectoryBase directory)
 				{
                     // '1' means no-unit, '2' means inch, '3' means centimeter. Default value is '2'(inch)
-                    final int unitIndex = directory.getInteger(TAG_RESOLUTION_UNIT);
-                    return getIndexedDescription(unitIndex, 1,
+                    return directory.getIndexedDescription(this, 1,
                         "(No unit)",
                         "Inch",
                         "cm");
@@ -504,10 +543,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-                    final Integer index = directory.getInteger(this);
-                    if (index == null)
-                        return null;
-                    return getIndexedDescription(index, 1,
+                    return directory.getIndexedDescription(this, 1,
                         "Center of pixel array",
                         "Datum point");
 				}
@@ -566,7 +602,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 
                     int[] repeatPattern = directory.getIntArray(TAG_CFA_REPEAT_PATTERN_DIM);
                     if (repeatPattern == null)
-                        return String.format("Repeat Pattern not found for CFAPattern (%s)", super.getDescription(TAG_CFA_PATTERN_2));
+                        return String.format("Repeat Pattern not found for CFAPattern (%s)", directory.getDescription(TAG_CFA_PATTERN_2));
 
                     if (repeatPattern.length == 2 && values.length == (repeatPattern[0] * repeatPattern[1]))
                     {
@@ -580,27 +616,11 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
                         return formatCFAPattern(intpattern);
                     }
 
-                    return String.format("Unknown Pattern (%s)", super.getDescription(TAG_CFA_PATTERN_2));
+                    return String.format("Unknown Pattern (%s)", directory.getDescription(TAG_CFA_PATTERN_2));
 				}
 			},
-        TAG_BATTERY_LEVEL(0x828F, "Battery Level")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_COPYRIGHT(0x8298, "Copyright")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_BATTERY_LEVEL(0x828F, "Battery Level"),
+        TAG_COPYRIGHT(0x8298, "Copyright"),
         /**
          * Exposure time (reciprocal of shutter speed). Unit is second.
          */
@@ -609,8 +629,8 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    String value = directory.getString(TAG_EXPOSURE_TIME);
+                    return value == null ? null : value + " sec";
 				}
 			},
         /**
@@ -621,59 +641,45 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Rational value = directory.getRational(TAG_FNUMBER);
+                    if (value == null)
+                        return null;
+                    return getFStopDescription(value.doubleValue());
 				}
 			},
-        TAG_IPTC_NAA(0x83BB, "IPTC/NAA")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_INTER_COLOR_PROFILE(0x8773, "Inter Color Profile")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        /**
-         * Exposure program that the camera used when image was taken. '1' means
-         * manual control, '2' program normal, '3' aperture priority, '4' shutter
-         * priority, '5' program creative (slow program), '6' program action
-         * (high-speed program), '7' portrait mode, '8' landscape mode.
-         */
+        TAG_IPTC_NAA(0x83BB, "IPTC/NAA"),
+        TAG_INTER_COLOR_PROFILE(0x8773, "Inter Color Profile"),
         TAG_EXPOSURE_PROGRAM(0x8822, "Exposure Program")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(this,
+                        1,
+                        "Manual control",
+                        "Program normal",
+                        "Aperture priority",
+                        "Shutter priority",
+                        "Program creative (slow program)",
+                        "Program action (high-speed program)",
+                        "Portrait mode",
+                        "Landscape mode"
+                    );
 				}
 			},
-        TAG_SPECTRAL_SENSITIVITY(0x8824, "Spectral Sensitivity")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_SPECTRAL_SENSITIVITY(0x8824, "Spectral Sensitivity"),
         TAG_ISO_EQUIVALENT(0x8827, "ISO Speed Ratings")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    // Have seen an exception here from files produced by ACDSEE that stored an int[] here with two values
+                    Integer isoEquiv = directory.getInteger(TAG_ISO_EQUIVALENT);
+                    // There used to be a check here that multiplied ISO values < 50 by 200.
+                    // Issue 36 shows a smart-phone image from a Samsung Galaxy S2 with ISO-40.
+                    return isoEquiv != null
+                        ? Integer.toString(isoEquiv)
+                        : null;
 				}
 			},
         /**
@@ -688,136 +694,59 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
          *   <li>For each cell, an SRATIONAL value.</li>
          * </ul>
          */
-        TAG_OPTO_ELECTRIC_CONVERSION_FUNCTION(0x8828, "Opto-electric Conversion Function (OECF)")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_INTERLACE(0x8829, "Interlace")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_TIME_ZONE_OFFSET_TIFF_EP(0x882A, "Time Zone Offset")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_SELF_TIMER_MODE_TIFF_EP(0x882B, "Self Timer Mode")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        /**
-         * Applies to ISO tag.
-         *
-         * 0 = Unknown
-         * 1 = Standard Output Sensitivity
-         * 2 = Recommended Exposure Index
-         * 3 = ISO Speed
-         * 4 = Standard Output Sensitivity and Recommended Exposure Index
-         * 5 = Standard Output Sensitivity and ISO Speed
-         * 6 = Recommended Exposure Index and ISO Speed
-         * 7 = Standard Output Sensitivity, Recommended Exposure Index and ISO Speed
-         */
+        TAG_OPTO_ELECTRIC_CONVERSION_FUNCTION(0x8828, "Opto-electric Conversion Function (OECF)"),
+        TAG_INTERLACE(0x8829, "Interlace"),
+        TAG_TIME_ZONE_OFFSET_TIFF_EP(0x882A, "Time Zone Offset"),
+        TAG_SELF_TIMER_MODE_TIFF_EP(0x882B, "Self Timer Mode"),
         TAG_SENSITIVITY_TYPE(0x8830, "Sensitivity Type")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_SENSITIVITY_TYPE, 0,
+                        "Unknown",
+                        "Standard Output Sensitivity",
+                        "Recommended Exposure Index",
+                        "ISO Speed",
+                        "Standard Output Sensitivity and Recommended Exposure Index",
+                        "Standard Output Sensitivity and ISO Speed",
+                        "Recommended Exposure Index and ISO Speed",
+                        "Standard Output Sensitivity, Recommended Exposure Index and ISO Speed"
+                    );
 				}
 			},
-        TAG_STANDARD_OUTPUT_SENSITIVITY(0x8831, "Standard Output Sensitivity")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_RECOMMENDED_EXPOSURE_INDEX(0x8832, "Recommended Exposure Index")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_STANDARD_OUTPUT_SENSITIVITY(0x8831, "Standard Output Sensitivity"),
+        TAG_RECOMMENDED_EXPOSURE_INDEX(0x8832, "Recommended Exposure Index"),
         /** Non-standard, but in use. */
-        TAG_TIME_ZONE_OFFSET(0x882A, "Time Zone Offset")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_SELF_TIMER_MODE(0x882B, "Self Timer Mode")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-
+        TAG_TIME_ZONE_OFFSET(0x882A, "Time Zone Offset"),
+        TAG_SELF_TIMER_MODE(0x882B, "Self Timer Mode"),
         TAG_EXIF_VERSION(0x9000, "Exif Version")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getVersionBytesDescription(TAG_EXIF_VERSION, 2);
 				}
 			},
-        TAG_DATETIME_ORIGINAL(0x9003, "Date/Time Original")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_DATETIME_DIGITIZED(0x9004, "Date/Time Digitized")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-
+        TAG_DATETIME_ORIGINAL(0x9003, "Date/Time Original"),
+        TAG_DATETIME_DIGITIZED(0x9004, "Date/Time Digitized"),
         TAG_COMPONENTS_CONFIGURATION(0x9101, "Components Configuration")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    int[] components = directory.getIntArray(TAG_COMPONENTS_CONFIGURATION);
+                    if (components == null)
+                        return null;
+                    String[] componentStrings = {"", "Y", "Cb", "Cr", "R", "G", "B"};
+                    StringBuilder componentConfig = new StringBuilder();
+                    for (int i = 0; i < Math.min(4, components.length); i++) {
+                        int j = components[i];
+                        if (j > 0 && j < componentStrings.length) {
+                            componentConfig.append(componentStrings[j]);
+                        }
+                    }
+                    return componentConfig.toString();
 				}
 			},
         /**
@@ -828,8 +757,13 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Rational value = directory.getRational(TAG_COMPRESSED_AVERAGE_BITS_PER_PIXEL);
+                    if (value == null)
+                        return null;
+                    String ratio = value.toSimpleString(_allowDecimalRepresentationOfRationals);
+                    return value.isInteger() && value.intValue() == 1
+                        ? ratio + " bit/pixel"
+                        : ratio + " bits/pixel";
 				}
 			},
 
@@ -843,8 +777,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getShutterSpeedDescription(TAG_SHUTTER_SPEED);
 				}
 			},
         /**
@@ -858,26 +791,23 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Double aperture = directory.getDoubleObject(TAG_APERTURE);
+                    if (aperture == null)
+                        return null;
+                    double fStop = PhotographicConversions.apertureToFStop(aperture);
+                    return getFStopDescription(fStop);
 				}
 			},
-        TAG_BRIGHTNESS_VALUE(0x9203, "Brightness Value")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_BRIGHTNESS_VALUE(0x9203, "Brightness Value"),
         TAG_EXPOSURE_BIAS(0x9204, "Exposure Bias Value")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Rational value = directory.getRational(TAG_EXPOSURE_BIAS);
+                    if (value == null)
+                        return null;
+                    return value.toSimpleString(true) + " EV";
 				}
 			},
         /**
@@ -892,8 +822,11 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Double aperture = directory.getDoubleObject(TAG_MAX_APERTURE);
+                    if (aperture == null)
+                        return null;
+                    double fStop = PhotographicConversions.apertureToFStop(aperture);
+                    return getFStopDescription(fStop);
 				}
 			},
         /**
@@ -904,8 +837,11 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Rational value = directory.getRational(TAG_SUBJECT_DISTANCE);
+                    if (value == null)
+                        return null;
+                    DecimalFormat formatter = new DecimalFormat("0.0##");
+                    return formatter.format(value.doubleValue()) + " metres";
 				}
 			},
         /**
@@ -918,8 +854,23 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    // '0' means unknown, '1' average, '2' center weighted average, '3' spot
+                    // '4' multi-spot, '5' multi-segment, '6' partial, '255' other
+                    Integer value = directory.getInteger(TAG_METERING_MODE);
+                    if (value == null)
+                        return null;
+                    switch (value) {
+                        case 0: return "Unknown";
+                        case 1: return "Average";
+                        case 2: return "Center weighted average";
+                        case 3: return "Spot";
+                        case 4: return "Multi-spot";
+                        case 5: return "Multi-segment";
+                        case 6: return "Partial";
+                        case 255: return "(Other)";
+                        default:
+                            return "Unknown (" + value + ")";
+                    }
 				}
 			},
 
@@ -927,15 +878,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
          * @deprecated use {@link com.drew.metadata.exif.ExifDirectoryBase.Keys#TAG_WHITE_BALANCE} instead.
          */
         @Deprecated
-        TAG_LIGHT_SOURCE(0x9208, "(Deprecated) Use White Balance")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_LIGHT_SOURCE(0x9208, "(Deprecated) Use White Balance"),
         /**
          * White balance (aka light source). '0' means unknown, '1' daylight,
          * '2' fluorescent, '3' tungsten, '10' flash, '17' standard light A,
@@ -947,8 +890,37 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    //TODO: Think I saw this same list in Panasonic...reuse?
+                    // See http://web.archive.org/web/20131018091152/http://exif.org/Exif2-2.PDF page 35
+                    final Integer value = directory.getInteger(TAG_WHITE_BALANCE);
+                    if (value == null)
+                        return null;
+                    switch (value) {
+                        case 0: return "Unknown";
+                        case 1: return "Daylight";
+                        case 2: return "Florescent";
+                        case 3: return "Tungsten";
+                        case 4: return "Flash";
+                        case 9: return "Fine Weather";
+                        case 10: return "Cloudy";
+                        case 11: return "Shade";
+                        case 12: return "Daylight Fluorescent";
+                        case 13: return "Day White Fluorescent";
+                        case 14: return "Cool White Fluorescent";
+                        case 15: return "White Fluorescent";
+                        case 16: return "Warm White Fluorescent";
+                        case 17: return "Standard light";
+                        case 18: return "Standard light (B)";
+                        case 19: return "Standard light (C)";
+                        case 20: return "D55";
+                        case 21: return "D65";
+                        case 22: return "D75";
+                        case 23: return "D50";
+                        case 24: return "Studio Tungsten";
+                        case 255: return "(Other)";
+                        default:
+                            return "Unknown (" + value + ")";
+                    }
 				}
 			},
         /**
@@ -990,8 +962,33 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    final Integer value = directory.getInteger(TAG_FLASH);
+
+                    if (value == null)
+                        return null;
+
+                    StringBuilder sb = new StringBuilder();
+
+                    if ((value & 0x1) != 0)
+                        sb.append("Flash fired");
+                    else
+                        sb.append("Flash did not fire");
+
+                    // check if we're able to detect a return, before we mention it
+                    if ((value & 0x4) != 0) {
+                        if ((value & 0x2) != 0)
+                            sb.append(", return detected");
+                        else
+                            sb.append(", return not detected");
+                    }
+
+                    if ((value & 0x10) != 0)
+                        sb.append(", auto");
+
+                    if ((value & 0x40) != 0)
+                        sb.append(", red-eye reduction");
+
+                    return sb.toString();
 				}
 			},
         /**
@@ -1003,110 +1000,22 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Rational value = directory.getRational(TAG_FOCAL_LENGTH);
+                    return value == null ? null : getFocalLengthDescription(value.doubleValue());
 				}
 			},
 
-        TAG_FLASH_ENERGY_TIFF_EP(0x920B, "Flash Energy")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_SPATIAL_FREQ_RESPONSE_TIFF_EP(0x920C, "Spatial Frequency Response")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_NOISE(0x920D, "Noise")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_FOCAL_PLANE_X_RESOLUTION_TIFF_EP(0x920E, "Focal Plane X Resolution")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_FOCAL_PLANE_Y_RESOLUTION_TIFF_EP(0x920F, "Focal Plane Y Resolution")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_IMAGE_NUMBER(0x9211, "Image Number")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_SECURITY_CLASSIFICATION(0x9212, "Security Classification")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_IMAGE_HISTORY(0x9213, "Image History")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_SUBJECT_LOCATION_TIFF_EP(0x9214, "Subject Location")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_EXPOSURE_INDEX_TIFF_EP(0x9215, "Exposure Index")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_STANDARD_ID_TIFF_EP(0x9216, "TIFF/EP Standard ID")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_FLASH_ENERGY_TIFF_EP(0x920B, "Flash Energy"),
+        TAG_SPATIAL_FREQ_RESPONSE_TIFF_EP(0x920C, "Spatial Frequency Response"),
+        TAG_NOISE(0x920D, "Noise"),
+        TAG_FOCAL_PLANE_X_RESOLUTION_TIFF_EP(0x920E, "Focal Plane X Resolution"),
+        TAG_FOCAL_PLANE_Y_RESOLUTION_TIFF_EP(0x920F, "Focal Plane Y Resolution"),
+        TAG_IMAGE_NUMBER(0x9211, "Image Number"),
+        TAG_SECURITY_CLASSIFICATION(0x9212, "Security Classification"),
+        TAG_IMAGE_HISTORY(0x9213, "Image History"),
+        TAG_SUBJECT_LOCATION_TIFF_EP(0x9214, "Subject Location"),
+        TAG_EXPOSURE_INDEX_TIFF_EP(0x9215, "Exposure Index"),
+        TAG_STANDARD_ID_TIFF_EP(0x9216, "TIFF/EP Standard ID"),
 
         /**
          * This tag holds the Exif Makernote. Makernotes are free to be in any format, though they are often IFDs.
@@ -1115,53 +1024,53 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
          * <p>
          * The component count for this tag includes all of the bytes needed for the makernote.
          */
-        TAG_MAKERNOTE(0x927C, "Makernote")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-
+        TAG_MAKERNOTE(0x927C, "Makernote"),  //TODO: There are notes on how to parse, but no custom parse originally
         TAG_USER_COMMENT(0x9286, "User Comment")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    byte[] commentBytes = directory.getByteArray(TAG_USER_COMMENT);
+                    if (commentBytes == null)
+                        return null;
+                    if (commentBytes.length == 0)
+                        return "";
+
+                    final Map<String, String> encodingMap = new HashMap<String, String>();
+                    encodingMap.put("ASCII", System.getProperty("file.encoding")); // Someone suggested "ISO-8859-1".
+                    encodingMap.put("UNICODE", "UTF-16LE");
+                    encodingMap.put("JIS", "Shift-JIS"); // We assume this charset for now.  Another suggestion is "JIS".
+
+                    try {
+                        if (commentBytes.length >= 10) {
+                            String firstTenBytesString = new String(commentBytes, 0, 10);
+
+                            // try each encoding name
+                            for (Map.Entry<String, String> pair : encodingMap.entrySet()) {
+                                String encodingName = pair.getKey();
+                                String charset = pair.getValue();
+                                if (firstTenBytesString.startsWith(encodingName)) {
+                                    // skip any null or blank characters commonly present after the encoding name, up to a limit of 10 from the start
+                                    for (int j = encodingName.length(); j < 10; j++) {
+                                        byte b = commentBytes[j];
+                                        if (b != '\0' && b != ' ')
+                                            return new String(commentBytes, j, commentBytes.length - j, charset).trim();
+                                    }
+                                    return new String(commentBytes, 10, commentBytes.length - 10, charset).trim();
+                                }
+                            }
+                        }
+                        // special handling fell through, return a plain string representation
+                        return new String(commentBytes, System.getProperty("file.encoding")).trim();
+                    } catch (UnsupportedEncodingException ex) {
+                        return null;
+                    }
 				}
 			},
 
-        TAG_SUBSECOND_TIME(0x9290, "Sub-Sec Time")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_SUBSECOND_TIME_ORIGINAL(0x9291, "Sub-Sec Time Original")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_SUBSECOND_TIME_DIGITIZED(0x9292, "Sub-Sec Time Digitized")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_SUBSECOND_TIME(0x9290, "Sub-Sec Time"),
+        TAG_SUBSECOND_TIME_ORIGINAL(0x9291, "Sub-Sec Time Original"),
+        TAG_SUBSECOND_TIME_DIGITIZED(0x9292, "Sub-Sec Time Digitized"),
 
         /** The image title, as used by Windows XP. */
         TAG_WIN_TITLE(0x9C9B, "Windows XP Title")
@@ -1169,8 +1078,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getUnicodeDescription(this);
 				}
 			},
         /** The image comment, as used by Windows XP. */
@@ -1179,8 +1087,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getUnicodeDescription(this);
 				}
 			},
         /** The image author, as used by Windows XP (called Artist in the Windows shell). */
@@ -1189,8 +1096,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getUnicodeDescription(this);
 				}
 			},
         /** The image keywords, as used by Windows XP. */
@@ -1199,8 +1105,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getUnicodeDescription(this);
 				}
 			},
         /** The image subject, as used by Windows XP. */
@@ -1209,8 +1114,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getUnicodeDescription(this);
 				}
 			},
 
@@ -1219,22 +1123,22 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getVersionBytesDescription(TAG_FLASHPIX_VERSION, 2);
 				}
 			},
-        /**
-         * Defines Color Space. DCF image must use sRGB color space so value is
-         * always '1'. If the picture uses the other color space, value is
-         * '65535':Uncalibrated.
-         */
         TAG_COLOR_SPACE(0xA001, "Color Space")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    final Integer value = directory.getInteger(TAG_COLOR_SPACE);
+                    if (value == null)
+                        return null;
+                    if (value == 1)
+                        return "sRGB";
+                    if (value == 65535)
+                        return "Undefined";
+                    return "Unknown (" + value + ")";
 				}
 			},
         TAG_EXIF_IMAGE_WIDTH(0xA002, "Exif Image Width")
@@ -1242,8 +1146,8 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    final Integer value = directory.getInteger(TAG_EXIF_IMAGE_WIDTH);
+                    return value == null ? null : value + " pixels";
 				}
 			},
         TAG_EXIF_IMAGE_HEIGHT(0xA003, "Exif Image Height")
@@ -1251,45 +1155,24 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    final Integer value = directory.getInteger(TAG_EXIF_IMAGE_HEIGHT);
+                    return value == null ? null : value + " pixels";
 				}
 			},
-        TAG_RELATED_SOUND_FILE(0xA004, "Related Sound File")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-
-        TAG_FLASH_ENERGY(0xA20B, "Flash Energy")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_SPATIAL_FREQ_RESPONSE(0xA20C, "Spatial Frequency Response")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_RELATED_SOUND_FILE(0xA004, "Related Sound File"),
+        TAG_FLASH_ENERGY(0xA20B, "Flash Energy"),
+        TAG_SPATIAL_FREQ_RESPONSE(0xA20C, "Spatial Frequency Response"),
         TAG_FOCAL_PLANE_X_RESOLUTION(0xA20E, "Focal Plane X Resolution")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Rational rational = directory.getRational(TAG_FOCAL_PLANE_X_RESOLUTION);
+                    if (rational == null)
+                        return null;
+                    final String unit = TAG_FOCAL_PLANE_RESOLUTION_UNIT.getDescription(directory);
+                    return rational.getReciprocal().toSimpleString(_allowDecimalRepresentationOfRationals)
+                        + (unit == null ? "" : " " + unit.toLowerCase());
 				}
 			},
         TAG_FOCAL_PLANE_Y_RESOLUTION(0xA20F, "Focal Plane Y Resolution")
@@ -1297,8 +1180,12 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Rational rational = directory.getRational(TAG_FOCAL_PLANE_Y_RESOLUTION);
+                    if (rational == null)
+                        return null;
+                    final String unit = TAG_FOCAL_PLANE_RESOLUTION_UNIT.getDescription(directory);
+                    return rational.getReciprocal().toSimpleString(_allowDecimalRepresentationOfRationals)
+                        + (unit == null ? "" : " " + unit.toLowerCase());
 				}
 			},
         /**
@@ -1315,35 +1202,37 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    // Unit of FocalPlaneXResolution/FocalPlaneYResolution.
+                    // '1' means no-unit, '2' inch, '3' centimeter.
+                    return directory.getIndexedDescription(TAG_FOCAL_PLANE_RESOLUTION_UNIT,
+                        1,
+                        "(No unit)",
+                        "Inches",
+                        "cm"
+                    );
 				}
 			},
-        TAG_SUBJECT_LOCATION(0xA214, "Subject Location")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_EXPOSURE_INDEX(0xA215, "Exposure Index")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_SUBJECT_LOCATION(0xA214, "Subject Location"),
+        TAG_EXPOSURE_INDEX(0xA215, "Exposure Index"),
         TAG_SENSING_METHOD(0xA217, "Sensing Method")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    // '1' Not defined, '2' One-chip color area sensor, '3' Two-chip color area sensor
+                    // '4' Three-chip color area sensor, '5' Color sequential area sensor
+                    // '7' Trilinear sensor '8' Color sequential linear sensor,  'Other' reserved
+                    return directory.getIndexedDescription(TAG_SENSING_METHOD,
+                        1,
+                        "(Not defined)",
+                        "One-chip color area sensor",
+                        "Two-chip color area sensor",
+                        "Three-chip color area sensor",
+                        "Color sequential area sensor",
+                        null,
+                        "Trilinear sensor",
+                        "Color sequential linear sensor"
+                    );
 				}
 			},
 
@@ -1352,8 +1241,12 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_FILE_SOURCE,
+                        1,
+                        "Film Scanner",
+                        "Reflection Print Scanner",
+                        "Digital Still Camera (DSC)"
+                    );
 				}
 			},
         TAG_SCENE_TYPE(0xA301, "Scene Type")
@@ -1361,17 +1254,30 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    //TODO: wtf?
+                    return directory.getIndexedDescription(TAG_SCENE_TYPE,
+                        1,
+                        "Directly photographed image"
+                    );
 				}
 			},
         TAG_CFA_PATTERN(0xA302, "CFA Pattern")
 			{
+                /// <summary>
+                /// String description of CFA Pattern
+                /// </summary>
+                /// <remarks>
+                /// Converted from Exiftool version 10.33 created by Phil Harvey
+                /// http://www.sno.phy.queensu.ca/~phil/exiftool/
+                /// lib\Image\ExifTool\Exif.pm
+                ///
+                /// Indicates the color filter array (CFA) geometric pattern of the image sensor when a one-chip color area sensor is used.
+                /// It does not apply to all sensing methods.
+                /// </remarks>
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return formatCFAPattern(directory.decodeCfaPattern(TAG_CFA_PATTERN));
 				}
 			},
 
@@ -1392,8 +1298,10 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_CUSTOM_RENDERED, 0,
+                        "Normal process",
+                        "Custom process"
+                    );
 				}
 			},
         /**
@@ -1413,8 +1321,11 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_EXPOSURE_MODE, 0,
+                        "Auto exposure",
+                        "Manual exposure",
+                        "Auto bracket"
+                    );
 				}
 			},
         /**
@@ -1432,8 +1343,10 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_WHITE_BALANCE_MODE, 0,
+                        "Auto white balance",
+                        "Manual white balance"
+                    );
 				}
 			},
         /**
@@ -1450,8 +1363,12 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Rational value = directory.getRational(TAG_DIGITAL_ZOOM_RATIO);
+                    return value == null
+                        ? null
+                        : value.getNumerator() == 0
+                        ? "Digital zoom not used"
+                        : new DecimalFormat("0.#").format(value.doubleValue());
 				}
 			},
         /**
@@ -1468,8 +1385,12 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    Integer value = directory.getInteger(TAG_35MM_FILM_EQUIV_FOCAL_LENGTH);
+                    return value == null
+                        ? null
+                        : value == 0
+                        ? "Unknown"
+                        : getFocalLengthDescription(value);
 				}
 			},
         /**
@@ -1491,8 +1412,12 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_SCENE_CAPTURE_TYPE, 0,
+                        "Standard",
+                        "Landscape",
+                        "Portrait",
+                        "Night scene"
+                    );
 				}
 			},
         /**
@@ -1513,8 +1438,13 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_GAIN_CONTROL, 0,
+                        "None",
+                        "Low gain up",
+                        "Low gain down",
+                        "High gain up",
+                        "High gain down"
+                    );
 				}
 			},
         /**
@@ -1534,8 +1464,11 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_CONTRAST, 0,
+                        "None",
+                        "Soft",
+                        "Hard"
+                    );
 				}
 			},
         /**
@@ -1555,8 +1488,11 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_SATURATION, 0,
+                        "None",
+                        "Low saturation",
+                        "High saturation"
+                    );
 				}
 			},
         /**
@@ -1576,8 +1512,11 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_SHARPNESS, 0,
+                        "None",
+                        "Low",
+                        "Hard"
+                    );
 				}
 			},
         /**
@@ -1604,15 +1543,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
          *      :       :           :
          *      Any     UNDEFINED   Camera setting-n
          */
-        TAG_DEVICE_SETTING_DESCRIPTION(0xA40B, "Device Setting Description")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_DEVICE_SETTING_DESCRIPTION(0xA40B, "Device Setting Description"),   //TODO: Notes, but no handler
         /**
          * This tag indicates the distance to the subject.
          * Tag = 41996 (A40C.H)
@@ -1630,8 +1561,12 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getIndexedDescription(TAG_SUBJECT_DISTANCE_RANGE, 0,
+                        "Unknown",
+                        "Macro",
+                        "Close view",
+                        "Distant view"
+                    );
 				}
 			},
 
@@ -1644,125 +1579,32 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
          * Count = 33
          * Default = none
          */
-        TAG_IMAGE_UNIQUE_ID(0xA420, "Unique Image ID")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_IMAGE_UNIQUE_ID(0xA420, "Unique Image ID"),
         /** String. */
-        TAG_CAMERA_OWNER_NAME(0xA430, "Camera Owner Name")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_CAMERA_OWNER_NAME(0xA430, "Camera Owner Name"),
         /** String. */
-        TAG_BODY_SERIAL_NUMBER(0xA431, "Body Serial Number")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_BODY_SERIAL_NUMBER(0xA431, "Body Serial Number"),
         /** An array of four Rational64u numbers giving focal and aperture ranges. */
         TAG_LENS_SPECIFICATION(0xA432, "Lens Specification")
 			{
 				@Override
 				public String getDescription(DirectoryBase directory)
 				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
+                    return directory.getLensSpecificationDescription(TAG_LENS_SPECIFICATION);
 				}
 			},
         /** String. */
-        TAG_LENS_MAKE(0xA433, "Lens Make")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_LENS_MAKE(0xA433, "Lens Make"),
         /** String. */
-        TAG_LENS_MODEL(0xA434, "Lens Model")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_LENS_MODEL(0xA434, "Lens Model"),
         /** String. */
-        TAG_LENS_SERIAL_NUMBER(0xA435, "Lens Serial Number")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
+        TAG_LENS_SERIAL_NUMBER(0xA435, "Lens Serial Number"),
         /** Rational64u. */
-        TAG_GAMMA(0xA500, "Gamma")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-
-        TAG_PRINT_IMAGE_MATCHING_INFO(0xC4A5, "Print Image Matching (PIM) Info")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-
-        TAG_PANASONIC_TITLE(0xC6D2, "Panasonic Title")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-        TAG_PANASONIC_TITLE_2(0xC6D3, "Panasonic Title (2)")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-
-        TAG_PADDING(0xEA1C, "Padding")
-			{
-				@Override
-				public String getDescription(DirectoryBase directory)
-				{
-					String value = directory.getString(this);
-					return value == null ? null : value + " bits/component/pixel";
-				}
-			},
-
+        TAG_GAMMA(0xA500, "Gamma"),
+        TAG_PRINT_IMAGE_MATCHING_INFO(0xC4A5, "Print Image Matching (PIM) Info"),
+        TAG_PANASONIC_TITLE(0xC6D2, "Panasonic Title"),
+        TAG_PANASONIC_TITLE_2(0xC6D3, "Panasonic Title (2)"),
+        TAG_PADDING(0xEA1C, "Padding"),
         TAG_LENS(0xFDEA, "Lens");
 
 
@@ -1793,16 +1635,16 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
         }
 
         @Override
-        public String getTagName()
+        public String getName()
         {
             return name();
         }
 
         @Override
-        public String getTagType()
+        public String getType()
         {
             return Integer.toString(key);
-        }
+    }
 
         @Override
         public String getSummary()
@@ -1812,7 +1654,7 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 
         /**
          * Default description handler.
-         * @param directory
+         * @param directory storing the values to describe
          * @return
          */
         @Override
@@ -1826,50 +1668,6 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
 //    protected static void addExifTagNames(HashMap<Integer, String> map)
 //    {
 //    }
-
-    /**
-     * Takes a series of 4 bytes from the specified offset, and converts these to a
-     * well-known version number, where possible.
-     * <p>
-     * Two different formats are processed:
-     * <ul>
-     * <li>[30 32 31 30] -&gt; 2.10</li>
-     * <li>[0 1 0 0] -&gt; 1.00</li>
-     * </ul>
-     *
-     * @param components  the four version values
-     * @param majorDigits the number of components to be
-     * @return the version as a string of form "2.10" or null if the argument cannot be converted
-     */
-    @Nullable
-    public static String convertBytesToVersionString(@Nullable int[] components, final int majorDigits)
-    {
-        if (components == null)
-            return null;
-        StringBuilder version = new StringBuilder();
-        for (int i = 0; i < 4 && i < components.length; i++) {
-            if (i == majorDigits)
-                version.append('.');
-            char c = (char)components[i];
-            if (c < '0')
-                c += '0';
-            if (i == 0 && c == '0')
-                continue;
-            version.append(c);
-        }
-        return version.toString();
-    }
-
-    @Nullable
-    public static String getResolutionDescription(DirectoryBase directory)
-    {
-        // '1' means no-unit, '2' means inch, '3' means centimeter. Default value is '2'(inch)
-        final int unitIndex = directory.getInteger(TAG_RESOLUTION_UNIT);
-        return getIndexedDescription(unitIndex, 1,
-            "(No unit)",
-            "Inch",
-            "cm");
-    }
 
     @Nullable
     private static String formatCFAPattern(@Nullable int[] pattern)
@@ -1904,34 +1702,5 @@ public abstract class ExifDirectoryBase extends DirectoryBase<Integer, ExifDirec
         ret.append("]");
 
         return ret.toString();
-    }
-
-    //TODO: Should this be default?
-    @Nullable
-    public String getDescription(K tagType)
-    {
-        Object object = _directory.getObject(tagType);
-
-        if (object == null)
-            return null;
-
-        // special presentation for long arrays
-        if (object.getClass().isArray()) {
-            final int length = Array.getLength(object);
-            if (length > 16) {
-                return String.format("[%d values]", length);
-            }
-        }
-
-        if (object instanceof Date)
-        {
-            // Produce a date string having a format that includes the offset in form "+00:00"
-            return new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy")
-                .format((Date) object)
-                .replaceAll("([0-9]{2} [^ ]+)$", ":$1");
-        }
-
-        // no special handling required, so use default conversion to a string
-        return _directory.getString(tagType);
     }
 }

@@ -47,7 +47,7 @@ public final class Metadata
      * @return an iterable set of directories
      */
     @NotNull
-    public Iterable<Directory> getDirectories()
+    public Iterable<DirectoryBase> getDirectories()
     {
         return _directories;
     }

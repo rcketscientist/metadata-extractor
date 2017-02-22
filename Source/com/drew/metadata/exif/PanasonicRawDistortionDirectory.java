@@ -174,13 +174,13 @@ public class PanasonicRawDistortionDirectory extends DirectoryBase<Integer, Pana
         }
 
         @Override
-        public String getTagName()
+        public String getName()
         {
             return name();
         }
 
         @Override
-        public String getTagType()
+        public String getType()
         {
             return Integer.toString(key);
         }

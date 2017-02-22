@@ -33,9 +33,11 @@ import com.drew.imaging.webp.WebpMetadataReader;
 import com.drew.lang.StringUtil;
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
+import com.drew.metadata.DirectoryBase;
 import com.drew.metadata.Key;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
+import com.drew.metadata.exif.ExifDirectoryBase;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.file.FileMetadataReader;
 
@@ -247,8 +249,8 @@ public class ImageMetadataReader
                 String fileName = file.getName();
                 String urlName = StringUtil.urlEncode(filePath);
                 ExifIFD0Directory exifIFD0Directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-                String make = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifIFD0Directory.Keys.TAG_MAKE);
-                String model = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifIFD0Directory.Keys.TAG_MODEL);
+                String make = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifDirectoryBase.Keys.TAG_MAKE);
+                String model = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifDirectoryBase.Keys.TAG_MODEL);
                 System.out.println();
                 System.out.println("---");
                 System.out.println();
@@ -264,11 +266,11 @@ public class ImageMetadataReader
             }
 
             // iterate over the metadata and print to System.out
-            for (Directory directory : metadata.getDirectories()) {
+            for (DirectoryBase directory : metadata.getDirectories()) {
                 String directoryName = directory.getName();
-                for (Key tag : directory.getTags()) {
-                    String tagName = tag.getTagName();
-                    String description = tag.getSummary();
+                for (Key tag : directory.getTags()) {   // TODO: Got a mess here...
+                    String tagName = tag.getName();
+                    String description = tag.getDescription(directory);
 
                     // truncate the description if it's too long
                     if (description != null && description.length() > 1024) {
@@ -278,7 +280,7 @@ public class ImageMetadataReader
                     if (markdownFormat) {
                         System.out.printf("%s|0x%s|%s|%s%n",
                             directoryName,
-                            tag.getTagType(),
+                            tag.getType(),
                             tagName,
                             description);
                     } else {
@@ -286,7 +288,7 @@ public class ImageMetadataReader
                         if (showHex) {
                             //TODO: AJM How important is hex?  This would have to be handled with a Util.  Just use string for now...
 //                            System.out.printf("[%s - %s] %s = %s%n", directoryName, tag.getTagTypeHex(), tagName, description);
-                            System.out.printf("[%s - %s] %s = %s%n", directoryName, tag.getTagType(), tagName, description);
+                            System.out.printf("[%s - %s] %s = %s%n", directoryName, tag.getType(), tagName, description);
                         } else {
                             System.out.printf("[%s] %s = %s%n", directoryName, tagName, description);
                         }
