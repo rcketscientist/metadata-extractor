@@ -49,93 +49,100 @@ public class PanasonicRawDistortionDirectory extends DirectoryBase<Integer, Pana
                 @Override
                 public String getDescription(DirectoryBase directory)
                 {
-                    if (!(storedValue instanceof Integer))
+                    Integer value = directory.getInteger(TagDistortionParam02);
+                    if (value == null)
                         return null;
 
-                    return new Rational((Integer)storedValue, 32678).toString();
+                    return new Rational(value, 32678).toString();
                 }
             },
         TagDistortionParam04(   4,  "Distortion Param 4")
             {
                 @Override
-                public String getDescription(DirectoryBase directory))
+                public String getDescription(DirectoryBase directory)
                 {
-                    if (!(storedValue instanceof Integer))
+                    Integer value = directory.getInteger(TagDistortionParam04);
+                    if (value == null)
                         return null;
 
-                    return new Rational((Integer)storedValue, 32678).toString();
+                    return new Rational(value, 32678).toString();
                 }
             },
         TagDistortionScale(     5,  "Distortion Scale")
             {
                 @Override
-                public String getDescription(DirectoryBase directory))
+                public String getDescription(DirectoryBase directory)
                 {
-                    if (!(storedValue instanceof Integer))
+                    Integer value = directory.getInteger(TagDistortionScale);
+                    if (value == null)
                         return null;
 
                     //return (1 / (1 + value / 32768)).toString();
-                    return Integer.toString(1 / (1 + (Integer)storedValue / 32768));
+                    return Integer.toString(1 / (1 + value / 32768));
                 }
             },
         TagDistortionCorrection(7,  "Distortion Correction")
             {
                 @Override
-                public String getDescription(DirectoryBase directory))
+                public String getDescription(DirectoryBase directory)
                 {
-                    if (!(storedValue instanceof Integer))
+                    Integer value = directory.getInteger(TagDistortionCorrection);
+                    if (value == null)
                         return null;
 
                     // (have seen the upper 4 bits set for GF5 and GX1, giving a value of -4095 - PH)
                     int mask = 0x000f;
-                    switch ((Integer)storedValue & mask)
+                    switch (value & mask)
                     {
                         case 0:
                             return "Off";
                         case 1:
                             return "On";
                         default:
-                            return "Unknown (" + storedValue + ")";
+                            return "Unknown (" + value + ")";
                     }
                 }
             },
         TagDistortionParam08(   8,  "Distortion Param 8")
             {
                 @Override
-                public String getDescription(DirectoryBase directory))
+                public String getDescription(DirectoryBase directory)
                 {
-                    if (!(storedValue instanceof Integer))
+                    Integer value = directory.getInteger(TagDistortionParam08);
+                    if (value == null)
                         return null;
 
-                    return new Rational((Integer)storedValue, 32678).toString();
+                    return new Rational(value, 32678).toString();
                 }
             },
         TagDistortionParam09(   9,  "Distortion Param 9")
             {
                 @Override
-                public String getDescription(DirectoryBase directory))
+                public String getDescription(DirectoryBase directory)
                 {
-                    if (!(storedValue instanceof Integer))
+                    Integer value = directory.getInteger(TagDistortionParam09);
+                    if (value == null)
                         return null;
 
-                    return new Rational((Integer)storedValue, 32678).toString();
+                    return new Rational(value, 32678).toString();
                 }
             },
         TagDistortionParam11(   11, "Distortion Param 11")
             {
                 @Override
-                public String getDescription(DirectoryBase directory))
+                public String getDescription(DirectoryBase directory)
                 {
-                    if (!(storedValue instanceof Integer))
+                    Integer value = directory.getInteger(TagDistortionParam11);
+                    if (value == null)
                         return null;
 
-                    return new Rational((Integer)storedValue, 32678).toString();
+                    return new Rational(value, 32678).toString();
                 }
             },
         TagDistortionN(         12, "Distortion N")
             {
                 @Override
-                public String getDescription(DirectoryBase directory))
+                public String getDescription(DirectoryBase directory)
                 {
                     return null;
                 }

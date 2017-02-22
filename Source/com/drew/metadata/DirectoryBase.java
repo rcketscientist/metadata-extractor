@@ -48,6 +48,7 @@ import java.util.regex.Pattern;
  * @author Drew Noakes https://drewnoakes.com
  */
 @java.lang.SuppressWarnings({"WeakerAccess", "unused"}) //TODO: Ignore unused for now
+//TODO: T is only for backwards compatibility which is looking less and less possible
 public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Directory
 {
     private static final String _floatFormatPattern = "0.###";
@@ -540,7 +541,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      *
      * @throws MetadataException if no value exists for tagType or if it cannot be converted to an int.
      */
-    public int getInt(K tagType) throws MetadataException
+    public int getInt(Key tagType) throws MetadataException
     {
         Integer integer = getInteger(tagType);
         if (integer!=null)
@@ -553,7 +554,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getInt(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getInt(Key)}.</em><p>
      */
     public int getInt(T tagValue) throws MetadataException
     {
@@ -576,7 +577,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * If the value is not found or cannot be converted to int, <code>null</code> is returned.
      */
     @Nullable
-    public Integer getInteger(K tagType)
+    public Integer getInteger(Key tagType)
     {
         Object o = getObject(tagType);
 
@@ -620,7 +621,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getInteger(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getInteger(Key)}.</em><p>
      */
     @Nullable
     public Integer getInteger(T tagValue)
@@ -636,7 +637,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * @return the tag's value as an array of Strings. If the value is unset or cannot be converted, <code>null</code> is returned.
      */
     @Nullable
-    public String[] getStringArray(K tagType)
+    public String[] getStringArray(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -679,7 +680,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getStringArray(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getStringArray(Key)}.</em><p>
      */
     @Nullable
     public String[] getStringArray(T tagValue)
@@ -695,7 +696,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * @return the tag's value as an array of StringValues. If the value is unset or cannot be converted, <code>null</code> is returned.
      */
     @Nullable
-    public StringValue[] getStringValueArray(K tagType)
+    public StringValue[] getStringValueArray(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -708,7 +709,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getStringValueArray(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getStringValueArray(Key)}.</em><p>
      */
     @Nullable
     public StringValue[] getStringValueArray(T tagValue)
@@ -724,7 +725,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * @return the tag's value as an int array
      */
     @Nullable
-    public int[] getIntArray(K tagType)
+    public int[] getIntArray(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -770,7 +771,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getIntArray(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getIntArray(Key)}.</em><p>
      */
     @Nullable
     public int[] getIntArray(T tagValue)
@@ -786,7 +787,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * @return the tag's value as a byte array
      */
     @Nullable
-    public byte[] getByteArray(K tagType)
+    public byte[] getByteArray(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null) {
@@ -831,7 +832,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getByteArray(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getByteArray(Key)}.</em><p>
      */
     @Nullable
     public byte[] getByteArray(T tagValue)
@@ -840,7 +841,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /** Returns the specified tag's value as a double, if possible. */
-    public double getDouble(K tagType) throws MetadataException
+    public double getDouble(Key tagType) throws MetadataException
     {
         Double value = getDoubleObject(tagType);
         if (value!=null)
@@ -852,7 +853,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getDouble(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getDouble(Key)}.</em><p>
      */
     public double getDouble(T tagValue) throws MetadataException
     {
@@ -861,7 +862,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
 
     /** Returns the specified tag's value as a Double.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Double getDoubleObject(K tagType)
+    public Double getDoubleObject(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -880,7 +881,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getDoubleObject(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getDoubleObject(Key)}.</em><p>
      */
     @Nullable
     public Double getDoubleObject(T tagValue)
@@ -889,7 +890,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /** Returns the specified tag's value as a float, if possible. */
-    public float getFloat(K tagType) throws MetadataException
+    public float getFloat(Key tagType) throws MetadataException
     {
         Float value = getFloatObject(tagType);
         if (value!=null)
@@ -901,7 +902,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getFloat(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getFloat(Key)}.</em><p>
      */
     public float getFloat(T tagValue) throws MetadataException
     {
@@ -910,7 +911,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
 
     /** Returns the specified tag's value as a float.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Float getFloatObject(K tagType)
+    public Float getFloatObject(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -928,7 +929,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getFloatObject(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getFloatObject(Key)}.</em><p>
      */
     @Nullable
     public Float getFloatObject(T tagValue)
@@ -937,7 +938,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /** Returns the specified tag's value as a long, if possible. */
-    public long getLong(K tagType) throws MetadataException
+    public long getLong(Key tagType) throws MetadataException
     {
         Long value = getLongObject(tagType);
         if (value != null)
@@ -949,7 +950,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getLong(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getLong(Key)}.</em><p>
      */
     public long getLong(T tagValue) throws MetadataException
     {
@@ -958,7 +959,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
 
     /** Returns the specified tag's value as a long.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Long getLongObject(K tagType)
+    public Long getLongObject(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -976,7 +977,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getLongObject(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getLongObject(Key)}.</em><p>
      */
     @Nullable
     public Long getLongObject(T tagValue)
@@ -985,7 +986,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /** Returns the specified tag's value as a boolean, if possible. */
-    public boolean getBoolean(K tagType) throws MetadataException
+    public boolean getBoolean(Key tagType) throws MetadataException
     {
         Boolean value = getBooleanObject(tagType);
         if (value != null)
@@ -997,7 +998,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getBoolean(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getBoolean(Key)}.</em><p>
      */
     public boolean getBoolean(T tagValue) throws MetadataException
     {
@@ -1007,7 +1008,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     /** Returns the specified tag's value as a boolean.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
     @Nullable
     @SuppressWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "keep API interface consistent")
-    public Boolean getBooleanObject(K tagType)
+    public Boolean getBooleanObject(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -1027,7 +1028,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getBooleanObject(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getBooleanObject(Key)}.</em><p>
      */
     @Nullable
     @SuppressWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "keep API interface consistent")
@@ -1043,13 +1044,13 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * the GMT {@link TimeZone}.  If the {@link TimeZone} is known, call the overload that accepts one as an argument.
      */
     @Nullable
-    public java.util.Date getDate(K tagType)
+    public java.util.Date getDate(Key tagType)
     {
         return getDate(tagType, null, null);
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getDate(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getDate(Key)}.</em><p>
      */
     @Nullable
     public java.util.Date getDate(T tagValue)
@@ -1065,13 +1066,13 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * is only considered if the underlying value is a string and it has no time zone information, otherwise it has no effect.
      */
     @Nullable
-    public java.util.Date getDate(K tagType, @Nullable TimeZone timeZone)
+    public java.util.Date getDate(Key tagType, @Nullable TimeZone timeZone)
     {
         return getDate(tagType, null, timeZone);
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getDate(Enum,TimeZone)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getDate(Key,TimeZone)}.</em><p>
      */
     @Nullable
     public java.util.Date getDate(T tagValue, @Nullable TimeZone timeZone)
@@ -1095,7 +1096,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * @return a Date representing the time value
      */
     @Nullable
-    public java.util.Date getDate(K tagType, @Nullable String subsecond, @Nullable TimeZone timeZone)
+    public java.util.Date getDate(Key tagType, @Nullable String subsecond, @Nullable TimeZone timeZone)
     {
         Object o = getObject(tagType);
 
@@ -1176,7 +1177,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getDate(Enum,String,TimeZone)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getDate(Key,String,TimeZone)}.</em><p>
      */
     @Nullable
     public java.util.Date getDate(T tagValue, @Nullable String subsecond, @Nullable TimeZone timeZone)
@@ -1186,7 +1187,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
 
     /** Returns the specified tag's value as a Rational.  If the value is unset or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Rational getRational(K tagType)
+    public Rational getRational(Key tagType)
     {
         Object o = getObject(tagType);
 
@@ -1206,7 +1207,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getRational(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getRational(Key)}.</em><p>
      */
     @Nullable
     public Rational getRational(T tagValue)
@@ -1216,7 +1217,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
 
     /** Returns the specified tag's value as an array of Rational.  If the value is unset or cannot be converted, <code>null</code> is returned. */
     @Nullable
-    public Rational[] getRationalArray(K tagType)
+    public Rational[] getRationalArray(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -1229,7 +1230,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getRationalArray(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getRationalArray(Key)}.</em><p>
      */
     @Nullable
     public Rational[] getRationalArray(T tagValue)
@@ -1245,7 +1246,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      *         <code>null</code> if the tag hasn't been defined.
      */
     @Nullable
-    public String getString(K tagType)
+    public String getString(Key tagType)
     {
         Object o = getObject(tagType);
         if (o == null)
@@ -1332,7 +1333,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      *         <code>null</code> if the tag hasn't been defined.
      */
     @Nullable
-    public String getString(K tagType, String charset)
+    public String getString(Key tagType, String charset)
     {
         byte[] bytes = getByteArray(tagType);
         if (bytes==null)
@@ -1345,7 +1346,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     @Nullable
-    public StringValue getStringValue(K tagType)
+    public StringValue getStringValue(Key tagType)
     {
         Object o = getObject(tagType);
         if (o instanceof StringValue)
@@ -1354,7 +1355,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getString(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getString(Key)}.</em><p>
      */
     @Nullable
     public String getString(T tagValue)
@@ -1363,7 +1364,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getString(Enum, String)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getString(Key, String)}.</em><p>
      */
     @Nullable
     public String getString(T tagValue, String charset)
@@ -1372,7 +1373,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getStringValue(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getStringValue(Key)}.</em><p>
      */
     @Nullable
     public StringValue getStringValue(T tagValue)
@@ -1388,7 +1389,7 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      */
     @java.lang.SuppressWarnings({ "UnnecessaryBoxing" })
     @Nullable
-    public Object getObject(K tagType)
+    public Object getObject(Key tagType)
     {
         return _tagMap.get(tagType);
     }
@@ -1404,13 +1405,13 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      */
     @Deprecated
     @NotNull
-    public String getTagName(K tagType)
+    public String getTagName(Key tagType)
     {
         return tagType.getTagName();
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getTagName(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getTagName(Key)}.</em><p>
      */
     @Deprecated
     @NotNull
@@ -1425,13 +1426,13 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * @param tagType the tag type identifier
      * @return whether this directory has a name for the specified tag
      */
-    public boolean hasTagName(K tagType)
+    public boolean hasTagName(Key tagType)
     {
         return getTagSet().contains(tagType);
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #hasTagName(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #hasTagName(Key)}.</em><p>
      */
     public boolean hasTagName(T value)
     {
@@ -1445,13 +1446,13 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
      * @return the tag value's description as a String
      */
     @Nullable
-    public String getDescription(K tagType)
+    public String getDescription(Key tagType)
     {
-        return tagType.getDescription(getObject(tagType));
+        return tagType.getDescription(this);
     }
 
     /**
-     * <em>For backwards compatibility.  If possible use {@link #getDescription(Enum)}.</em><p>
+     * <em>For backwards compatibility.  If possible use {@link #getDescription(Key)}.</em><p>
      */
     @Nullable
     public String getDescription(T tagValue)
@@ -1481,5 +1482,19 @@ public abstract class DirectoryBase<T, K extends Enum<K> & Key> implements Direc
                 return description;
         }
         return "Unknown (" + index + ")";
+    }
+
+    @Nullable
+    protected static String getOrientationDescription(int index)
+    {
+        return getIndexedDescription(index, 1,
+            "Top, left side (Horizontal / normal)",
+            "Top, right side (Mirror horizontal)",
+            "Bottom, right side (Rotate 180)",
+            "Bottom, left side (Mirror vertical)",
+            "Left side, top (Mirror horizontal and rotate 270 CW)",
+            "Right side, top (Rotate 90 CW)",
+            "Right side, bottom (Mirror horizontal and rotate 90 CW)",
+            "Left side, bottom (Rotate 270 CW)");
     }
 }
