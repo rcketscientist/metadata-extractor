@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
  */
 @java.lang.SuppressWarnings({"WeakerAccess", "unused"}) //TODO: Ignore unused for now
 //TODO: T is only for backwards compatibility which is looking less and less possible
-public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements Directory
+public abstract class DirectoryBase/*<*//*T, *//*K extends Enum<K> & Key>*/ implements Directory
 {
     private static final String _floatFormatPattern = "0.###";
 
@@ -87,7 +87,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
 //     */
     //TODO: If we want this method it must be a list of Key; inherited directories can't mix their keys in EnumMap
 //    @NotNull
-//    protected abstract EnumSet<K> getTagSet();
+//    protected abstract EnumSet<Key> getTagSet();
 
 //    /**
 //     * Maps tag to populated value
@@ -95,7 +95,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
 //     */
     //TODO: If we want this method it must be a map of (Key, Object); inherited directories can't mix their keys in EnumMap
 //    @NotNull
-//    protected abstract EnumMap<K,Object> getTagMap();
+//    protected abstract EnumMap<Key,Object> getTagMap();
 
     /**
      * see {@link EnumMap#put(Enum, Object)}
@@ -126,14 +126,14 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
 //     * @return the map of tag names
 //     */
 //    @NotNull
-//    protected abstract EnumMap<K, Object> _tagMap;
+//    protected abstract EnumMap<Key, Object> _tagMap;
 
 //    /**
 //     * Reverse lookup from tag value to it's enum
 //     * @param value Base value of the tag
 //     * @return The enum representing value's tag if it exists
 //     */
-//    protected abstract K getTagFromValue(T value);
+//    protected abstract Key getTagFromValue(T value);
 
     protected DirectoryBase() {}
 
@@ -153,7 +153,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag type to check for
      * @return true if a value exists for the specified tag type, false if not
      */
-    public boolean containsTag(K tagType)
+    public boolean containsTag(Key tagType)
     {
         return isKeyPopulated(tagType);
     }
@@ -246,7 +246,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as an int
      */
-    public void setInt(K tagType, int value)
+    public void setInt(Key tagType, int value)
     {
         setObject(tagType, value);
     }
@@ -261,7 +261,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag identifier
      * @param ints    the int array to store
      */
-    public void setIntArray(K tagType, @NotNull int[] ints)
+    public void setIntArray(Key tagType, @NotNull int[] ints)
     {
         setObjectArray(tagType, ints);
     }
@@ -276,7 +276,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a float
      */
-    public void setFloat(K tagType, float value)
+    public void setFloat(Key tagType, float value)
     {
         setObject(tagType, value);
     }
@@ -292,7 +292,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag identifier
      * @param floats  the float array to store
      */
-    public void setFloatArray(K tagType, @NotNull float[] floats)
+    public void setFloatArray(Key tagType, @NotNull float[] floats)
     {
         setObjectArray(tagType, floats);
     }
@@ -307,7 +307,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a double
      */
-    public void setDouble(K tagType, double value)
+    public void setDouble(Key tagType, double value)
     {
         setObject(tagType, value);
     }
@@ -323,7 +323,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag identifier
      * @param doubles the double array to store
      */
-    public void setDoubleArray(K tagType, @NotNull double[] doubles)
+    public void setDoubleArray(Key tagType, @NotNull double[] doubles)
     {
         setObjectArray(tagType, doubles);
     }
@@ -340,7 +340,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param value   the value for the specified tag as a StringValue
      */
     @java.lang.SuppressWarnings({ "ConstantConditions" })
-    public void setStringValue(K tagType, @NotNull StringValue value)
+    public void setStringValue(Key tagType, @NotNull StringValue value)
     {
         if (value == null)
             throw new NullPointerException("cannot set a null StringValue");
@@ -359,7 +359,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param value   the value for the specified tag as a String
      */
     @java.lang.SuppressWarnings({ "ConstantConditions" })
-    public void setString(K tagType, @NotNull String value)
+    public void setString(Key tagType, @NotNull String value)
     {
         if (value == null)
             throw new NullPointerException("cannot set a null String");
@@ -377,7 +377,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag identifier
      * @param strings the String array to store
      */
-    public void setStringArray(K tagType, @NotNull String[] strings)
+    public void setStringArray(Key tagType, @NotNull String[] strings)
     {
         setObjectArray(tagType, strings);
     }
@@ -393,7 +393,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag identifier
      * @param strings the StringValue array to store
      */
-    public void setStringValueArray(K tagType, @NotNull StringValue[] strings)
+    public void setStringValueArray(Key tagType, @NotNull StringValue[] strings)
     {
         setObjectArray(tagType, strings);
     }
@@ -409,7 +409,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a boolean
      */
-    public void setBoolean(K tagType, boolean value)
+    public void setBoolean(Key tagType, boolean value)
     {
         setObject(tagType, value);
     }
@@ -424,7 +424,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a long
      */
-    public void setLong(K tagType, long value)
+    public void setLong(Key tagType, long value)
     {
         setObject(tagType, value);
     }
@@ -441,7 +441,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a java.util.Date
      */
-    public void setDate(K tagType, @NotNull java.util.Date value)
+    public void setDate(Key tagType, @NotNull java.util.Date value)
     {
         setObject(tagType, value);
     }
@@ -457,7 +457,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType  the tag's value as an int
      * @param rational rational number
      */
-    public void setRational(K tagType, @NotNull Rational rational)
+    public void setRational(Key tagType, @NotNull Rational rational)
     {
         setObject(tagType, rational);
     }
@@ -473,7 +473,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType   the tag identifier
      * @param rationals the Rational array to store
      */
-    public void setRationalArray(K tagType, @NotNull Rational[] rationals)
+    public void setRationalArray(Key tagType, @NotNull Rational[] rationals)
     {
         setObjectArray(tagType, rationals);
     }
@@ -489,7 +489,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag identifier
      * @param bytes   the byte array to store
      */
-    public void setByteArray(K tagType, @NotNull byte[] bytes)
+    public void setByteArray(Key tagType, @NotNull byte[] bytes)
     {
         setObjectArray(tagType, bytes);
     }
@@ -510,7 +510,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @throws NullPointerException if value is <code>null</code>
      */
     @java.lang.SuppressWarnings( { "ConstantConditions", "UnnecessaryBoxing" })
-    public void setObject(K tagType, @NotNull Object value)
+    public void setObject(Key tagType, @NotNull Object value)
     {
         if (value == null)
             throw new NullPointerException("cannot set a null object");
@@ -535,7 +535,7 @@ public abstract class DirectoryBase</*T, */K extends Enum<K> & Key> implements D
      * @param tagType the tag's value as an int
      * @param array   the array of values for the specified tag
      */
-    public void setObjectArray(K tagType, @NotNull Object array)
+    public void setObjectArray(Key tagType, @NotNull Object array)
     {
         // for now, we don't do anything special -- this method might be a candidate for removal once the dust settles
         setObject(tagType, array);

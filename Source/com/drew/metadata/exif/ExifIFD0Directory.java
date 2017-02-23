@@ -22,14 +22,11 @@
 package com.drew.metadata.exif;
 
 import com.drew.lang.annotations.NotNull;
-import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.DirectoryBase;
 import com.drew.metadata.Key;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Describes Exif tags from the IFD0 directory.
@@ -37,10 +34,12 @@ import java.util.Map;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class ExifIFD0Directory extends ExifDirectoryBase
+public class ExifIFD0Directory extends DirectoryBase
 {
     @NotNull
-    private final EnumMap<ExifIFD0Keys, Object> _populatedProperties = new EnumMap<ExifIFD0Keys, Object>(ExifIFD0Keys.class);
+    private final EnumMap<ExifIFD0Keys, Object> _populatedIfD0Properties = new EnumMap<ExifIFD0Keys, Object>(ExifIFD0Keys.class);
+    @NotNull
+    private final EnumMap<ExifKeys, Object> _populatedProperties = new EnumMap<ExifKeys, Object>(ExifKeys.class);
 
     public ExifIFD0Directory() {}
 
@@ -48,48 +47,42 @@ public class ExifIFD0Directory extends ExifDirectoryBase
     protected Object put(Key tag, Object value)
     {
         if (tag instanceof ExifIFD0Keys)
-            return _populatedProperties.put((ExifIFD0Keys) tag, value);
+            return _populatedIfD0Properties.put((ExifIFD0Keys) tag, value);
+        else if (tag instanceof ExifKeys)
+            return _populatedProperties.put((ExifKeys)tag, value);
 
-        return super.put(tag, value);
+        return null;    // TODO: We might want to throw here
     }
 
     @Override
     protected boolean isKeyPopulated(Key tag)
     {
-        return super.isKeyPopulated(tag) || _populatedProperties.containsKey(tag);
+        return _populatedIfD0Properties.containsKey(tag) || _populatedProperties.containsKey(tag);
     }
 
     @Override
     protected int size()
     {
-        return super.size() + _populatedProperties.size();
+        return _populatedIfD0Properties.size() + _populatedProperties.size();
     }
 
     @Override
     protected Object get(Key tagType)
     {
         if (tagType instanceof  ExifIFD0Keys)
+            return _populatedIfD0Properties.get(tagType);
+        else if (tagType instanceof ExifKeys)
             return _populatedProperties.get(tagType);
-
-        return super.get(tagType);
+        else
+            return null;    // Save the search if it's the wrong type
     }
 
     @Override
     protected boolean hasKey(Key tag)
     {
-        return tag instanceof ExifIFD0Keys && getTagSet().contains(tag) || super.hasKey(tag);
+        return  tag instanceof ExifIFD0Keys && EnumSet.allOf(ExifIFD0Keys.class).contains(tag) ||
+                tag instanceof ExifKeys && EnumSet.allOf(ExifKeys.class).contains(tag);
     }
-
-    private EnumSet<ExifIFD0Keys> getTagSet()
-    {
-        return EnumSet.allOf(ExifIFD0Keys.class);
-    }
-
-//    @Override
-//    protected ExifIFD0Keys getTagFromValue(Integer value)
-//    {
-//        return super.getTagFromValue(value);
-//    }
 
     @Override
     @NotNull

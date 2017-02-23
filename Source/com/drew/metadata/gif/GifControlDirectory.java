@@ -97,7 +97,7 @@ public class GifControlDirectory extends Directory
         TO_BE_DEFINED,
         INVALID;
 
-        public static DisposalMethod typeOf(int value) {
+        public static DisposalMethod typeOf(int value) {    //FIXME: No need to code out a reverse lookup
             switch (value) {
                 case 0: return NOT_SPECIFIED;
                 case 1: return DO_NOT_DISPOSE;

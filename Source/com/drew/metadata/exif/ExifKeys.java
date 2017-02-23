@@ -1531,7 +1531,7 @@ public enum ExifKeys implements Key
         this.summary = summary;
     }
 
-    public Integer getValue()
+    public final Integer getValue()
     {
         return key;
     }

@@ -39,6 +39,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifDirectoryBase;
 import com.drew.metadata.exif.ExifIFD0Directory;
+import com.drew.metadata.exif.ExifKeys;
 import com.drew.metadata.file.FileMetadataReader;
 
 import java.io.BufferedInputStream;
@@ -249,8 +250,8 @@ public class ImageMetadataReader
                 String fileName = file.getName();
                 String urlName = StringUtil.urlEncode(filePath);
                 ExifIFD0Directory exifIFD0Directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-                String make = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifDirectoryBase.Keys.TAG_MAKE);
-                String model = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifDirectoryBase.Keys.TAG_MODEL);
+                String make = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifKeys.TAG_MAKE);
+                String model = exifIFD0Directory == null ? "" : exifIFD0Directory.getString(ExifKeys.TAG_MODEL);
                 System.out.println();
                 System.out.println("---");
                 System.out.println();
