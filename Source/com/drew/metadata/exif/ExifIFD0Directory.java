@@ -40,15 +40,15 @@ import java.util.Map;
 public class ExifIFD0Directory extends ExifDirectoryBase
 {
     @NotNull
-    private final EnumMap<Keys, Object> _populatedProperties = new EnumMap<Keys, Object>(Keys.class);
+    private final EnumMap<ExifIFD0Keys, Object> _populatedProperties = new EnumMap<ExifIFD0Keys, Object>(ExifIFD0Keys.class);
 
     public ExifIFD0Directory() {}
 
     @Override
     protected Object put(Key tag, Object value)
     {
-        if (tag instanceof Keys)
-            return _populatedProperties.put((Keys) tag, value);
+        if (tag instanceof ExifIFD0Keys)
+            return _populatedProperties.put((ExifIFD0Keys) tag, value);
 
         return super.put(tag, value);
     }
@@ -68,7 +68,7 @@ public class ExifIFD0Directory extends ExifDirectoryBase
     @Override
     protected Object get(Key tagType)
     {
-        if (tagType instanceof  Keys)
+        if (tagType instanceof  ExifIFD0Keys)
             return _populatedProperties.get(tagType);
 
         return super.get(tagType);
@@ -77,85 +77,19 @@ public class ExifIFD0Directory extends ExifDirectoryBase
     @Override
     protected boolean hasKey(Key tag)
     {
-        return tag instanceof Keys && getTagSet().contains(tag) || super.hasKey(tag);
+        return tag instanceof ExifIFD0Keys && getTagSet().contains(tag) || super.hasKey(tag);
     }
 
-    private EnumSet<Keys> getTagSet()
+    private EnumSet<ExifIFD0Keys> getTagSet()
     {
-        return EnumSet.allOf(Keys.class);
+        return EnumSet.allOf(ExifIFD0Keys.class);
     }
 
-    @Override
-    protected ExifDirectoryBase.Keys getTagFromValue(Integer value)
-    {
-        return super.getTagFromValue(value);
-    }
-
-    public enum Keys implements Key
-    {
-        TAG_EXIF_SUB_IFD_OFFSET(0x8769, "Exif SubIfd pointer"),
-        TAG_GPS_INFO_OFFSET(0x8825, "Exif GPS IFD pointer");
-
-        //TODO: Use a sparse array trie, or FastUtil
-        private static final Map<Integer, Keys> lookup = new HashMap<Integer, Keys>();
-
-        static
-        {
-            for (Keys type : values())
-                lookup.put(type.getValue(), type);
-        }
-
-        private final int key;
-        private final String summary;
-
-        Keys(int key, String summary)
-        {
-            this.key = key;
-            this.summary = summary;
-        }
-
-        public Integer getValue()
-        {
-            return key;
-        }
-
-        public static
-        @Nullable
-        Keys fromValue(Integer value)
-        {
-            return lookup.get(value);
-        }
-
-        @Override
-        public String getName()
-        {
-            return name();
-        }
-
-        @Override
-        public String getType()
-        {
-            return Integer.toString(key);
-        }
-
-        @Override
-        public String getSummary()
-        {
-            return summary;
-        }
-
-        /**
-         * Default description handler.
-         *
-         * @param directory storing the values to describe
-         * @return
-         */
-        @Override
-        public String getDescription(DirectoryBase directory)
-        {
-            return directory.getDescription(this);
-        }
-    }
+//    @Override
+//    protected ExifIFD0Keys getTagFromValue(Integer value)
+//    {
+//        return super.getTagFromValue(value);
+//    }
 
     @Override
     @NotNull
