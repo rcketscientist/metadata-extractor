@@ -31,6 +31,7 @@ import com.drew.imaging.raf.RafMetadataReader;
 import com.drew.imaging.tiff.TiffMetadataReader;
 import com.drew.imaging.webp.WebpMetadataReader;
 import com.drew.imaging.x3f.SigmaReader;
+import com.drew.lang.RandomAccessStreamReader;
 import com.drew.lang.StringUtil;
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
@@ -40,11 +41,7 @@ import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.file.FileMetadataReader;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -115,63 +112,46 @@ public class ImageMetadataReader
     }
 
     /**
-     * Reads metadata from an {@link InputStream} of known length.
+     * Reads metadata from an {@link InputStream} of known length and file type.
      *
      * @param inputStream a stream from which the file data may be read.  The stream must be positioned at the
      *                    beginning of the file's data.
      * @param streamLength the length of the stream, if known, otherwise -1.
-     * @param fileType type of file via {@link FileTypeDetector#detectFileType(BufferedInputStream)}
+     * @param fileType the file type of the data stream.
      * @return a populated {@link Metadata} object containing directories of tags with values and any processing errors.
      * @throws ImageProcessingException if the file type is unknown, or for general processing errors.
      */
     @NotNull
-    public static Metadata readMetadata(@NotNull final InputStream inputStream, final long streamLength, final FileType fileType) throws ImageProcessingException, IOException
+    public static Metadata readMetadata(@NotNull final InputStream inputStream, final long streamLength, final FileType fileType) throws IOException, ImageProcessingException
     {
-        BufferedInputStream bufferedInputStream = inputStream instanceof BufferedInputStream
-            ? (BufferedInputStream)inputStream
-            : new BufferedInputStream(inputStream);
-
-        // TODO: AJM, Why are the *MetadataReader(s) primarily a two method static class???  Why not implement directly in the reader?
-        switch (fileType)
-        {
+        switch (fileType) {
             case Jpeg:
-                return JpegMetadataReader.readMetadata(bufferedInputStream);
-
+                return JpegMetadataReader.readMetadata(inputStream);
             case Tiff:
             case Arw:
             case Cr2:
             case Nef:
             case Orf:
             case Rw2:
-                return TiffMetadataReader.readMetadata(bufferedInputStream, streamLength);
-
+                return TiffMetadataReader.readMetadata(new RandomAccessStreamReader(inputStream, RandomAccessStreamReader.DEFAULT_CHUNK_LENGTH, streamLength));
             case Psd:
-                return PsdMetadataReader.readMetadata(bufferedInputStream);
-
+                return PsdMetadataReader.readMetadata(inputStream);
             case Png:
-                return PngMetadataReader.readMetadata(bufferedInputStream);
-
+                return PngMetadataReader.readMetadata(inputStream);
             case Bmp:
-                return BmpMetadataReader.readMetadata(bufferedInputStream);
-
+                return BmpMetadataReader.readMetadata(inputStream);
             case Gif:
-                return GifMetadataReader.readMetadata(bufferedInputStream);
-
+                return GifMetadataReader.readMetadata(inputStream);
             case Ico:
-                return IcoMetadataReader.readMetadata(bufferedInputStream);
-
+                return IcoMetadataReader.readMetadata(inputStream);
             case Pcx:
-                return PcxMetadataReader.readMetadata(bufferedInputStream);
-
+                return PcxMetadataReader.readMetadata(inputStream);
             case Riff:
-                return WebpMetadataReader.readMetadata(bufferedInputStream);
-
+                return WebpMetadataReader.readMetadata(inputStream);
             case Raf:
-                return RafMetadataReader.readMetadata(bufferedInputStream);
-
+                return RafMetadataReader.readMetadata(inputStream);
             case X3f:
-                return SigmaReader.readMetadata(bufferedInputStream);
-
+                return SigmaReader.readMetadata(inputStream);
             default:
                 throw new ImageProcessingException("File format is not supported");
         }
@@ -300,6 +280,6 @@ public class ImageMetadataReader
                 for (String error : directory.getErrors())
                     System.err.println("ERROR: " + error);
             }
-                }
-            }
+        }
+    }
 }
