@@ -6,4 +6,5 @@
 .project
 .classpath
 .settings/
+metadata-extractor.iml
 build

@@ -4,6 +4,8 @@
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
         <option name="GRADLE_PROJECT_PATH" value=":metadata-extractor" />
+        <option name="LAST_SUCCESSFUL_SYNC_AGP_VERSION" />
+        <option name="LAST_KNOWN_AGP_VERSION" />
       </configuration>
     </facet>
     <facet type="java-gradle" name="Java-Gradle">
@@ -13,9 +15,9 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/build/classes/main" />
-    <output-test url="file://$MODULE_DIR$/build/classes/test" />
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6">
+    <output url="file://$MODULE_DIR$/build/classes/java/main" />
+    <output-test url="file://$MODULE_DIR$/build/classes/java/test" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/Source" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Resources" type="java-resource" />
@@ -26,12 +28,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="xmpcore-5.1.3" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
-    <orderEntry type="library" exported="" name="metadata-extractor.metadata-extractor-2.1.1" level="project" />
-    <orderEntry type="library" exported="" name="metadata-extractor.metadata-extractor-2.1.1" level="project" />
-    <orderEntry type="library" exported="" name="metadata-extractor.metadata-extractor-2.1.1" level="project" />
-    <orderEntry type="library" exported="" name="metadata-extractor.metadata-extractor-2.1.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: xmpcore-5.1.3" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: junit-4.12" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: metadata-extractor.metadata-extractor-2.1.1" level="project" />
   </component>
 </module>
