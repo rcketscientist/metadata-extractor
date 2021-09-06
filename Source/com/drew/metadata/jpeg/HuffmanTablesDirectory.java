@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
 import com.drew.metadata.MetadataException;
@@ -34,36 +35,36 @@ import com.drew.metadata.MetadataException;
  * @author Nadahar
  */
 @SuppressWarnings("WeakerAccess")
-public class HuffmanTablesDirectory extends Directory {
-
+public class HuffmanTablesDirectory extends Directory
+{
     public static final int TAG_NUMBER_OF_TABLES = 1;
 
-    protected static final byte[] TYPICAL_LUMINANCE_DC_LENGTHS = {
+    static final byte[] TYPICAL_LUMINANCE_DC_LENGTHS = {
         (byte) 0x00, (byte) 0x01, (byte) 0x05, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01,
         (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00
     };
 
-    protected static final byte[] TYPICAL_LUMINANCE_DC_VALUES = {
+    static final byte[] TYPICAL_LUMINANCE_DC_VALUES = {
         (byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x05, (byte) 0x06, (byte) 0x07,
         (byte) 0x08, (byte) 0x09, (byte) 0x0A, (byte) 0x0B
     };
 
-    protected static final byte[] TYPICAL_CHROMINANCE_DC_LENGTHS = {
+    static final byte[] TYPICAL_CHROMINANCE_DC_LENGTHS = {
         (byte) 0x00, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01,
         (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00
     };
 
-    protected static final byte[] TYPICAL_CHROMINANCE_DC_VALUES = {
+    static final byte[] TYPICAL_CHROMINANCE_DC_VALUES = {
         (byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x05, (byte) 0x06, (byte) 0x07,
         (byte) 0x08, (byte) 0x09, (byte) 0x0A, (byte) 0x0B
     };
 
-    protected static final byte[] TYPICAL_LUMINANCE_AC_LENGTHS = {
+    static final byte[] TYPICAL_LUMINANCE_AC_LENGTHS = {
         (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x03, (byte) 0x03, (byte) 0x02, (byte) 0x04, (byte) 0x03,
         (byte) 0x05, (byte) 0x05, (byte) 0x04, (byte) 0x04, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x7D
     };
 
-    protected static final byte[] TYPICAL_LUMINANCE_AC_VALUES = {
+    static final byte[] TYPICAL_LUMINANCE_AC_VALUES = {
         (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x00, (byte) 0x04, (byte) 0x11, (byte) 0x05, (byte) 0x12,
         (byte) 0x21, (byte) 0x31, (byte) 0x41, (byte) 0x06, (byte) 0x13, (byte) 0x51, (byte) 0x61, (byte) 0x07,
         (byte) 0x22, (byte) 0x71, (byte) 0x14, (byte) 0x32, (byte) 0x81, (byte) 0x91, (byte) 0xA1, (byte) 0x08,
@@ -87,12 +88,12 @@ public class HuffmanTablesDirectory extends Directory {
         (byte) 0xF9, (byte) 0xFA
     };
 
-    protected static final byte[] TYPICAL_CHROMINANCE_AC_LENGTHS = {
+    static final byte[] TYPICAL_CHROMINANCE_AC_LENGTHS = {
         (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x02, (byte) 0x04, (byte) 0x04, (byte) 0x03, (byte) 0x04,
         (byte) 0x07, (byte) 0x05, (byte) 0x04, (byte) 0x04, (byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x77
     };
 
-    protected static final byte[] TYPICAL_CHROMINANCE_AC_VALUES = {
+    static final byte[] TYPICAL_CHROMINANCE_AC_VALUES = {
         (byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x11, (byte) 0x04, (byte) 0x05, (byte) 0x21,
         (byte) 0x31, (byte) 0x06, (byte) 0x12, (byte) 0x41, (byte) 0x51, (byte) 0x07, (byte) 0x61, (byte) 0x71,
         (byte) 0x13, (byte) 0x22, (byte) 0x32, (byte) 0x81, (byte) 0x08, (byte) 0x14, (byte) 0x42, (byte) 0x91,
@@ -120,7 +121,7 @@ public class HuffmanTablesDirectory extends Directory {
     protected final List<HuffmanTable> tables = new ArrayList<HuffmanTable>(4);
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    private static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
 
     static
     {
@@ -167,10 +168,11 @@ public class HuffmanTablesDirectory extends Directory {
 
     /**
      * @return The {@link List} of {@link HuffmanTable}s in this
-     *         {@link Directory}.
+     * {@link Directory}.
      */
     @NotNull
-    protected List<HuffmanTable> getTables() {
+    protected List<HuffmanTable> getTables()
+    {
         return tables;
     }
 
@@ -199,7 +201,8 @@ public class HuffmanTablesDirectory extends Directory {
      *         {@link HuffmanTablesDirectory} are the predefined "typical"
      *         Huffman tables.
      */
-    public boolean isTypical() {
+    public boolean isTypical()
+    {
         if (tables.size() == 0) {
             return false;
         }
@@ -218,78 +221,84 @@ public class HuffmanTablesDirectory extends Directory {
      *         are "optimized" - which means that at least one of them aren't
      *         one of the "typical" Huffman tables.
      */
-    public boolean isOptimized() {
+    public boolean isOptimized()
+    {
         return !isTypical();
     }
 
     /**
      * An instance of this class holds a JPEG Huffman table.
      */
-    public static class HuffmanTable {
-        private final int tableLength;
-        private final HuffmanTableClass tableClass;
-        private final int tableDestinationId;
-        private final byte[] lengthBytes;
-        private final byte[] valueBytes;
+    public static class HuffmanTable
+    {
+        private final int _tableLength;
+        private final HuffmanTableClass _tableClass;
+        private final int _tableDestinationId;
+        private final byte[] _lengthBytes;
+        private final byte[] _valueBytes;
 
-        public HuffmanTable (
-            @NotNull HuffmanTableClass
-            tableClass,
+        @SuppressWarnings("ConstantConditions")
+        public HuffmanTable(
+            @NotNull HuffmanTableClass tableClass,
             int tableDestinationId,
-            @NotNull byte[] lBytes,
-            @NotNull byte[] vBytes
-        ) {
-            this.tableClass = tableClass;
-            this.tableDestinationId = tableDestinationId;
-            this.lengthBytes = lBytes;
-            this.valueBytes = vBytes;
-            this.tableLength = vBytes.length + 17;
+            @NotNull byte[] lengthBytes,
+            @NotNull byte[] valueBytes)
+        {
+            if (lengthBytes == null)
+                throw new IllegalArgumentException("lengthBytes cannot be null.");
+            if (valueBytes == null)
+                throw new IllegalArgumentException("valueBytes cannot be null.");
+
+            _tableClass = tableClass;
+            _tableDestinationId = tableDestinationId;
+            _lengthBytes = lengthBytes;
+            _valueBytes = valueBytes;
+            _tableLength = _valueBytes.length + 17;
         }
 
         /**
          * @return The table length in bytes.
          */
-        public int getTableLength() {
-            return tableLength;
+        public int getTableLength()
+        {
+            return _tableLength;
         }
-
 
         /**
          * @return The {@link HuffmanTableClass} of this table.
          */
-        public HuffmanTableClass getTableClass() {
-            return tableClass;
+        public HuffmanTableClass getTableClass()
+        {
+            return _tableClass;
         }
-
 
         /**
          * @return the the destination identifier for this table.
          */
-        public int getTableDestinationId() {
-            return tableDestinationId;
+        public int getTableDestinationId()
+        {
+            return _tableDestinationId;
         }
-
 
         /**
          * @return A byte array with the L values for this table.
          */
-        public byte[] getLengthBytes() {
-            if (lengthBytes == null)
-                return null;
-            byte[] result = new byte[lengthBytes.length];
-            System.arraycopy(lengthBytes, 0, result, 0, lengthBytes.length);
+        @NotNull
+        public byte[] getLengthBytes()
+        {
+            byte[] result = new byte[_lengthBytes.length];
+            System.arraycopy(_lengthBytes, 0, result, 0, _lengthBytes.length);
             return result;
         }
-
 
         /**
          * @return A byte array with the V values for this table.
          */
-        public byte[] getValueBytes() {
-            if (valueBytes == null)
-                return null;
-            byte[] result = new byte[valueBytes.length];
-            System.arraycopy(valueBytes, 0, result, 0, valueBytes.length);
+        @NotNull
+        public byte[] getValueBytes()
+        {
+            byte[] result = new byte[_valueBytes.length];
+            System.arraycopy(_valueBytes, 0, result, 0, _valueBytes.length);
             return result;
         }
 
@@ -316,19 +325,20 @@ public class HuffmanTablesDirectory extends Directory {
          * @return Whether or not this table is one of the predefined "typical"
          *         Huffman tables.
          */
-        public boolean isTypical() {
-            if (tableClass == HuffmanTableClass.DC) {
+        public boolean isTypical()
+        {
+            if (_tableClass == HuffmanTableClass.DC) {
                 return
-                    Arrays.equals(lengthBytes, TYPICAL_LUMINANCE_DC_LENGTHS) &&
-                    Arrays.equals(valueBytes, TYPICAL_LUMINANCE_DC_VALUES) ||
-                    Arrays.equals(lengthBytes, TYPICAL_CHROMINANCE_DC_LENGTHS) &&
-                    Arrays.equals(valueBytes, TYPICAL_CHROMINANCE_DC_VALUES);
-            } else if (tableClass == HuffmanTableClass.AC) {
+                    Arrays.equals(_lengthBytes, TYPICAL_LUMINANCE_DC_LENGTHS) &&
+                    Arrays.equals(_valueBytes, TYPICAL_LUMINANCE_DC_VALUES) ||
+                    Arrays.equals(_lengthBytes, TYPICAL_CHROMINANCE_DC_LENGTHS) &&
+                    Arrays.equals(_valueBytes, TYPICAL_CHROMINANCE_DC_VALUES);
+            } else if (_tableClass == HuffmanTableClass.AC) {
                 return
-                    Arrays.equals(lengthBytes, TYPICAL_LUMINANCE_AC_LENGTHS) &&
-                    Arrays.equals(valueBytes, TYPICAL_LUMINANCE_AC_VALUES) ||
-                    Arrays.equals(lengthBytes, TYPICAL_CHROMINANCE_AC_LENGTHS) &&
-                    Arrays.equals(valueBytes, TYPICAL_CHROMINANCE_AC_VALUES);
+                    Arrays.equals(_lengthBytes, TYPICAL_LUMINANCE_AC_LENGTHS) &&
+                    Arrays.equals(_valueBytes, TYPICAL_LUMINANCE_AC_VALUES) ||
+                    Arrays.equals(_lengthBytes, TYPICAL_CHROMINANCE_AC_LENGTHS) &&
+                    Arrays.equals(_valueBytes, TYPICAL_CHROMINANCE_AC_VALUES);
             }
             return false;
         }
@@ -339,20 +349,26 @@ public class HuffmanTablesDirectory extends Directory {
          * @return Whether or not this table is "optimized" - which means that
          *         it isn't one of the "typical" Huffman tables.
          */
-        public boolean isOptimized() {
+        public boolean isOptimized()
+        {
             return !isTypical();
         }
 
-        public enum HuffmanTableClass {
+        public enum HuffmanTableClass
+        {
             DC,
             AC,
             UNKNOWN;
 
-            public static HuffmanTableClass typeOf(int value) {
+            public static HuffmanTableClass typeOf(int value)
+            {
                 switch (value) {
-                    case 0: return DC;
-                    case 1 : return AC;
-                    default: return UNKNOWN;
+                    case 0:
+                        return DC;
+                    case 1:
+                        return AC;
+                    default:
+                        return UNKNOWN;
                 }
             }
         }

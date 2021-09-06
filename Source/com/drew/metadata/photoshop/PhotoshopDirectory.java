@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import java.util.HashMap;
  *
  * @author Drew Noakes https://drewnoakes.com
  * @author Yuri Binev
+ * @author Payton Garland
  */
 @SuppressWarnings("WeakerAccess")
 public class PhotoshopDirectory extends Directory
@@ -116,17 +117,22 @@ public class PhotoshopDirectory extends Directory
     public static final int TAG_AUTO_SAVE_FILE_PATH                               = 0x043E;
     public static final int TAG_AUTO_SAVE_FORMAT                                  = 0x043F;
     public static final int TAG_PATH_SELECTION_STATE                              = 0x0440;
-    // CLIPPING PATHS                                                               0x07D0 -> 0x0BB6
+    // PATH INFO                                                                    0x07D0 -> 0x0BB6
     public static final int TAG_CLIPPING_PATH_NAME                                = 0x0BB7;
     public static final int TAG_ORIGIN_PATH_INFO                                  = 0x0BB8;
     // PLUG IN RESOURCES                                                            0x0FA0 -> 0x1387
     public static final int TAG_IMAGE_READY_VARIABLES_XML                         = 0x1B58;
     public static final int TAG_IMAGE_READY_DATA_SETS                             = 0x1B59;
+    public static final int TAG_IMAGE_READY_SELECTED_STATE                        = 0x1B5A;
+    public static final int TAG_IMAGE_READY_7_ROLLOVER                            = 0x1B5B;
+    public static final int TAG_IMAGE_READY_ROLLOVER                              = 0x1B5C;
+    public static final int TAG_IMAGE_READY_SAVE_LAYER_SETTINGS                   = 0x1B5D;
+    public static final int TAG_IMAGE_READY_VERSION                               = 0x1B5E;
     public static final int TAG_LIGHTROOM_WORKFLOW                                = 0x1F40;
     public static final int TAG_PRINT_FLAGS_INFO                                  = 0x2710;
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
 
     static {
         _tagNameMap.put(TAG_CHANNELS_ROWS_COLUMNS_DEPTH_MODE, "Channels, Rows, Columns, Depth, Mode");
@@ -201,13 +207,19 @@ public class PhotoshopDirectory extends Directory
         _tagNameMap.put(TAG_PRINT_STYLE, "Print Style");
         _tagNameMap.put(TAG_MAC_NSPRINTINFO, "Mac NSPrintInfo");
         _tagNameMap.put(TAG_WIN_DEVMODE, "Win DEVMODE");
-        _tagNameMap.put(TAG_AUTO_SAVE_FILE_PATH, "Auto Save File Path");
+        _tagNameMap.put(TAG_AUTO_SAVE_FILE_PATH, "Auto Save File Subpath");
         _tagNameMap.put(TAG_AUTO_SAVE_FORMAT, "Auto Save Format");
-        _tagNameMap.put(TAG_PATH_SELECTION_STATE, "Path Selection State");
+        _tagNameMap.put(TAG_PATH_SELECTION_STATE, "Subpath Selection State");
+
         _tagNameMap.put(TAG_CLIPPING_PATH_NAME, "Clipping Path Name");
-        _tagNameMap.put(TAG_ORIGIN_PATH_INFO, "Origin Path Info");
+        _tagNameMap.put(TAG_ORIGIN_PATH_INFO, "Origin Subpath Info");
         _tagNameMap.put(TAG_IMAGE_READY_VARIABLES_XML, "Image Ready Variables XML");
         _tagNameMap.put(TAG_IMAGE_READY_DATA_SETS, "Image Ready Data Sets");
+        _tagNameMap.put(TAG_IMAGE_READY_SELECTED_STATE, "Image Ready Selected State");
+        _tagNameMap.put(TAG_IMAGE_READY_7_ROLLOVER, "Image Ready 7 Rollover Expanded State");
+        _tagNameMap.put(TAG_IMAGE_READY_ROLLOVER, "Image Ready Rollover Expanded State");
+        _tagNameMap.put(TAG_IMAGE_READY_SAVE_LAYER_SETTINGS, "Image Ready Save Layer Settings");
+        _tagNameMap.put(TAG_IMAGE_READY_VERSION, "Image Ready Version");
         _tagNameMap.put(TAG_LIGHTROOM_WORKFLOW, "Lightroom Workflow");
         _tagNameMap.put(TAG_PRINT_FLAGS_INFO, "Print Flags Information");
     }

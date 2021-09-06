@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -50,6 +50,16 @@ public interface RiffHandler
      * @return true if {@link RiffHandler#processChunk(String, byte[])} should be called, otherwise false
      */
     boolean shouldAcceptChunk(@NotNull String fourCC);
+
+    /**
+     * Gets whether this handler is interested in the specific list type.
+     * Returns <code>true</code> if the chunks should continue being processed,
+     * or <code>false</code> to avoid any unknown chunks within the list.
+     *
+     * @param fourCC the four character code of this chunk
+     * @return true if {@link RiffHandler#processChunk(String, byte[])} should be called, otherwise false
+     */
+    boolean shouldAcceptList(@NotNull String fourCC);
 
     /**
      * Perform whatever processing is necessary for the type of chunk with its

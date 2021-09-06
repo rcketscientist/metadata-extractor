@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 package com.drew.metadata.photoshop;
 
 import com.drew.lang.ByteArrayReader;
+import com.drew.lang.Charsets;
 import com.drew.lang.RandomAccessReader;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
@@ -28,12 +29,14 @@ import com.drew.metadata.TagDescriptor;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import static com.drew.metadata.photoshop.PhotoshopDirectory.*;
 
 /**
- * @author Yuri Binev
  * @author Drew Noakes https://drewnoakes.com
+ * @author Yuri Binev
+ * @author Payton Garland
  */
 @SuppressWarnings("WeakerAccess")
 public class PhotoshopDescriptor extends TagDescriptor<PhotoshopDirectory>
@@ -74,7 +77,11 @@ public class PhotoshopDescriptor extends TagDescriptor<PhotoshopDirectory>
                 return getPrintScaleDescription();
             case TAG_PIXEL_ASPECT_RATIO:
                 return getPixelAspectRatioString();
+            case TAG_CLIPPING_PATH_NAME:
+                return getClippingPathNameString(tagType);
             default:
+                if (tagType >= 0x07D0 && tagType <= 0x0BB6)
+                    return getPathString(tagType);
                 return super.getDescription(tagType);
         }
     }
@@ -318,5 +325,164 @@ public class PhotoshopDescriptor extends TagDescriptor<PhotoshopDirectory>
         if (bytes == null)
             return null;
         return String.format("%d bytes binary data", bytes.length);
+    }
+
+    @Nullable
+    public String getClippingPathNameString(int tagType)
+    {
+        try {
+            byte[] bytes = _directory.getByteArray(tagType);
+            if (bytes == null)
+                return null;
+            RandomAccessReader reader = new ByteArrayReader(bytes);
+            int length = reader.getByte(0);
+            return new String(reader.getBytes(1, length), "UTF-8");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public String getPathString(int tagType)
+    {
+        try {
+            byte[] bytes = _directory.getByteArray(tagType);
+            if (bytes == null)
+                return null;
+            RandomAccessReader reader = new ByteArrayReader(bytes);
+            int length = (int) (reader.getLength() - reader.getByte((int)reader.getLength() - 1) - 1) / 26;
+
+            String fillRecord = null;
+
+            // Possible subpaths
+            Subpath cSubpath = new Subpath();
+            Subpath oSubpath = new Subpath();
+
+            ArrayList<Subpath> paths = new ArrayList<Subpath>();
+
+            // Loop through each path resource block segment (26-bytes)
+            for (int i = 0; i < length; i++) {
+                // Spacer takes into account which block is currently being worked on while accessing byte array
+                int recordSpacer = 26 * i;
+                int selector = reader.getInt16(recordSpacer);
+
+                /*
+                 * Subpath resource blocks come in 26-byte segments with 9 possible selectors - some selectors
+                 * are formatted different from others
+                 *
+                 *      0 = Closed subpath length record
+                 *      1 = Closed subpath Bezier knot, linked
+                 *      2 = Closed subpath Bezier knot, unlinked
+                 *      3 = Open subpath length record
+                 *      4 = Open subpath Bezier knot, linked
+                 *      5 = Open subpath Bezier knot, unlinked
+                 *      6 = Subpath fill rule record
+                 *      7 = Clipboard record
+                 *      8 = Initial fill rule record
+                 *
+                 * Source: http://www.adobe.com/devnet-apps/photoshop/fileformatashtml/
+                 */
+                switch (selector) {
+                    case 0:
+                        // Insert previous Paths if there are any
+                        if (cSubpath.size() != 0) {
+                            paths.add(cSubpath);
+                        }
+
+                        // Make path size accordingly
+                        cSubpath = new Subpath("Closed Subpath");
+                        break;
+                    case 1:
+                    case 2:
+                    {
+                        Knot knot;
+                        if (selector == 1)
+                            knot = new Knot("Linked");
+                        else
+                            knot = new Knot("Unlinked");
+                        // Insert each point into cSubpath - points are 32-bit signed, fixed point numbers and have 8-bits before the point
+                        for (int j = 0; j < 6; j++) {
+                            knot.setPoint(j, reader.getInt8((j * 4) + 2 + recordSpacer) + (reader.getInt24((j * 4) + 3 + recordSpacer) / Math.pow(2.0, 24.0)));
+                        }
+                        cSubpath.add(knot);
+                        break;
+                    }
+                    case 3:
+                        // Insert previous Paths if there are any
+                        if (oSubpath.size() != 0) {
+                            paths.add(oSubpath);
+                        }
+
+                        // Make path size accordingly
+                        oSubpath = new Subpath("Open Subpath");
+                        break;
+                    case 4:
+                    case 5:
+                    {
+                        Knot knot;
+                        if (selector == 4)
+                            knot = new Knot("Linked");
+                        else
+                            knot = new Knot("Unlinked");
+                        // Insert each point into oSubpath - points are 32-bit signed, fixed point numbers and have 8-bits before the point
+                        for (int j = 0; j < 6; j++) {
+                            knot.setPoint(j, reader.getInt8((j * 4) + 2 + recordSpacer) + (reader.getInt24((j * 4) + 3 + recordSpacer) / Math.pow(2.0, 24.0)));
+                        }
+                        oSubpath.add(knot);
+                        break;
+                    }
+                    case 6:
+                        break;
+                    case 7:
+                        // TODO: Clipboard record
+//                        for (int j = 0; j < 24; j++) {
+//                           clipboardRecord[j] = bytes[j + 2 + recordSpacer];
+//                        }
+                        break;
+                    case 8:
+                        if (reader.getInt16(2 + recordSpacer) == 1)
+                            fillRecord = "with all pixels";
+                        else
+                            fillRecord = "without all pixels";
+                        break;
+                }
+            }
+
+            // Add any more paths that were not added already
+            if (cSubpath.size() != 0)
+                paths.add(cSubpath);
+            if (oSubpath.size() != 0)
+                paths.add(oSubpath);
+
+            // Extract name (previously appended to end of byte array)
+            int nameLength = reader.getByte((int)reader.getLength() - 1);
+            String name = reader.getString((int)reader.getLength() - nameLength - 1, nameLength, Charsets.ASCII);
+
+            // Build description
+            StringBuilder str = new StringBuilder();
+
+            str.append('"').append(name).append('"')
+                .append(" having ");
+
+            if (fillRecord != null)
+                str.append("initial fill rule \"").append(fillRecord).append("\" and ");
+
+            str.append(paths.size()).append(paths.size() == 1 ? " subpath:" : " subpaths:");
+
+            for (Subpath path : paths) {
+                str.append("\n- ").append(path.getType()).append(" with ").append(paths.size()).append(paths.size() == 1 ? " knot:" : " knots:");
+
+                for (Knot knot : path.getKnots()) {
+                    str.append("\n  - ").append(knot.getType());
+                    str.append(" (").append(knot.getPoint(0)).append(",").append(knot.getPoint(1)).append(")");
+                    str.append(" (").append(knot.getPoint(2)).append(",").append(knot.getPoint(3)).append(")");
+                    str.append(" (").append(knot.getPoint(4)).append(",").append(knot.getPoint(5)).append(")");
+                }
+            }
+
+            return str.toString();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

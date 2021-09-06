@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -27,12 +27,15 @@ import com.drew.lang.ByteArrayReader;
 import com.drew.lang.SequentialByteArrayReader;
 import com.drew.lang.SequentialReader;
 import com.drew.lang.annotations.NotNull;
+import com.drew.lang.annotations.Nullable;
+import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifReader;
 import com.drew.metadata.icc.IccReader;
 import com.drew.metadata.iptc.IptcReader;
 import com.drew.metadata.xmp.XmpReader;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -40,8 +43,9 @@ import java.util.Collections;
  * Note that IPTC data may be stored within this segment, in which case this reader will
  * create both a {@link PhotoshopDirectory} and a {@link com.drew.metadata.iptc.IptcDirectory}.
  *
- * @author Yuri Binev
  * @author Drew Noakes https://drewnoakes.com
+ * @author Yuri Binev
+ * @author Payton Garland
  */
 public class PhotoshopReader implements JpegSegmentMetadataReader
 {
@@ -72,8 +76,16 @@ public class PhotoshopReader implements JpegSegmentMetadataReader
 
     public void extract(@NotNull final SequentialReader reader, int length, @NotNull final Metadata metadata)
     {
+        extract(reader, length, metadata, null);
+    }
+
+    public void extract(@NotNull final SequentialReader reader, int length, @NotNull final Metadata metadata, @Nullable final Directory parentDirectory)
+    {
         PhotoshopDirectory directory = new PhotoshopDirectory();
         metadata.addDirectory(directory);
+
+        if (parentDirectory != null)
+            directory.setParent(parentDirectory);
 
         // Data contains a sequence of Image Resource Blocks (IRBs):
         //
@@ -86,6 +98,7 @@ public class PhotoshopReader implements JpegSegmentMetadataReader
         // http://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577409_pgfId-1037504
 
         int pos = 0;
+        int clippingPathCount = 0;
         while (pos < length) {
             try {
                 // 4 bytes for the signature ("8BIM", "PHUT", etc.)
@@ -97,14 +110,21 @@ public class PhotoshopReader implements JpegSegmentMetadataReader
                 pos += 2;
 
                 // A variable number of bytes holding a pascal string (two leading bytes for length).
-                short descriptionLength = reader.getUInt8();
+                int descriptionLength = reader.getUInt8();
                 pos += 1;
                 // Some basic bounds checking
                 if (descriptionLength < 0 || descriptionLength + pos > length)
                     throw new ImageProcessingException("Invalid string length");
-                // We don't use the string value here
-                reader.skip(descriptionLength);
-                pos += descriptionLength;
+
+                // Get name (important for paths)
+                StringBuilder description = new StringBuilder();
+                descriptionLength += pos;
+                // Loop through each byte and append to string
+                while (pos < descriptionLength) {
+                    description.append((char)reader.getUInt8());
+                    pos ++;
+                }
+
                 // The number of bytes is padded with a trailing zero, if needed, to make the size even.
                 if (pos % 2 != 0) {
                     reader.skip(1);
@@ -132,6 +152,19 @@ public class PhotoshopReader implements JpegSegmentMetadataReader
                         new ExifReader().extract(new ByteArrayReader(tagBytes), metadata, 0, directory);
                     else if (tagType == PhotoshopDirectory.TAG_XMP_DATA)
                         new XmpReader().extract(tagBytes, metadata, directory);
+                    else if (tagType >= 0x07D0 && tagType <= 0x0BB6) {
+                        clippingPathCount++;
+                        tagBytes = Arrays.copyOf(tagBytes, tagBytes.length + description.length() + 1);
+                        // Append description(name) to end of byte array with 1 byte before the description representing the length
+                        for (int i = tagBytes.length - description.length() - 1; i < tagBytes.length; i++) {
+                            if (i % (tagBytes.length - description.length() - 1 + description.length()) == 0)
+                                tagBytes[i] = (byte)description.length();
+                            else
+                                tagBytes[i] = (byte)description.charAt(i - (tagBytes.length - description.length() - 1));
+                        }
+                        PhotoshopDirectory._tagNameMap.put(0x07CF + clippingPathCount, "Path Info " + clippingPathCount);
+                        directory.setByteArray(0x07CF + clippingPathCount, tagBytes);
+                    }
                     else
                         directory.setByteArray(tagType, tagBytes);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -97,7 +97,7 @@ public class StreamReader extends SequentialReader
         long skippedCount = skipInternal(n);
 
         if (skippedCount != n)
-            throw new EOFException(String.format("Unable to skip. Requested %d bytes but skipped %d.", n, skippedCount));
+            throw new EOFException(String.format("Unable to skip. Requested %d bytes but only %d remained.", n, skippedCount));
     }
 
     @Override

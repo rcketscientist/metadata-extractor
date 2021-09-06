@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -300,7 +300,7 @@ public class TiffReader
                 } else {
                     double[] array = new double[componentCount];
                     for (int i = 0; i < componentCount; i++)
-                        array[i] = reader.getDouble64(tagValueOffset + (i * 4));
+                        array[i] = reader.getDouble64(tagValueOffset + (i * 8));
                     handler.setDoubleArray(tagId, array);
                 }
                 break;

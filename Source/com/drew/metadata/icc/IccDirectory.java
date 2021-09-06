@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -102,10 +102,16 @@ public class IccDirectory extends Directory
     public static final int TAG_TAG_vued = 0x76756564;
     public static final int TAG_TAG_view = 0x76696577;
 
+    public static final int TAG_TAG_aabg = 0x61616267;
+    public static final int TAG_TAG_aagg = 0x61616767;
+    public static final int TAG_TAG_aarg = 0x61617267;
+    public static final int TAG_TAG_mmod = 0x6D6D6F64;
+    public static final int TAG_TAG_ndin = 0x6E64696E;
+    public static final int TAG_TAG_vcgt = 0x76636774;
     public static final int TAG_APPLE_MULTI_LANGUAGE_PROFILE_NAME = 0x6473636d;
 
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    private static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
 
     static {
         _tagNameMap.put(TAG_PROFILE_BYTE_COUNT, "Profile Size");
@@ -137,7 +143,7 @@ public class IccDirectory extends Directory
         _tagNameMap.put(TAG_TAG_targ, "Char Target");
         _tagNameMap.put(TAG_TAG_chad, "Chromatic Adaptation");
         _tagNameMap.put(TAG_TAG_chrm, "Chromaticity");
-        _tagNameMap.put(TAG_TAG_cprt, "Copyright");
+        _tagNameMap.put(TAG_TAG_cprt, "Profile Copyright");
         _tagNameMap.put(TAG_TAG_crdi, "CrdInfo");
         _tagNameMap.put(TAG_TAG_dmnd, "Device Mfg Description");
         _tagNameMap.put(TAG_TAG_dmdd, "Device Model Description");
@@ -172,6 +178,12 @@ public class IccDirectory extends Directory
         _tagNameMap.put(TAG_TAG_bfd, "Ucrbg");
         _tagNameMap.put(TAG_TAG_vued, "Viewing Conditions Description");
         _tagNameMap.put(TAG_TAG_view, "Viewing Conditions");
+        _tagNameMap.put(TAG_TAG_aabg, "Blue Parametric TRC");
+        _tagNameMap.put(TAG_TAG_aagg, "Green Parametric TRC");
+        _tagNameMap.put(TAG_TAG_aarg, "Red Parametric TRC");
+        _tagNameMap.put(TAG_TAG_mmod, "Make And Model");
+        _tagNameMap.put(TAG_TAG_ndin, "Native Display Information");
+        _tagNameMap.put(TAG_TAG_vcgt, "Video Card Gamma");
         _tagNameMap.put(TAG_APPLE_MULTI_LANGUAGE_PROFILE_NAME, "Apple Multi-language Profile Name");
     }
 

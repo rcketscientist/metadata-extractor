@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,46 +18,39 @@
  *    https://drewnoakes.com/code/exif/
  *    https://github.com/drewnoakes/metadata-extractor
  */
-package com.drew.metadata.file;
+package com.drew.metadata.heif;
 
-import com.drew.lang.annotations.NotNull;
-import com.drew.lang.annotations.Nullable;
 import com.drew.metadata.TagDescriptor;
 
-import static com.drew.metadata.file.FileMetadataDirectory.*;
-
-/**
- * @author Drew Noakes https://drewnoakes.com
- */
-@SuppressWarnings("WeakerAccess")
-public class FileMetadataDescriptor extends TagDescriptor<FileMetadataDirectory>
+public class HeifDescriptor extends TagDescriptor<HeifDirectory>
 {
-    public FileMetadataDescriptor(@NotNull FileMetadataDirectory directory)
+
+    public HeifDescriptor(HeifDirectory directory)
     {
         super(directory);
     }
 
     @Override
-    @Nullable
     public String getDescription(int tagType)
     {
         switch (tagType) {
-            case TAG_FILE_SIZE:
-                return getFileSizeDescription();
+            case HeifDirectory.TAG_IMAGE_WIDTH:
+            case HeifDirectory.TAG_IMAGE_HEIGHT:
+                return getPixelDescription(tagType);
+            case HeifDirectory.TAG_IMAGE_ROTATION:
+                return getRotationDescription(tagType);
             default:
                 return super.getDescription(tagType);
         }
     }
 
-    @Nullable
-    private String getFileSizeDescription()
+    public String getPixelDescription(int tagType)
     {
-        Long size = _directory.getLongObject(TAG_FILE_SIZE);
+        return _directory.getString(tagType) + " pixels";
+    }
 
-        if (size == null)
-            return null;
-
-        return Long.toString(size) + " bytes";
+    public String getRotationDescription(int tagType)
+    {
+        return (_directory.getInteger(tagType) * 90) + " degrees";
     }
 }
-

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -121,6 +121,7 @@ public class GifReader
                         // Anything other than these types is unexpected.
                         // GIF87a spec says to keep reading until a separator is found.
                         // GIF89a spec says file is corrupt.
+                        metadata.addDirectory(new ErrorDirectory("Unknown gif block marker found."));
                         return;
                     }
                 }
@@ -215,7 +216,7 @@ public class GifReader
                     metadata.addDirectory(plainTextBlock);
                 break;
             case (byte) 0xf9:
-                metadata.addDirectory(readControlBlock(reader, blockSizeBytes));
+                metadata.addDirectory(readControlBlock(reader));
                 break;
             case (byte) 0xfe:
                 metadata.addDirectory(readCommentBlock(reader, blockSizeBytes));
@@ -271,7 +272,11 @@ public class GifReader
         {
             // XMP data extension
             byte[] xmpBytes = gatherBytes(reader);
-            new XmpReader().extract(xmpBytes, 0, xmpBytes.length - 257, metadata, null);
+            int xmpLengh = xmpBytes.length - 257; // Exclude the "magic trailer", see XMP Specification Part 3, 1.1.2 GIF
+            if (xmpLengh > 0) {
+                // Only extract valid blocks
+                new XmpReader().extract(xmpBytes, 0, xmpBytes.length - 257, metadata, null);
+            }
         }
         else if (extensionType.equals("ICCRGBG1012"))
         {
@@ -298,17 +303,14 @@ public class GifReader
         }
     }
 
-    private static GifControlDirectory readControlBlock(SequentialReader reader, int blockSizeBytes) throws IOException
+    private static GifControlDirectory readControlBlock(SequentialReader reader) throws IOException
     {
-        if (blockSizeBytes < 4)
-            blockSizeBytes = 4;
-
         GifControlDirectory directory = new GifControlDirectory();
 
         short packedFields = reader.getUInt8();
         directory.setObject(GifControlDirectory.TAG_DISPOSAL_METHOD, DisposalMethod.typeOf((packedFields >> 2) & 7));
-        directory.setBoolean(GifControlDirectory.TAG_USER_INPUT_FLAG, (packedFields & 2) >> 1 == 1 ? true : false);
-        directory.setBoolean(GifControlDirectory.TAG_TRANSPARENT_COLOR_FLAG, (packedFields & 1) == 1 ? true : false);
+        directory.setBoolean(GifControlDirectory.TAG_USER_INPUT_FLAG, (packedFields & 2) >> 1 == 1);
+        directory.setBoolean(GifControlDirectory.TAG_TRANSPARENT_COLOR_FLAG, (packedFields & 1) == 1);
         directory.setInt(GifControlDirectory.TAG_DELAY, reader.getUInt16());
         directory.setInt(GifControlDirectory.TAG_TRANSPARENT_COLOR_INDEX, reader.getUInt8());
 

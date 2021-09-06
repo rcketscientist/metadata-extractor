@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -23,9 +23,7 @@ package com.drew.lang;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 /**
  * @author Drew Noakes https://drewnoakes.com
@@ -47,11 +45,31 @@ public class ByteTrieTest
 
         assertNull(trie.find("Not Included".getBytes()));
         assertNull(trie.find("HELL".getBytes()));
+        assertNull(trie.find("H".getBytes()));
         assertEquals("HELLO", trie.find("HELLO MUM".getBytes()));
 
         assertEquals("HELLO WORLD".length(), trie.getMaxDepth());
 
         trie.setDefaultValue("DEFAULT");
+
         assertEquals("DEFAULT", trie.find("Also Not Included".getBytes()));
+        assertEquals("DEFAULT", trie.find("H".getBytes()));
+        assertEquals("DEFAULT", trie.find("HELL".getBytes()));
+    }
+
+    @Test
+    public void testDisallowsAddingEmptyPath()
+    {
+        try {
+            new ByteTrie<String>().addPath("Foo", new byte[0]);
+            fail();
+        } catch (IllegalArgumentException ignored) {
+        }
+
+        try {
+            new ByteTrie<String>().addPath("Foo", new byte[0], new byte[0], new byte[0]);
+            fail();
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 }

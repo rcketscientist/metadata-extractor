@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -33,7 +33,9 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Base class for all tag descriptor classes.  Implementations are responsible for
@@ -78,8 +80,7 @@ public class TagDescriptor<T extends Directory>
             }
         }
 
-        if (object instanceof Date)
-        {
+        if (object instanceof Date) {
             // Produce a date string having a format that includes the offset in form "+00:00"
             return new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy")
                 .format((Date) object)
@@ -139,12 +140,12 @@ public class TagDescriptor<T extends Directory>
     @Nullable
     protected String getIndexedDescription(final int tagType, final int baseIndex, @NotNull String... descriptions)
     {
-        final Integer index = _directory.getInteger(tagType);
+        final Long index = _directory.getLongObject(tagType);
         if (index == null)
             return null;
-        final int arrayIndex = index - baseIndex;
-        if (arrayIndex >= 0 && arrayIndex < descriptions.length) {
-            String description = descriptions[arrayIndex];
+        final long arrayIndex = index - baseIndex;
+        if (arrayIndex >= 0 && arrayIndex < (long)descriptions.length) {
+            String description = descriptions[(int)arrayIndex];
             if (description != null)
                 return description;
         }
@@ -210,7 +211,7 @@ public class TagDescriptor<T extends Directory>
     {
         // TODO have observed a byte[8] here which is likely some kind of date (ticks as long?)
         Long value = _directory.getLongObject(tagType);
-        if (value==null)
+        if (value == null)
             return null;
         return new Date(value).toString();
     }
@@ -291,8 +292,7 @@ public class TagDescriptor<T extends Directory>
             return rational.toSimpleString(true);
 
         Double d = _directory.getDoubleObject(tagType);
-        if (d != null)
-        {
+        if (d != null) {
             DecimalFormat format = new DecimalFormat("0.###");
             return format.format(d);
         }
@@ -409,58 +409,44 @@ public class TagDescriptor<T extends Directory>
 */
     }
 
-    // EXIF LightSource
+    // EXIF UserComment, GPSProcessingMethod and GPSAreaInformation
     @Nullable
-    protected String getLightSourceDescription(short wbtype)
+    protected String getEncodedTextDescription(int tagType)
     {
-        switch (wbtype)
-        {
-            case 0:
-                return "Unknown";
-            case 1:
-                return "Daylight";
-            case 2:
-                return "Fluorescent";
-            case 3:
-                return "Tungsten (Incandescent)";
-            case 4:
-                return "Flash";
-            case 9:
-                return "Fine Weather";
-            case 10:
-                return "Cloudy";
-            case 11:
-                return "Shade";
-            case 12:
-                return "Daylight Fluorescent";    // (D 5700 - 7100K)
-            case 13:
-                return "Day White Fluorescent";   // (N 4600 - 5500K)
-            case 14:
-                return "Cool White Fluorescent";  // (W 3800 - 4500K)
-            case 15:
-                return "White Fluorescent";       // (WW 3250 - 3800K)
-            case 16:
-                return "Warm White Fluorescent";  // (L 2600 - 3250K)
-            case 17:
-                return "Standard Light A";
-            case 18:
-                return "Standard Light B";
-            case 19:
-                return "Standard Light C";
-            case 20:
-                return "D55";
-            case 21:
-                return "D65";
-            case 22:
-                return "D75";
-            case 23:
-                return "D50";
-            case 24:
-                return "ISO Studio Tungsten";
-            case 255:
-                return "Other";
-        }
+        byte[] commentBytes = _directory.getByteArray(tagType);
+        if (commentBytes == null)
+            return null;
+        if (commentBytes.length == 0)
+            return "";
 
-        return getDescription(wbtype);
+        final Map<String, String> encodingMap = new HashMap<String, String>();
+        encodingMap.put("ASCII", System.getProperty("file.encoding")); // Someone suggested "ISO-8859-1".
+        encodingMap.put("UNICODE", "UTF-16LE");
+        encodingMap.put("JIS", "Shift-JIS"); // We assume this charset for now.  Another suggestion is "JIS".
+
+        try {
+            if (commentBytes.length >= 10) {
+                String firstTenBytesString = new String(commentBytes, 0, 10);
+
+                // try each encoding name
+                for (Map.Entry<String, String> pair : encodingMap.entrySet()) {
+                    String encodingName = pair.getKey();
+                    String charset = pair.getValue();
+                    if (firstTenBytesString.startsWith(encodingName)) {
+                        // skip any null or blank characters commonly present after the encoding name, up to a limit of 10 from the start
+                        for (int j = encodingName.length(); j < 10; j++) {
+                            byte b = commentBytes[j];
+                            if (b != '\0' && b != ' ')
+                                return new String(commentBytes, j, commentBytes.length - j, charset).trim();
+                        }
+                        return new String(commentBytes, 10, commentBytes.length - 10, charset).trim();
+                    }
+                }
+            }
+            // special handling fell through, return a plain string representation
+            return new String(commentBytes, System.getProperty("file.encoding")).trim();
+        } catch (UnsupportedEncodingException ex) {
+            return null;
+        }
     }
 }

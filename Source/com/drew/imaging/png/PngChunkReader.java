@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -69,6 +69,12 @@ public class PngChunkReader
         //     Miscellaneous information: bKGD, hIST, pHYs, sPLT
         //     Time information:          tIME
         //
+        // CHUNK READING
+        //
+        // Only chunk data for types specified in desiredChunkTypes is extracted.
+        // For empty chunk type list NO data is copied from source stream.
+        // For null chunk type list ALL data is copied from source stream.
+        //
 
         reader.setMotorolaByteOrder(true); // network byte order
 
@@ -86,11 +92,20 @@ public class PngChunkReader
             // Process the next chunk.
             int chunkDataLength = reader.getInt32();
 
+            if (chunkDataLength < 0)
+                throw new PngProcessingException("PNG chunk length exceeds maximum");
+
             PngChunkType chunkType = new PngChunkType(reader.getBytes(4));
 
             boolean willStoreChunk = desiredChunkTypes == null || desiredChunkTypes.contains(chunkType);
 
-            byte[] chunkData = reader.getBytes(chunkDataLength);
+            byte[] chunkData;
+            if (willStoreChunk) {
+                chunkData = reader.getBytes(chunkDataLength);
+            } else {
+                chunkData = null; // To satisfy the compiler
+                reader.skip(chunkDataLength);
+            }
 
             // Skip the CRC bytes at the end of the chunk
             // TODO consider verifying the CRC value to determine if we're processing bad data

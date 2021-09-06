@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,45 +21,43 @@
 package com.drew.metadata.file;
 
 import com.drew.lang.annotations.NotNull;
-import com.drew.metadata.Directory;
+import com.drew.lang.annotations.Nullable;
+import com.drew.metadata.TagDescriptor;
 
-import java.util.HashMap;
+import static com.drew.metadata.file.FileSystemDirectory.*;
 
 /**
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class FileMetadataDirectory extends Directory
+public class FileSystemDescriptor extends TagDescriptor<FileSystemDirectory>
 {
-    public static final int TAG_FILE_NAME = 1;
-    public static final int TAG_FILE_SIZE = 2;
-    public static final int TAG_FILE_MODIFIED_DATE = 3;
-
-    @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
-
-    static {
-        _tagNameMap.put(TAG_FILE_NAME, "File Name");
-        _tagNameMap.put(TAG_FILE_SIZE, "File Size");
-        _tagNameMap.put(TAG_FILE_MODIFIED_DATE, "File Modified Date");
-    }
-
-    public FileMetadataDirectory()
+    public FileSystemDescriptor(@NotNull FileSystemDirectory directory)
     {
-        this.setDescriptor(new FileMetadataDescriptor(this));
+        super(directory);
     }
 
     @Override
-    @NotNull
-    public String getName()
+    @Nullable
+    public String getDescription(int tagType)
     {
-        return "File";
+        switch (tagType) {
+            case TAG_FILE_SIZE:
+                return getFileSizeDescription();
+            default:
+                return super.getDescription(tagType);
+        }
     }
 
-    @Override
-    @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
+    @Nullable
+    private String getFileSizeDescription()
     {
-        return _tagNameMap;
+        Long size = _directory.getLongObject(TAG_FILE_SIZE);
+
+        if (size == null)
+            return null;
+
+        return Long.toString(size) + " bytes";
     }
 }
+

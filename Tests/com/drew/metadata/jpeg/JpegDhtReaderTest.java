@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import com.drew.metadata.jpeg.HuffmanTablesDirectory.HuffmanTable.HuffmanTableCl
 import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.Assert.*;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -36,8 +36,17 @@ public class WebpDirectory extends Directory
     public static final int TAG_HAS_ALPHA = 3;
     public static final int TAG_IS_ANIMATION = 4;
 
+    public static final String CHUNK_VP8X = "VP8X";
+    public static final String CHUNK_VP8L = "VP8L";
+    public static final String CHUNK_VP8 = "VP8 ";
+    public static final String CHUNK_EXIF = "EXIF";
+    public static final String CHUNK_ICCP = "ICCP";
+    public static final String CHUNK_XMP = "XMP ";
+
+    public static final String FORMAT = "WEBP";
+
     @NotNull
-    protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
+    private static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
 
     static {
         _tagNameMap.put(TAG_IMAGE_HEIGHT, "Image Height");

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ package com.drew.imaging.psd;
 import com.drew.lang.StreamReader;
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Metadata;
-import com.drew.metadata.file.FileMetadataReader;
+import com.drew.metadata.file.FileSystemMetadataReader;
 import com.drew.metadata.photoshop.PsdReader;
 
 import java.io.*;
@@ -39,14 +39,14 @@ public class PsdMetadataReader
     @NotNull
     public static Metadata readMetadata(@NotNull File file) throws IOException
     {
-        Metadata metadata = new Metadata();
-        InputStream stream = new FileInputStream(file);
+        InputStream inputStream = new FileInputStream(file);
+        Metadata metadata;
         try {
-            new PsdReader().extract(new StreamReader(stream), metadata);
+            metadata = readMetadata(inputStream);
         } finally {
-            stream.close();
+            inputStream.close();
         }
-        new FileMetadataReader().read(file, metadata);
+        new FileSystemMetadataReader().read(file, metadata);
         return metadata;
     }
 

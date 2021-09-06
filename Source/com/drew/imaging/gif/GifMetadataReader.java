@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 Drew Noakes
+ * Copyright 2002-2019 Drew Noakes and contributors
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ package com.drew.imaging.gif;
 import com.drew.lang.StreamReader;
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Metadata;
-import com.drew.metadata.file.FileMetadataReader;
+import com.drew.metadata.file.FileSystemMetadataReader;
 import com.drew.metadata.gif.GifReader;
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class GifMetadataReader
         } finally {
             inputStream.close();
         }
-        new FileMetadataReader().read(file, metadata);
+        new FileSystemMetadataReader().read(file, metadata);
         return metadata;
     }
 
