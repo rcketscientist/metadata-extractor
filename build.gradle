@@ -36,11 +36,11 @@ compileTestJava {
 }
 
 dependencies {
-    compile 'com.adobe.xmp:xmpcore:6.1.11'
-    testCompile 'junit:junit:4.13.1'
+    implementation 'com.adobe.xmp:xmpcore:6.1.11'
+    testImplementation 'junit:junit:4.13.1'
 }
 
-wrapper {
-    gradleVersion = '3.3'
-}
+//wrapper {
+//    gradleVersion = '3.3'
+//}
 
